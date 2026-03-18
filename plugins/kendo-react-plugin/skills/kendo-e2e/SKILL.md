@@ -1,21 +1,13 @@
 ---
 name: kendo-e2e
 description: >
-  Use this skill when the user wants to write, generate, or fix end-to-end tests for
-  KendoReact or Kendo UI components, OR when debugging KendoReact components by
-  inspecting live DOM, validating selectors, or diagnosing rendering/interaction
-  issues in the browser. Trigger when the user mentions writing tests for Kendo
-  components, automating browser interactions with KendoReact, generating e2e test
-  files, debugging a Kendo component, inspecting the DOM of a Kendo widget,
-  troubleshooting a migration issue, verifying a migrated component works correctly,
-  or phrases like "write a test for my Kendo grid", "automate this Kendo form",
-  "generate e2e tests for my KendoReact app", "test my Kendo DatePicker", "add
-  browser automation tests for Kendo", "create a kendo-e2e test", "test this Kendo
-  component end-to-end", "debug my Kendo component", "why isn't my Kendo widget
-  rendering correctly", or "inspect the Kendo DOM". Also trigger when the user asks
-  to write tests and KendoReact components are present in the project. MANDATORY for
-  migration workflows (use for debugging migrated components) and custom styling
-  workflows (use for DOM inspection before writing CSS).
+  Use this skill when writing, generating, or fixing E2E tests for KendoReact components,
+  OR when debugging KendoReact components by inspecting live DOM, validating selectors,
+  or diagnosing rendering/interaction issues. Trigger on phrases like "write a test for
+  my Kendo grid", "debug my Kendo component", "inspect the Kendo DOM", "generate e2e
+  tests for my KendoReact app", or when the user asks to write tests and KendoReact
+  components are present. MANDATORY for migration workflows (debugging migrated
+  components) and custom styling workflows (DOM inspection before writing CSS).
 ---
 
 ## MANDATORY RULE — No Selectors From Memory
