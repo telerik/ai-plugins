@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "plugins-test",
+  "version": "1.0.1",
+  "description": "Local plugin marketplace for testing KendoReact plugins",
+  "owner": {
+    "name": "Progress"
+  },
+  "plugins": [
+    {
+      "name": "kendo-react-plugin",
+      "description": "AI-powered KendoReact development and auditing — component implementation, code analysis, accessibility, theming, and icon selection via the official kendo-react-mcp tools.",
+      "version": "1.0.4",
+      "author": {
+        "name": "Progress"
+      },
+      "source": "./plugins/kendo-react-plugin",
+      "category": "development"
+    }
+  ]
+}

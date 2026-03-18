@@ -1,0 +1,8 @@
+{
+    "name": "kendo-angular-skills",
+    "description": "A plugin to assist with Kendo Angular components by analyzing and providing recommendations for improvements.",
+    "version": "1.0.0",
+    "author": {
+        "name": "Progress"
+    }
+}

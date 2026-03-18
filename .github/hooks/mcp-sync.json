@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": ".github/hooks/scripts/mcp-sync-check.sh",
+        "timeout": 10
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "mcpServers": {
+        "kendo-react-mcp": {
+            "command": "npx",
+            "args": [
+                "@progress/kendo-react-mcp@latest"
+            ]
+        },
+        "kendo-e2e": {
+            "command": "npx",
+            "args": [
+                "-p", 
+                "@progress/kendo-e2e@latest", 
+                "kendo-e2e-mcp"
+            ]
+        }
+    }
+}

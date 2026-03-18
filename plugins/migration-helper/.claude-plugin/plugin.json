@@ -1,0 +1,8 @@
+{
+    "name": "migration-helper",
+    "description": "A plugin to assist with codebase migrations by analyzing and providing recommendations for improvements.",
+    "version": "1.0.4",
+    "author": {
+        "name": "Your Name"
+    }
+}
