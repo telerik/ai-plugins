@@ -130,12 +130,13 @@ it('has no accessibility violations', async () => {
 
 ## Component-Specific Patterns
 
-> **IMPORTANT**: The test patterns below are structural scaffolding examples. Exact
-> prop names, event signatures, and event object shapes **must** be verified by calling
-> `kendo_component_assistant(component: "<name>", query: "...")` before use. Do not
-> assume the API shown here is current — always ground assertions in MCP tool output.
+> **IMPORTANT**: The patterns below are structural examples for illustration purposes only.
+> They showcase a subset of KendoReact components — the same testing approach applies to
+> all KendoReact components. Exact prop names, event signatures, and event object shapes
+> **must** be verified via kendo-context-retriever before writing any assertions. Do not
+> assume the API shown here is current or complete — always ground assertions in MCP tool output.
 
-### Grid
+### Example: Data Grid Component (e.g., Grid)
 
 ```tsx
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
@@ -168,12 +169,12 @@ it('displays correct number of rows', () => {
 });
 ```
 
-**Grid gotchas:**
-- Always wrap Grid in a container with a fixed height for virtualisation tests
-- `onDataStateChange` fires on filter/sort/page — test it receives a `DataState` argument
+**Example — KendoReact data grid-specific notes** *(verify current behavior via kendo-context-retriever before writing assertions)*:
+- Wrap data grid components in a container with a fixed height for virtualisation tests
+- Check for state change events on filter/sort/page interactions (exact event names and argument shapes must be confirmed via kendo-context-retriever)
 - For server-side paging tests, mock API calls and assert loading states
 
-### Form & Inputs
+### Example: Form & Input Components
 
 ```tsx
 import { Form, FormElement, Field } from '@progress/kendo-react-form';
@@ -196,7 +197,7 @@ it('shows validation error on invalid submit', async () => {
 });
 ```
 
-### DropDownList / ComboBox
+### Example: Selection/Dropdown Components
 
 ```tsx
 import { DropDownList } from '@progress/kendo-react-dropdowns';
@@ -217,7 +218,7 @@ it('calls onChange with the selected value', async () => {
 });
 ```
 
-### DatePicker
+### Example: Date/Time Input Components
 
 ```tsx
 import { DatePicker } from '@progress/kendo-react-dateinputs';
@@ -233,9 +234,9 @@ it('calls onChange when a date is typed', async () => {
 });
 ```
 
-**DatePicker gotcha:** The `DatePicker` renders multiple `spinbutton` inputs (month, day, year). Use `{ name: /month/i }` or `{ name: /day/i }` to target the right segment.
+**Example component-specific note** *(always verify rendering details with kendo-context-retriever)*: Some date/time input components render multiple segmented inputs (e.g., month, day, year). Target specific segments with `getByRole` + `name` to narrow to the correct input.
 
-### Dialog / Window
+### Example: Dialog/Overlay Components
 
 ```tsx
 import { Dialog } from '@progress/kendo-react-dialogs';
@@ -259,7 +260,7 @@ it('calls onClose when escape key is pressed', async () => {
 });
 ```
 
-### Chart
+### Example: Chart/Visualization Components
 
 ```tsx
 import { Chart, ChartSeries, ChartSeriesItem } from '@progress/kendo-react-charts';
@@ -277,13 +278,13 @@ it('renders chart without crashing with series data', () => {
 });
 ```
 
-**Chart gotcha:** KendoReact Charts render SVG asynchronously. Use `waitFor` or `findByRole` if asserting on specific SVG elements.
+**Example component-specific note** *(always verify with kendo-context-retriever)*: Chart/visualization components may render asynchronously. Use `waitFor` or `findByRole` when asserting on rendered output elements.
 
 ---
 
 ## Mocking Patterns
 
-### Mock server-side data fetch in Grid
+### Mock server-side data fetch *(example: data grid component)*
 
 ```tsx
 vi.mock('../api/products', () => ({
@@ -306,8 +307,8 @@ vi.mock('@progress/kendo-react-grid', async () => {
 
 ## Test Organization
 
-- **Co-locate unit tests**: `src/components/ProductGrid/ProductGrid.test.tsx`
-- **E2E tests in dedicated dir**: `src/e2e/product-grid.e2e.ts`
+- **Co-locate unit tests**: `src/components/MyComponent/MyComponent.test.tsx` *(replace with your actual component path)*
+- **E2E tests in dedicated dir**: `src/e2e/my-component.e2e.ts`
 - **One `describe` block per component, one `it` per behavior**
 - **Descriptive test names**: "renders 3 rows when data has 3 items" not "test 1"
 - **Avoid implementation details**: test what users see, not internal state

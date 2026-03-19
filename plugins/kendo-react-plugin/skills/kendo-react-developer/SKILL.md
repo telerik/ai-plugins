@@ -149,6 +149,10 @@ Provide:
 
 ## Implementation Patterns
 
+> **Note**: The code examples below use specific KendoReact components for illustration only.
+> The same patterns apply to any KendoReact component. Always verify the exact API via
+> kendo-context-retriever before writing implementation code.
+
 ### Prefer function components with hooks
 ```tsx
 import React, { useState } from 'react';

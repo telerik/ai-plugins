@@ -65,17 +65,21 @@ Assess the code across these dimensions:
 
 **Common Issues to Check:**
 
-**Grid:**
-- `Data` parameter — is it the correct collection type?
-- Is `OnRead` implemented for server-side operations?
-- Are columns defined with proper `Field` and `Title`?
-- Is virtualization (`ScrollMode="@GridScrollMode.Virtual"`) used for large datasets?
+> **Note**: The component-type examples below illustrate what to look for. Actual parameter names,
+> event signatures, and specific checks for any component under review must always be grounded
+> in the context returned by **telerik-context-retriever** and `telerik_validator_assistant`, not these example lists.
 
-**Forms & Inputs:**
+**Example — Data grid components** (e.g., TelerikGrid):
+- Is the Data parameter the correct collection type?
+- Are server-side operations (OnRead, filtering, sorting) implemented with the correct event handlers?
+- Are column definitions configured with correct Field and Title values?
+- Is virtualization used for large datasets?
+
+**Example — Form & input components** (e.g., TelerikTextBox, TelerikDropDownList):
 - Are inputs using `@bind-Value` correctly?
-- Is `<label>` or `Label` parameter provided for accessibility?
-- Are validation attributes on the model?
-- Is `<TelerikForm>` used as the form wrapper?
+- Is a `Label` parameter or `<label>` element provided for accessibility?
+- Are validation attributes present on the model?
+- Is the appropriate form wrapper component used?
 
 **Infrastructure:**
 - Is `<TelerikRootComponent>` wrapping the app content in the layout?

@@ -149,6 +149,10 @@ Provide:
 
 ## Implementation Patterns
 
+> **Note**: The code examples below use specific Telerik Blazor components for illustration only.
+> The same patterns apply to any Telerik Blazor component. Always verify the exact API via
+> telerik-context-retriever before writing implementation code.
+
 ### Prefer Razor components with parameters and EventCallback
 ```razor
 @page "/products"

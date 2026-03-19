@@ -8,7 +8,6 @@ skills:
   - kendo-react-theme
   - kendo-react-layout
   - kendo-react-getting-started
-tools: "*"
 ---
 
 ## Role
@@ -83,7 +82,7 @@ kendo_component_assistant(component: "Grid", query: "Show all props with types a
 kendo_component_assistant(component: "Grid", query: "What are all the event handler signatures and their event object shapes?")
 
 // Events — reworded for deeper coverage
-kendo_component_assistant(component: "Grid", query: "Show examples of handling Grid events like onDataStateChange, onRowClick, and onSelectionChange.")
+kendo_component_assistant(component: "Grid", query: "Show practical examples of handling common Grid events.")
 
 // Controlled patterns — single topic
 kendo_component_assistant(component: "Grid", query: "How do I use the Grid in controlled mode with state management?")

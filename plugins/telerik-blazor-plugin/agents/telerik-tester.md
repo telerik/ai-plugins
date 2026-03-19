@@ -66,6 +66,32 @@ fidelity — not just explicit "visual regression" requests.
 leave browser sessions open — they consume resources and can interfere with subsequent
 test runs.
 
+## MANDATORY RULE — Never Assume Tests Confirm Full Correctness
+
+**Passing tests do not confirm that the implementation works correctly from a user's
+perspective.** Tests validate specific assertions, not the complete user experience.
+After completing any test run, always ask the user:
+
+> “Tests are passing. Should I also open a browser to visually verify that the
+> implemented features or fixes work as expected?”
+
+Do NOT mark the work as complete without asking this question. If the user confirms
+browser verification is needed, proceed using the browser testing tooling identified
+in your workflow.
+
+## MANDATORY RULE — Always Ask About Browser Testing Tooling
+
+**Never assume kendo-e2e is the only or preferred browser testing tool for a project.**
+Before initiating any browser-based testing (visual regression or visual verification
+snapshots), determine what tooling the project uses:
+1. Check the project's dependencies for browser testing packages (e.g., `@progress/kendo-e2e`,
+   Playwright, Cypress, Selenium)
+2. Ask the user: “What browser testing framework does this project use? (e.g., kendo-e2e,
+   Playwright, Cypress, or other?)”
+3. Use the user-confirmed or detected tooling for all browser-based testing
+4. **Only default to kendo-e2e automatically** if it is the only browser testing option
+   detected and no other browser testing framework is present
+
 ---
 
 ## Workflow
@@ -74,7 +100,7 @@ test runs.
 
 Identify the scope. Read the files provided by the user or the telerik-developer agent:
 
-- What Telerik components are present? (TelerikGrid, TelerikForm, TelerikDatePicker, etc.)
+- What Telerik components are present?
 - What is the data shape — parameters, services, event callbacks?
 - Is there an existing test project? (`*.Tests.csproj`, `Tests/` directory)
 - Is bUnit configured?
@@ -108,7 +134,7 @@ Based on the components and user requirements, activate the appropriate test mod
 | **Validation** | Invalid component properties | telerik_validator_assistant |
 | **Visual verification** | CSS, theme correctness, custom styles, visual fidelity | kendo-e2e MCP screenshot capture |
 
-If the user did not specify modes, run **all four** by default.
+If the user did not specify modes, run **unit tests** and **accessibility tests** by default. For browser-based testing (visual verification), first identify what browser testing tooling the project uses (per the mandatory rules above) and ask the user whether browser verification is desired before proceeding.
 
 ---
 
@@ -132,49 +158,51 @@ API reference.
 
 For each component, generate a test class:
 
-**Unit test checklist per Telerik component:**
+**Universal test checklist per Telerik component:**
 
 - [ ] Renders without crashing with required parameters
 - [ ] Two-way binding updates correctly (`@bind-Value` round-trip)
 - [ ] Required parameters are provided
-- [ ] Event handlers fire with correct arguments (`OnRead`, `OnRowClick`, `ValueChanged`, etc.)
+- [ ] Event handlers fire with correct arguments (verify exact EventArgs shapes via telerik-context-retriever)
 - [ ] Conditional rendering is correct (loading states, empty states, error states)
-- [ ] Data passed to component renders expected rows/items
-- [ ] Filtering, sorting, paging state is applied correctly (for Grid)
-- [ ] Form validation triggers and messages display correctly (for Form fields)
+- [ ] Data passed to the component renders expected items
+
+*Additional checks depending on component type — verify which apply via telerik-context-retriever:*
+- [ ] *(Example — data grid components)* Filtering, sorting, and paging state is applied and reflected correctly
+- [ ] *(Example — form input components)* Validation triggers and error messages display correctly
 
 **Testing library stack**: Use `bUnit` + `xUnit`. Never introduce a new testing framework if one is already set up.
 
-**Example unit test structure:**
+**Example unit test structure** *(uses a generic component for illustration — replace `MyComponent`, parameter names, and data shapes with those returned by telerik-context-retriever for the actual component under test)*:
 ```csharp
 using Bunit;
 using Xunit;
 
-public class ProductGridTests : TelerikTestBase
+public class MyComponentTests : TelerikTestBase
 {
-    private readonly List<Product> _data = new()
+    private readonly List<MyItem> _data = new()
     {
-        new Product { Id = 1, Name = "Product A", Price = 100 },
-        new Product { Id = 2, Name = "Product B", Price = 200 },
+        new MyItem { Id = 1, Name = "Item A" },
+        new MyItem { Id = 2, Name = "Item B" },
     };
 
     [Fact]
-    public void Grid_RendersWithoutCrashing()
+    public void Component_RendersWithoutCrashing()
     {
-        var cut = RenderComponent<ProductGrid>(parameters => parameters
+        var cut = RenderComponent<MyComponent>(parameters => parameters
             .Add(p => p.Data, _data));
 
         Assert.NotNull(cut.Markup);
     }
 
     [Fact]
-    public void Grid_DisplaysAllDataRows()
+    public void Component_DisplaysAllItems()
     {
-        var cut = RenderComponent<ProductGrid>(parameters => parameters
+        var cut = RenderComponent<MyComponent>(parameters => parameters
             .Add(p => p.Data, _data));
 
-        Assert.Contains("Product A", cut.Markup);
-        Assert.Contains("Product B", cut.Markup);
+        Assert.Contains("Item A", cut.Markup);
+        Assert.Contains("Item B", cut.Markup);
     }
 }
 ```
@@ -201,9 +229,12 @@ For every interactive Telerik component:
 
 ### Step 7: Run visual verification (when applicable)
 
-**When the test scope includes design, styling, theming, or custom CSS**, use kendo-e2e
-MCP tools to capture visual snapshots for verification. This is browser inspection for
+**When the test scope includes design, styling, theming, or custom CSS**, use the browser
+testing tooling confirmed in Step 2 (or kendo-e2e if that is what’s detected) to capture
+visual snapshots for verification. This is browser inspection for
 visual correctness — NOT automated E2E test generation.
+
+The example below uses kendo-e2e — adapt to the confirmed tooling as needed:
 
 1. **Navigate to the running app**:
    ```

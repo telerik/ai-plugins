@@ -81,7 +81,7 @@ telerik_component_assistant(component: "Grid", query: "Show all parameters with 
 telerik_component_assistant(component: "Grid", query: "What are all the event handler signatures and their EventArgs shapes?")
 
 // Events — reworded for deeper coverage
-telerik_component_assistant(component: "Grid", query: "Show examples of handling Grid events like OnRead, OnRowClick, and SelectedItemsChanged.")
+telerik_component_assistant(component: "Grid", query: "Show practical examples of handling common Grid events.")
 
 // Data binding — single topic
 telerik_component_assistant(component: "Grid", query: "How do I bind data to the Grid and handle server-side operations?")

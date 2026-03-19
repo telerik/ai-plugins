@@ -84,9 +84,9 @@ For each source component identified in Step 1, determine its KendoReact equival
 and call `kendo_component_assistant` to retrieve the authoritative API.
 
 The `component` parameter must be the **KendoReact** component name, not the source
-library's name. Use your best judgment to identify the likely equivalent (e.g., a
-source data grid → `Grid`, a source text field → `Input`, a source date picker →
-`DatePicker`).
+library's name. Use your best judgment to identify the likely equivalent *(e.g., a
+source data grid → `Grid`, a source text input → `Input`, a source date selector →
+`DatePicker` — these are illustrations; the actual mapping depends on the source component's behavior)*.
 
 ```
 kendo_component_assistant(

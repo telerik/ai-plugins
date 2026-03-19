@@ -5,7 +5,6 @@ model: inherit
 color: orange
 skills:
   - kendo-react-migration
-tools: "*"
 ---
 
 ## MANDATORY RULE — Thorough Discovery Before Any Migration

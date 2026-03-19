@@ -49,7 +49,7 @@ elements — all without breaking component functionality or accessibility.
 ### Step 1 — Understand the design requirement
 
 Clarify with the user:
-- **Target component**: Which Telerik Blazor component needs custom styling? (TelerikGrid, TelerikDatePicker, TelerikDropDownList, TelerikDialog, etc.)
+- **Target component**: Which Telerik Blazor component needs custom styling? *(e.g., TelerikGrid, TelerikDatePicker, TelerikDropDownList, TelerikDialog — or any other)*
 - **Visual goal**: What should it look like? (mockup, description, reference image, brand guideline)
 - **Scope**: Entire component, or specific parts? (header only, cells only, toolbar only)
 - **States**: Custom styles for hover, focus, active, disabled, selected?
@@ -111,8 +111,12 @@ telerik_style_assistant(
 
 ### Step 4 — Design the custom styles
 
-Using the validated selector map, write the custom CSS rules. Follow these authoring
-principles:
+Using the validated selector map from your DOM inspection, write the custom CSS rules.
+Follow these authoring principles:
+
+> **Note**: The CSS selectors in the examples below (e.g., `.k-grid-header`, `.k-grid-content`)
+> are illustration-only examples. Always replace them with the actual selectors discovered
+> during your DOM inspection in Steps 2–3. Never hard-code selectors from memory.
 
 **Selector specificity strategy:**
 - Always scope custom styles under a wrapper class to avoid bleeding into other components:
@@ -144,7 +148,10 @@ principles:
 
 ### Step 5 — Choose the output format
 
-Determine the CSS authoring approach based on the project's styling setup:
+Determine the CSS authoring approach based on the project's styling setup.
+
+> **Note**: The CSS code examples below use `.k-grid-header` and `.k-grid-content` as
+> illustration-only selectors. Use the actual selectors from your DOM inspection.
 
 | Project setup | Output format |
 |---------------|---------------|

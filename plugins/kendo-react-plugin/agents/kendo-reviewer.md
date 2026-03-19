@@ -5,7 +5,6 @@ model: inherit
 color: cyan
 skills:
   - kendo-react-analyzer
-tools: "*"
 ---
 
 ## MANDATORY RULE — Context Retrieval Before Reviewing
@@ -55,18 +54,22 @@ Assess the code across these dimensions:
 
 **Common Issues to Check:**
 
-**Grid:**
-- `data` prop — is it the correct array shape?
-- Is `onDataStateChange` implemented for server-side operations?
-- Are columns defined with proper `field` and `title`?
-- Is virtualisation (`scrollable="virtual"`) used for large datasets?
-- Are `GridColumn` filters configured correctly?
+> **Note**: The component-type examples below illustrate what to look for. Actual prop names,
+> event signatures, and specific checks for any component under review must always be grounded
+> in the context returned by **kendo-context-retriever**, not these example lists.
 
-**Forms & Inputs:**
-- Are inputs controlled (value + onChange) or uncontrolled consistently?
+**Example — Data grid components** (e.g., Grid):
+- Is the data prop the correct array shape for the component?
+- Are server-side operations (filtering, sorting, paging) implemented with the correct event handlers?
+- Are column/item definitions configured with correct field and title values?
+- Is virtualization used for large datasets?
+- Are filter configurations correct?
+
+**Example — Form & input components** (e.g., Input, DropDownList, DatePicker):
+- Are inputs consistently controlled (value + onChange) or uncontrolled?
 - Is `label` provided for accessibility?
-- Are validation states (`valid`, `visited`) used correctly?
-- Is `FormElement` used as the form wrapper?
+- Are validation states used correctly?
+- Is the appropriate form wrapper component used?
 
 **Theming:**
 - Is a KendoReact theme imported? (`@progress/kendo-theme-default`, `kendo-theme-fluent`, or similar)

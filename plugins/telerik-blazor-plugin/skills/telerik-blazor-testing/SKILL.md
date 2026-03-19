@@ -134,11 +134,13 @@ public void Component_HasProperAriaAttributes()
 
 ## Component-Specific Patterns
 
-> **IMPORTANT**: The test patterns below are structural scaffolding examples. Exact
-> parameter names, event signatures, and EventArgs shapes **must** be verified by
-> calling `telerik_component_assistant(component: "<name>", query: "...")` before use.
+> **IMPORTANT**: The patterns below are structural examples for illustration purposes only.
+> They showcase a subset of Telerik Blazor components — the same testing approach applies to
+> all Telerik components. Exact parameter names, event signatures, and EventArgs shapes
+> **must** be verified via telerik-context-retriever before writing any assertions. Do not
+> assume the API shown here is current or complete — always ground assertions in MCP tool output.
 
-### TelerikGrid
+### Example: Data Grid Component (e.g., TelerikGrid)
 
 ```csharp
 public class GridTests : TelerikTestBase
@@ -168,7 +170,7 @@ public class GridTests : TelerikTestBase
 }
 ```
 
-### TelerikForm & Inputs
+### Example: Form & Input Components
 
 ```csharp
 [Fact]
@@ -186,7 +188,7 @@ public void Form_ShowsValidationError_OnInvalidSubmit()
 }
 ```
 
-### TelerikDropDownList
+### Example: Selection/Dropdown Components (e.g., TelerikDropDownList)
 
 ```csharp
 [Fact]
@@ -212,7 +214,7 @@ public void DropDownList_CallsValueChanged_OnSelection()
 }
 ```
 
-### TelerikDialog
+### Example: Dialog/Overlay Components (e.g., TelerikDialog)
 
 ```csharp
 [Fact]
@@ -229,7 +231,7 @@ public void Dialog_RendersContent_WhenVisible()
 }
 ```
 
-### TelerikChart
+### Example: Chart/Visualization Components (e.g., TelerikChart)
 
 ```csharp
 [Fact]
@@ -244,12 +246,12 @@ public void Chart_RendersWithoutCrashing()
 
 ## Mocking Patterns
 
-### Mock data services
+### Mock data services *(example pattern — adapt service and method names to your project)*
 
 ```csharp
-var mockService = new Mock<IProductService>();
-mockService.Setup(s => s.GetProductsAsync())
-    .ReturnsAsync(new List<Product> { new() { Id = 1, Name = "Test" } });
+var mockService = new Mock<IMyDataService>();
+mockService.Setup(s => s.GetItemsAsync())
+    .ReturnsAsync(new List<MyItem> { new() { Id = 1, Name = "Test" } });
 
 Services.AddSingleton(mockService.Object);
 ```
@@ -266,9 +268,9 @@ JSInterop.Mode = JSRuntimeMode.Loose;
 
 ## Test Organization
 
-- **Co-locate unit tests**: `MyApp.Tests/Components/ProductGrid/ProductGridTests.cs`
+- **Co-locate unit tests**: `MyApp.Tests/Components/MyComponent/MyComponentTests.cs` *(replace with your actual component path)*
 - **One test class per component, one method per behavior**
-- **Descriptive test names**: `Grid_Renders3Rows_WhenDataHas3Items` not `Test1`
+- **Descriptive test names**: `Component_Renders3Items_WhenDataHas3Items` not `Test1`
 - **Use `Theory` + `InlineData`** for parameterized tests
 - **Inherit from `TelerikTestBase`** for consistent service registration
 
