@@ -41,7 +41,7 @@ technical details in a compact, structured format.
 | `telerik_layout_assistant` | Layout patterns, CSS utility classes, responsive design | `prompt` (string), `includeBuildingBlockExamples` (bool) |
 | `telerik_style_assistant` | CSS variable theme generation, CSS customization | `prompt` (string) |
 | `telerik_validator_assistant` | Validate Razor files for invalid component properties | `filePath` (string) |
-| `telerik_getting_started_assistant` | Project scaffolding, setup instructions, NuGet source config | `query` (string) |
+| `telerik_getting_started_assistant` | Project scaffolding, setup instructions, NuGet source config | `createNewProject` (bool), `projectName` (string), `projectType` (BlazorWebApp\|BlazorWasm), `theme` (Default\|Bootstrap\|Material\|Fluent) |
 
 ---
 

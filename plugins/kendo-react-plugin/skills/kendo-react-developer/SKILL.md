@@ -185,5 +185,6 @@ import { orderBy, filterBy, SortDescriptor } from '@progress/kendo-data-query';
 | `kendo_component_assistant` | `component` (string), `query` (string) | Component APIs, code examples, prop reference |
 | `kendo_icon_assistant` | `query` (string), `limit` (number) | Find Telerik icons by purpose or keyword |
 | `kendo_accessibility_assistant` | `component` (string), `query` (string), `includeGeneralGuidelines` (bool) | WCAG 2.2 AA, ARIA roles, keyboard navigation |
-| `kendo_layout_assistant` | `prompt` (string) | Layout patterns, CSS utility classes, responsive design |
+| `kendo_layout_assistant` | `prompt` (string), `includeBuildingBlockExamples` (bool, default false) | Layout patterns, CSS utility classes, responsive design |
 | `kendo_style_assistant` | `prompt` (string) | Theme generation, CSS variable customization |
+| `kendo_getting_started_assistant` | `createNewProject` (bool), `projectName` (string), `theme` (default\|bootstrap\|material\|fluent) | Project scaffolding or existing project setup |

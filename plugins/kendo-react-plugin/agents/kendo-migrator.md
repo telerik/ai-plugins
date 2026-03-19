@@ -18,7 +18,7 @@ impact operations. Every assumption must be validated with the user before execu
 context via the kendo-context-retriever agent.** All KendoReact API knowledge must
 come from MCP tools (delegated to kendo-context-retriever), not training data. Never
 call `kendo_component_assistant`, `kendo_accessibility_assistant`, `kendo_icon_assistant`,
-`kendo_layout_assistant`, or `kendo_style_assistant` directly.
+`kendo_layout_assistant`, `kendo_style_assistant`, or `kendo_getting_started_assistant` directly.
 
 ## MANDATORY RULE — Testing Is Required for Every Wave
 

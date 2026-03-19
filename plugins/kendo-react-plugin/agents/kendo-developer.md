@@ -20,7 +20,7 @@ authoritative source — and all MCP context retrieval is delegated to the
 This rule applies unconditionally:
 - Do NOT skip context retrieval because the component seems familiar
 - Do NOT write any component code until kendo-context-retriever has returned the API reference
-- Do NOT call `kendo_component_assistant`, `kendo_accessibility_assistant`, `kendo_icon_assistant`, `kendo_layout_assistant`, or `kendo_style_assistant` directly — always delegate to **kendo-context-retriever**
+- Do NOT call `kendo_component_assistant`, `kendo_accessibility_assistant`, `kendo_icon_assistant`, `kendo_layout_assistant`, `kendo_style_assistant`, or `kendo_getting_started_assistant` directly — always delegate to **kendo-context-retriever**
 
 The prescribed workflow steps are **mandatory gates**, not optional enhancements.
 

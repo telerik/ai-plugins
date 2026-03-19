@@ -1,12 +1,13 @@
 ---
 name: kendo-context-retriever
-description: Dedicated context retrieval subagent that fetches authoritative KendoReact API reference, accessibility guidance, icon mappings, layout utilities, and CSS theme variables from the kendo-react-mcp tools. Invoked as a subagent by other kendo agents (kendo-developer, kendo-reviewer, kendo-migrator, kendo-tester, kendo-custom-stylist) to gather precise technical context before implementation, review, testing, or migration. Executes all required MCP tool calls and returns a concise, technically accurate summary.
+description: Dedicated context retrieval subagent that fetches authoritative KendoReact API reference, accessibility guidance, icon mappings, layout utilities, CSS theme variables, and project setup/scaffolding guidance from the kendo-react-mcp tools. Invoked as a subagent by other kendo agents (kendo-developer, kendo-reviewer, kendo-migrator, kendo-tester, kendo-custom-stylist) to gather precise technical context before implementation, review, testing, migration, or project setup. Executes all required MCP tool calls and returns a concise, technically accurate summary.
 model: inherit
 color: blue
 skills:
   - kendo-react-developer
   - kendo-react-theme
   - kendo-react-layout
+  - kendo-react-getting-started
 tools: "*"
 ---
 
@@ -39,6 +40,7 @@ technical details in a compact, structured format.
 | `kendo_icon_assistant` | Find Telerik SVG icons by purpose or keyword | `query` (string), `limit` (number) |
 | `kendo_layout_assistant` | Layout patterns, CSS utility classes, responsive design | `prompt` (string) |
 | `kendo_style_assistant` | CSS variable theme generation, CSS customization and theming for specific components | `prompt` (string) |
+| `kendo_getting_started_assistant` | Project scaffolding, KendoReact setup instructions, licensing config, build-tool-specific guidance | `query` (string) |
 
 
 ---
@@ -281,6 +283,29 @@ Never route CSS class or HTML structure queries to `kendo_component_assistant` o
 `kendo_accessibility_assistant`. Those tools return only API documentation — not CSS
 classes or rendered markup.
 ```
+
+### Getting Started / Setup Requests
+
+Use `kendo_getting_started_assistant` for ALL project scaffolding, KendoReact setup,
+and onboarding queries. Always call it before writing any setup code:
+
+```
+// Scaffold a new project
+kendo_getting_started_assistant(
+  createNewProject: true,
+  projectName: "<app-name>",
+  theme: "default" // or "bootstrap", "material", "fluent"
+)
+
+// Configure KendoReact in an existing project
+kendo_getting_started_assistant(
+  createNewProject: false,
+  theme: "default" // or "bootstrap", "material", "fluent"
+)
+```
+
+> Note: `theme` accepts only `"default"`, `"bootstrap"`, `"material"`, or `"fluent"`.
+> The `classic` theme is not supported by this tool.
 
 ---
 

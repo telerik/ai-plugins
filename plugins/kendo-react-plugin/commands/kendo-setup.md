@@ -17,7 +17,36 @@ Read `package.json` to understand:
 
 If KendoReact is already configured, report what's installed and ask whether to add more packages or fix the existing setup.
 
-## Step 2: Determine the theme
+## Step 2: Call kendo_getting_started_assistant for authoritative setup guidance
+
+Call `kendo_getting_started_assistant` to get authoritative, version-accurate setup instructions for the detected environment:
+
+```
+// Existing project
+kendo_getting_started_assistant(
+  createNewProject: false,
+  theme: "default" // or "bootstrap", "material", "fluent"
+)
+```
+
+For a new project with no `package.json`:
+
+```
+// New project
+kendo_getting_started_assistant(
+  createNewProject: true,
+  projectName: "<app-name>",
+  theme: "default" // or "bootstrap", "material", "fluent"
+)
+```
+
+> Note: `theme` accepts only `"default"`, `"bootstrap"`, `"material"`, or `"fluent"`.
+> The `classic` theme is not supported by this tool — set to `"default"` and swap the
+> package to `@progress/kendo-theme-classic` manually in Step 4 if needed.
+
+Follow the returned instructions as the primary guide for Steps 3–9 below.
+
+## Step 3: Determine the theme
 
 If the user provided a theme argument, use it. Valid themes:
 - `default` → `@progress/kendo-theme-default`
@@ -28,7 +57,7 @@ If the user provided a theme argument, use it. Valid themes:
 
 If no argument was provided, ask the user: "Which KendoReact theme would you like to use? Options: **default**, fluent, material, bootstrap, classic. (default is recommended for most projects)"
 
-## Step 3: Install packages
+## Step 4: Install packages
 
 Install the essential packages using the project's package manager (detect from lock file: `package-lock.json` → npm, `yarn.lock` → yarn, `pnpm-lock.yaml` → pnpm, `bun.lockb` → bun):
 
@@ -53,7 +82,7 @@ Install the essential packages using the project's package manager (detect from 
 
 Ask the user which component packages to install, or offer a "starter set" with the most common ones.
 
-## Step 4: Configure the theme import
+## Step 5: Configure the theme import
 
 Find the application entry point (typically `src/main.tsx`, `src/index.tsx`, `src/App.tsx`, or `pages/_app.tsx` for Next.js).
 
@@ -66,7 +95,7 @@ import '@progress/kendo-theme-<selected>/dist/all.css';
 import 'kendo-theme-utils/dist/all.css';
 ```
 
-## Step 5: Configure KendoReact licensing
+## Step 6: Configure KendoReact licensing
 
 Check if `@progress/kendo-licensing` was already configured. If not, add the license setup to the entry point:
 
@@ -77,13 +106,13 @@ import { registerForKendo } from '@progress/kendo-licensing';
 
 Add a comment instructing the user to add their license key from https://www.telerik.com/account/your-licenses.
 
-## Step 6: Verify TypeScript configuration
+## Step 7: Verify TypeScript configuration
 
 If the project uses TypeScript, check `tsconfig.json` and ensure:
 - `moduleResolution` is `bundler` or `node16` (for modern package resolution)
 - `jsx` is set to `react-jsx` or `react`
 
-## Step 7: Create a usage example
+## Step 8: Create a usage example
 
 Create a simple example component to verify the setup works. Place it at `src/components/KendoSetupTest.tsx`:
 
@@ -99,7 +128,7 @@ export const KendoSetupTest = () => (
 
 Show the user how to import and render this component temporarily to verify the setup.
 
-## Step 8: Report the setup
+## Step 9: Report the setup
 
 Summarize what was installed and configured:
 ```

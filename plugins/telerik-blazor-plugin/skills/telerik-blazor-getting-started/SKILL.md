@@ -23,7 +23,15 @@ The `telerik_getting_started_assistant` tool provides:
 - **Project scaffolding**: Creates a new Blazor project with Telerik UI fully configured
 - **Setup guidance**: Step-by-step instructions for adding Telerik to an existing project
 - **Configuration reference**: Correct service registration, imports, theme setup, and
-  `TelerikRootComponent` placement for any Blazor hosting model
+  `TelerikRootComponent` placement for either Blazor WebApp or Blazor WebAssembly
+
+**Tool parameters:**
+- `createNewProject` (bool, default true) — `true` to scaffold a new project, `false` for existing project configuration guidance
+- `projectName` (string, default `"TelerikBlazorApp"`) — project folder/app name (used when `createNewProject: true`)
+- `projectType` (enum) — `"BlazorWebApp"` (default) | `"BlazorWasm"`
+- `theme` (enum) — `"Default"` (default) | `"Bootstrap"` | `"Material"` | `"Fluent"`
+
+> ⚠️ Theme enum values are **capitalized**: `"Default"`, `"Bootstrap"`, `"Material"`, `"Fluent"`.
 
 ## Workflow
 
@@ -43,8 +51,10 @@ Call `telerik_getting_started_assistant` to get authoritative scaffolding instru
 
 ```
 telerik_getting_started_assistant(
-  query: "Create a new Blazor <hosting-model> project with Telerik UI for Blazor.
-          Project name: <name>. Theme: <theme>. .NET version: <version>."
+  createNewProject: true,
+  projectName: "<AppName>",
+  projectType: "BlazorWebApp", // or "BlazorWasm"
+  theme: "Default" // or "Bootstrap", "Material", "Fluent"
 )
 ```
 
@@ -65,8 +75,9 @@ Call `telerik_getting_started_assistant` for configuration reference:
 
 ```
 telerik_getting_started_assistant(
-  query: "How to add Telerik UI for Blazor to an existing <hosting-model> project
-          running .NET <version>. Theme: <theme>."
+  createNewProject: false,
+  projectType: "BlazorWebApp", // or "BlazorWasm" to match the existing project
+  theme: "Default" // or "Bootstrap", "Material", "Fluent"
 )
 ```
 
@@ -97,11 +108,14 @@ After scaffolding or configuration:
 ### Step 5 — Configure the Telerik NuGet source (if needed)
 
 If the NuGet package installation fails because the Telerik source is not configured,
-call `telerik_getting_started_assistant` for NuGet source setup:
+call `telerik_getting_started_assistant` for NuGet source setup — use `createNewProject: false`
+(this is a configuration query, not a new project):
 
 ```
 telerik_getting_started_assistant(
-  query: "How to configure the Telerik NuGet package source for Telerik UI for Blazor."
+  createNewProject: false,
+  projectType: "BlazorWebApp",
+  theme: "Default"
 )
 ```
 
@@ -110,12 +124,10 @@ rather than `--store-password-in-clear-text` in production environments.
 
 ## Hosting Model Reference
 
-| Hosting Model | Key Differences |
-|---------------|-----------------|
-| **Blazor Server** (.NET 8+) | Theme/JS in `App.razor` `<head>` section, services in server-side `Program.cs` |
-| **Blazor WebAssembly** | Theme/JS in `index.html`, services in client-side `Program.cs` |
-| **Blazor Hybrid** (MAUI) | Theme/JS in `wwwroot/index.html`, services in `MauiProgram.cs` |
-| **Interactive Auto** (.NET 8+) | Theme/JS in `App.razor`, services in both server and client `Program.cs` |
+| Hosting Model | `projectType` value | Key Differences |
+|---------------|--------------------|-----------------|
+| **Blazor Web App** (interactive server/auto) | `"BlazorWebApp"` | Theme/JS in `App.razor` `<head>`, services in server-side `Program.cs` |
+| **Blazor WebAssembly** | `"BlazorWasm"` | Theme/JS in `index.html`, services in client-side `Program.cs` |
 
 Always call `telerik_getting_started_assistant` to get hosting-model-specific instructions
 rather than relying on the reference table above.
@@ -131,4 +143,4 @@ rather than relying on the reference table above.
 
 | Tool | Parameters | When to use |
 |------|-----------|-------------|
-| `telerik_getting_started_assistant` | `query` (string) | Scaffold new projects, get setup instructions, configure NuGet source, hosting-model-specific guidance |
+| `telerik_getting_started_assistant` | `createNewProject` (bool), `projectName` (string), `projectType` (BlazorWebApp\|BlazorWasm), `theme` (Default\|Bootstrap\|Material\|Fluent) | Scaffold new projects or get setup/configuration guidance for existing projects |

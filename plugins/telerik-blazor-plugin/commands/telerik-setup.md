@@ -132,9 +132,19 @@ The skill calls `telerik_getting_started_assistant` to get authoritative, versio
 instructions:
 
 ```
+// New project
 telerik_getting_started_assistant(
-  query: "Create a new Blazor <hosting-model> project with Telerik UI for Blazor.
-          Project name: <name>. Theme: <theme>."
+  createNewProject: true,
+  projectName: "<AppName>",
+  projectType: "BlazorWebApp", // or "BlazorWasm"
+  theme: "Default" // or "Bootstrap", "Material", "Fluent"
+)
+
+// Existing project configuration
+telerik_getting_started_assistant(
+  createNewProject: false,
+  projectType: "BlazorWebApp", // or "BlazorWasm"
+  theme: "Default"
 )
 ```
 

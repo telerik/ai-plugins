@@ -57,11 +57,14 @@ This ensures layout and theme are agreed on from the start rather than retrofitt
 
 ### Step 3 — Fetch layout utilities (MANDATORY — call before generating any code)
 
-Call `kendo_layout_assistant` with a detailed description of the layout:
+Call `kendo_layout_assistant` with a detailed description of the layout. Set
+`includeBuildingBlockExamples: true` to get ready-to-use JSX/HTML building block
+patterns alongside the utility class reference:
 
 ```
 kendo_layout_assistant(
-  prompt: "<Describe the full layout: sections, structure, responsive needs, component types>"
+  prompt: "<Describe the full layout: sections, structure, responsive needs, component types>",
+  includeBuildingBlockExamples: true
 )
 ```
 
@@ -157,5 +160,5 @@ affect the rest of the app.
 
 | Tool | Parameters | When to use |
 |------|-----------|-------------|
-| `kendo_layout_assistant` | `prompt` (string) | Get CSS utility classes, building block examples, layout component recommendations |
+| `kendo_layout_assistant` | `prompt` (string), `includeBuildingBlockExamples` (bool, default false) | Get CSS utility classes, building block examples, layout component recommendations |
 | `kendo_style_assistant` | `prompt` (string) | Generate CSS variable theme when user wants custom colors/style |

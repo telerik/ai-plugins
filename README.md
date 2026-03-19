@@ -125,6 +125,12 @@ Install directly from the local path:
 copilot plugin install ./plugins/kendo-react-plugin
 ```
 
+To refresh the plugins when editing you can either exit and re-open or run 
+
+```
+/restart
+```
+
 ### VS Code Copilot
 
 Add the plugin's absolute path to your `settings.json`. Set the value to `true` to enable it, or `false` to register it as disabled:
@@ -137,3 +143,5 @@ Add the plugin's absolute path to your `settings.json`. Set the value to `true` 
 ```
 
 Open **Settings** (`Cmd+,` / `Ctrl+,`), search for `chat.pluginLocations`, and add your entries there, or edit `settings.json` directly.
+
+Typically, VSCode updates the plugins on new instance. But if you have doubts you can either restart VSCode or run `Developer: Reload Window`.

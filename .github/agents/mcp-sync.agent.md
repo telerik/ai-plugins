@@ -1,6 +1,5 @@
 ---
 description: "Use when MCP tool references in plugin commands, skills, or agents may be out of sync with actual MCP server configurations. Trigger when the user mentions syncing MCP tools, auditing tool references, checking for stale MCP calls, validating tool names against .mcp.json, or phrases like 'sync MCP tools', 'check tool references', 'audit MCP schema', 'validate MCP tool names', 'are my MCP calls correct', 'update tool definitions'. Also trigger after adding, removing, or renaming an MCP server."
-tools: [read, search, edit, agent]
 argument-hint: "Path to a plugin directory to sync (e.g., plugins/kendo-react-plugin)"
 ---
 
