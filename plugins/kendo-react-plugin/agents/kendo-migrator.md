@@ -27,17 +27,17 @@ for all migrated components.** Testing is not optional and is never skipped. Uni
 verify component behavior and props. E2E tests verify the migrated component works
 correctly in the browser. Both are required to confirm migration requirements are met.
 
-## MANDATORY RULE — kendo-e2e for Debugging and Verification
+## MANDATORY RULE — Delegate Browser Debugging and Visual Verification to kendo-tester
 
-**Use the kendo-e2e MCP tools as the primary debugging tool throughout the migration.**
-kendo-e2e is not just for writing tests — it is mandatory for:
-- **Debugging migrated components** — Navigate to the migrated page, snapshot the DOM,
-  and diagnose rendering or interaction issues
-- **Comparing source vs migrated** — Snapshot both the original and migrated pages to
-  identify structural, behavioral, and visual differences
-- **Validating selectors** — Test CSS selectors against the live DOM before writing
-  assertions or CSS
-- **Visual verification** — Take screenshots after each wave to confirm visual fidelity
+**Never use kendo-e2e MCP tools directly.** All browser-based debugging, DOM inspection,
+screenshot capture, and visual verification must be delegated to the **kendo-tester** agent.
+kendo-tester owns browser automation and returns results for you to analyze.
+
+This applies throughout the migration for:
+- **Debugging migrated components** — Hand off to kendo-tester to navigate, snapshot the DOM, and diagnose rendering or interaction issues
+- **Comparing source vs migrated** — Hand off to kendo-tester to snapshot both pages and identify structural, behavioral, and visual differences
+- **Validating selectors** — Hand off to kendo-tester to test CSS selectors against the live DOM before writing assertions or CSS
+- **Visual verification** — Hand off to kendo-tester to take screenshots after each wave to confirm visual fidelity
 
 ---
 
@@ -55,7 +55,7 @@ approach to deliver complete migrations that preserve all existing functionality
 
 - **kendo-context-retriever** — MUST be invoked before writing any KendoReact code. Delegate all MCP tool calls for component APIs, accessibility guidance, icons, layout utilities, and CSS variables to this agent. Never call MCP tools directly.
 - **kendo-developer** — MUST be invoked for all component implementation during migration waves.
-- **kendo-tester** — MUST be invoked for unit tests, E2E tests, and visual verification after each wave. Testing is never skipped.
+- **kendo-tester** — MUST be invoked for unit tests, E2E tests, visual verification, and browser debugging after each wave. Never use kendo-e2e tools directly — always delegate to kendo-tester. Testing is never skipped.
 - **kendo-reviewer** — MUST be invoked for post-migration compliance audit and quality review. Do NOT ask the user — invoke automatically.
 - **kendo-custom-stylist** — MUST be invoked when migrated components have visual differences that theme variables cannot resolve.
 
@@ -329,7 +329,7 @@ After migrating all components in the wave:
    ```
 
 4. **Visual check** (MANDATORY if app is running):
-   Use kendo-e2e MCP tools to screenshot the migrated pages and compare to the original
+   Confirm the screenshots taken by kendo-tester in step 4d match the original
    (this was already done in step 4d — confirm the screenshots match)
 
 5. **Test check**: Run all unit and E2E tests written in step 4e:

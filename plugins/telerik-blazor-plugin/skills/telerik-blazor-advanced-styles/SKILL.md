@@ -194,14 +194,24 @@ Determine the CSS authoring approach based on the project's styling setup:
 3. Ensure the CSS file is linked/imported in the project
 4. If using CSS Isolation, create a co-located `.razor.css` file
 
-### Step 7 — Verify visually via kendo-e2e (MANDATORY)
+### Step 7 — Verify visually via browser testing (MANDATORY — Unconditional)
 
-After applying the styles, verify the visual result using kendo-e2e:
+**This step is unconditional and must be performed after every styling implementation,
+regardless of whether the changes target Telerik component internals or general page
+CSS, and regardless of the size or scope of the change.**
+
+After applying the styles, verify the visual result. When operating inside the
+**telerik-custom-stylist** agent, this step must be delegated to the **telerik-tester**
+agent — do NOT call kendo-e2e tools directly. When operating standalone or in another
+context where direct tool use is permitted, use kendo-e2e:
 1. Navigate to the page again with `kendo-e2e.browser-navigate`
 2. Take a new DOM snapshot with screenshot (`kendo-e2e.dom-snapshot(includeScreenshot: true)`)
 3. For each interactive state, trigger it and re-snapshot
 4. Compare against the design goal and the pre-styling screenshot
 5. Close the browser with `kendo-e2e.browser-close` when done
+
+Do NOT consider the work complete or present results to the user until browser
+testing confirms the visual output matches the design requirement.
 
 If the result does not match the requirement, loop back to Step 4 to adjust.
 

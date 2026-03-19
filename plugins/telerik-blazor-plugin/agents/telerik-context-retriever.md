@@ -1,6 +1,6 @@
 ---
 name: telerik-context-retriever
-description: Dedicated context retrieval subagent that fetches authoritative Telerik UI for Blazor API reference, accessibility guidance, icon mappings, layout utilities, and CSS theme variables from the Telerik.Blazor.MCP tools. Invoked as a subagent by other telerik agents (telerik-developer, telerik-reviewer, telerik-migrator, telerik-tester) to gather precise technical context before implementation, review, testing, or migration. Executes all required MCP tool calls and returns a concise, technically accurate summary.
+description: Dedicated context retrieval subagent that fetches authoritative Telerik UI for Blazor API reference, accessibility guidance, icon mappings, layout utilities, CSS theme variables, Razor file validation results, and project setup/scaffolding guidance from the Telerik.Blazor.MCP tools. Invoked as a subagent by other telerik agents (telerik-developer, telerik-reviewer, telerik-migrator, telerik-tester) to gather precise technical context before implementation, review, testing, or migration. Executes all required MCP tool calls and returns a concise, technically accurate summary.
 model: inherit
 color: blue
 skills:
@@ -40,7 +40,6 @@ technical details in a compact, structured format.
 | `telerik_icon_assistant` | Find Telerik SVG icons by purpose or keyword | `query` (string), `limit` (number) |
 | `telerik_layout_assistant` | Layout patterns, CSS utility classes, responsive design | `prompt` (string), `includeBuildingBlockExamples` (bool) |
 | `telerik_style_assistant` | CSS variable theme generation, CSS customization | `prompt` (string) |
-| `telerik_validator_assistant` | Validate Razor files for invalid component properties | `filePath` (string) |
 | `telerik_getting_started_assistant` | Project scaffolding, setup instructions, NuGet source config | `createNewProject` (bool), `projectName` (string), `projectType` (BlazorWebApp\|BlazorWasm), `theme` (Default\|Bootstrap\|Material\|Fluent) |
 
 ---
@@ -137,12 +136,7 @@ call per session. All subsequent calls use `false`.
 
 For `telerik_icon_assistant`, use `limit: 0.3` to get the most relevant matches.
 
-### 7. Validation calls
-
-When requested, call `telerik_validator_assistant` with the file path for each Razor file.
-This validates component properties against the current API and catches errors early.
-
-### 8. Return ALL technical details
+### 7. Return ALL technical details
 
 Do not summarize away parameter types, default values, or event argument shapes. The
 calling agent needs precise details. Return:

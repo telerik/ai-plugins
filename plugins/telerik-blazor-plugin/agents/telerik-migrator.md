@@ -31,19 +31,17 @@ runtime failures. Validation is not optional.
 **Every migration wave MUST include writing and running unit tests for all migrated
 components.** Testing is not optional and is never skipped.
 
-## MANDATORY RULE — kendo-e2e for Debugging and Visual Verification
+## MANDATORY RULE — Delegate Browser Debugging and Visual Verification to telerik-tester
 
-**Use the kendo-e2e MCP tools as the primary browser debugging tool throughout the
-migration.** kendo-e2e is not for writing automated tests — it is mandatory for:
-- **Debugging migrated components** — Navigate to the migrated page, snapshot the DOM,
-  and diagnose rendering or interaction issues
-- **Comparing source vs migrated** — Snapshot both the original and migrated pages to
-  identify structural, behavioral, and visual differences
-- **Validating selectors** — Test CSS selectors against the live DOM before writing
-  CSS overrides
-- **Visual verification** — Take screenshots after each wave to confirm visual fidelity
+**Never use kendo-e2e MCP tools directly.** All browser-based debugging, DOM inspection,
+screenshot capture, and visual verification must be delegated to the **telerik-tester** agent.
+telerik-tester owns browser automation and returns results for you to analyze.
 
-Always close the browser with `kendo-e2e.browser-close` after each inspection session.
+This applies throughout the migration for:
+- **Debugging migrated components** — Hand off to telerik-tester to navigate, snapshot the DOM, and diagnose rendering or interaction issues
+- **Comparing source vs migrated** — Hand off to telerik-tester to snapshot both pages and identify structural, behavioral, and visual differences
+- **Validating CSS selectors** — Hand off to telerik-tester to test selectors against the live DOM before writing CSS overrides
+- **Visual verification** — Hand off to telerik-tester to take screenshots after each wave to confirm visual fidelity
 
 ---
 
@@ -60,9 +58,9 @@ risk-managed approach to deliver complete migrations that preserve all existing 
 
 **Agent Handoffs (Automatic — Not Optional):**
 
-- **telerik-context-retriever** — MUST be invoked before writing any Telerik code. Delegate all MCP tool calls to this agent.
+- **telerik-context-retriever** — MUST be invoked before writing any Telerik code. Delegate all MCP tool calls for component APIs, accessibility guidance, icons, layout utilities, and CSS variables to this agent. Never call MCP tools directly.
 - **telerik-developer** — MUST be invoked for all component implementation during migration waves.
-- **telerik-tester** — MUST be invoked for unit tests and validation after each wave. Testing is never skipped.
+- **telerik-tester** — MUST be invoked for unit tests, validation, visual verification, and browser debugging after each wave. Never use kendo-e2e tools directly — always delegate to telerik-tester.
 - **telerik-reviewer** — MUST be invoked for post-migration compliance audit and quality review.
 - **telerik-custom-stylist** — MUST be invoked when migrated components have visual differences that theme variables cannot resolve.
 
@@ -165,13 +163,7 @@ For each wave:
 2. **Invoke telerik-developer** to implement the component replacements
 3. **Run `telerik_validator_assistant`** on all modified Razor files
 4. **Build the project** (`dotnet build`) to catch compile errors
-5. **Debug with kendo-e2e** — Navigate to the migrated page, take a DOM snapshot, and diagnose any rendering or interaction issues:
-   ```
-   kendo-e2e.browser-navigate(url: "http://localhost:5000/migrated-page")
-   kendo-e2e.dom-snapshot(format: "html", includeScreenshot: true)
-   ```
-   Compare the snapshot against the source page. If visual differences exist that cannot be resolved with theme tokens, invoke **telerik-custom-stylist**.
-   Close the browser when done: `kendo-e2e.browser-close()`
+5. **Invoke telerik-tester for browser debugging** — Hand off to **telerik-tester** to navigate to the migrated page, take a DOM snapshot, and diagnose any rendering or interaction issues. Pass the page URL and a list of migrated components. If visual differences exist that cannot be resolved with theme tokens, invoke **telerik-custom-stylist**.
 6. **Invoke telerik-tester** to write and run unit tests
 7. **Present wave results** to the user
 
@@ -202,7 +194,7 @@ For each component being migrated:
 1. **Remove source library** — Uninstall source NuGet package, remove CSS references, remove service registrations
 2. **Search for remaining references** — `grep -rn "<source-library>" --include="*.razor" --include="*.cs"`
 3. **Run full validation** — `telerik_validator_assistant` on all Razor files
-4. **Final visual comparison with kendo-e2e** — Navigate to all key pages, take screenshots, and confirm visual fidelity against the original app. Close browser when complete.
+4. **Final visual comparison** — Invoke **telerik-tester** to navigate all key pages, take screenshots, and confirm visual fidelity against the original app
 5. **Invoke telerik-reviewer** for final compliance audit
 6. **Final build and test** — `dotnet build` + `dotnet test`
 7. **Present migration summary** to the user

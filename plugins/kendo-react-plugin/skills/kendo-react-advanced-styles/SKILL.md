@@ -212,9 +212,16 @@ const StyledGrid = styled.div`
 2. Add the wrapper class to the component's parent element or use the `className` prop
 3. Import the styles file into the component
 
-### Step 7 — Verify with snapshot (MANDATORY)
+### Step 7 — Verify via browser testing (MANDATORY — Unconditional)
 
-After applying the styles, take a visual snapshot to confirm correctness:
+**This step is unconditional and must be performed after every styling implementation,
+regardless of whether the changes target Kendo component internals or general page
+CSS, and regardless of the size or scope of the change.**
+
+After applying the styles, take a visual snapshot to confirm correctness. When
+operating inside the **kendo-custom-stylist** agent, this step must be delegated to
+the **kendo-tester** agent — do NOT call kendo-e2e tools directly. When operating
+standalone or in another context where direct tool use is permitted:
 
 ```
 kendo-e2e.dom-snapshot(
@@ -228,6 +235,9 @@ Compare against the design requirement:
 - Are state styles (hover, focus, selected) applied?
 - Are there unintended side effects on other elements?
 - Does the layout remain intact (no broken spacing or overflow)?
+
+Do NOT consider the work complete or present results to the user until browser
+testing confirms the visual output matches the design requirement.
 
 If the snapshot reveals issues, loop back to Step 4 to adjust selectors or values.
 
