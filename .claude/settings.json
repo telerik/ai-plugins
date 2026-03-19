@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(open /tmp/kendo-react-skills-review.html)"
-    ]
-  }
-}

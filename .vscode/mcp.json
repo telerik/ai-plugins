@@ -1,0 +1,9 @@
+{
+    "servers": {
+        "Telerik.Blazor.MCP": {
+            "type": "stdio",
+            "command": "dnx",
+            "args": ["Telerik.Blazor.MCP", "--yes"]
+        }
+    }
+}

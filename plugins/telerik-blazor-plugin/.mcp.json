@@ -1,0 +1,20 @@
+{
+    "mcpServers": {
+        "Telerik.Blazor.MCP": {
+            "type": "stdio",
+            "command": "dnx",
+            "args": [
+                "Telerik.Blazor.MCP",
+                "--yes"
+            ]
+        },
+        "kendo-e2e": {
+            "command": "npx",
+            "args": [
+                "-p",
+                "@progress/kendo-e2e@latest",
+                "kendo-e2e-mcp"
+            ]
+        }
+    }
+}

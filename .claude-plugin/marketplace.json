@@ -16,6 +16,16 @@
       },
       "source": "./plugins/kendo-react-plugin",
       "category": "development"
+    },
+    {
+      "name": "telerik-blazor-plugin",
+      "description": "AI-powered Telerik UI for Blazor development and auditing — component implementation, code analysis, accessibility, theming, and layout guidance via the official telerik-blazor-mcp tools.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Progress"
+      },
+      "source": "./plugins/telerik-blazor-plugin",
+      "category": "development"
     }
   ]
 }
