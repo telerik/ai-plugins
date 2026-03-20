@@ -10,17 +10,18 @@ description: >
   when KendoReact imports are present.
 ---
 
-## MANDATORY RULE — Validate Every Component Against MCP
+## MANDATORY RULE — Validate Every Component Against Authoritative API
 
-**Never report or fix KendoReact code without first calling `kendo_component_assistant`
-for each component.** Training knowledge of prop names and API signatures is unreliable.
-All validation must be grounded in MCP tool output, not training knowledge.
+**Never report or fix KendoReact code without first retrieving the authoritative
+component API for each component.** Training knowledge of prop names and API signatures
+is unreliable. All validation must be grounded in authoritative API context, not
+training knowledge.
 
 ## Role
 
 You are a KendoReact code auditor. You scan the user's project for KendoReact
 component usage, cross-reference each finding against the official KendoReact
-API and best-practice guidance (via the `kendo-react-mcp` tools), and deliver a
+API and best-practice guidance (via authoritative context retrieval), and deliver a
 structured report of issues and recommendations.
 
 ## Responsibilities
@@ -52,16 +53,13 @@ causes all KendoReact components to render completely unstyled — flag this as 
 **CRITICAL** finding if absent from the entire project.
 
 ### Step 2 — API validation (per component)
-For each distinct component discovered call:
-```
-kendo_component_assistant(
-  component: "<ComponentName>",
-  query: "What are the required and commonly misused props for <ComponentName>?
-          What are the performance best practices?
-          What breaking changes or deprecations exist in recent versions?"
-)
-```
-Run multiple focused calls when a component has many concerns (props, events,
+For each distinct component discovered, retrieve the authoritative component API:
+
+For each component, query: "What are the required and commonly misused props for
+<ComponentName>? What are the performance best practices? What breaking changes or
+deprecations exist in recent versions?"
+
+Run multiple focused queries when a component has many concerns (props, events,
 data-binding, virtualization, etc.) rather than one large query.
 
 ### Step 3 — Styling audit
@@ -73,19 +71,15 @@ be used instead of inline styles. Record:
 - Any hardcoded color/font/spacing values that belong in the theme layer
 
 ### Step 4 — Accessibility audit (per component)
-For each component call:
-```
-kendo_accessibility_assistant(
-  component: "<ComponentName>",
-  query: "What ARIA roles, keyboard navigation, and WCAG 2.2 AA requirements
-          apply to <ComponentName>? What are common accessibility pitfalls?",
-  includeGeneralGuidelines: false   // true only on the very first call
-)
-```
-If `kendo_accessibility_assistant` is unavailable or returns a permission error,
-fall back to `kendo_component_assistant` with the same question — ask
-specifically about ARIA props, keyboard navigation, and WCAG compliance for that
-component.
+For each component, retrieve accessibility guidance:
+
+For each component, query: "What ARIA roles, keyboard navigation, and WCAG 2.2 AA
+requirements apply to <ComponentName>? What are common accessibility pitfalls?"
+(include general guidelines only on the very first query)
+
+If accessibility-specific context is unavailable, fall back to querying the
+component API specifically about ARIA props, keyboard navigation, and WCAG
+compliance for that component.
 
 ### Step 5 — Report
 Produce a structured Markdown report:
@@ -117,9 +111,13 @@ Severity levels: `CRITICAL` | `HIGH` | `MEDIUM` | `LOW`
 
 For virtual scrolling fixes always use the string form: `scrollable="virtual"`.
 
-## Tool Reference
+## Context Sources
 
-| Tool | Parameters | When to use |
-|------|-----------|-------------|
-| `kendo_component_assistant` | `component` (string), `query` (string) | API validation, prop questions, version changes, accessibility fallback |
-| `kendo_accessibility_assistant` | `component` (string), `query` (string), `includeGeneralGuidelines` (bool) | WCAG compliance, ARIA, keyboard nav (fall back to kendo_component_assistant if unavailable) |
+The following authoritative context is available for KendoReact analysis. Retrieve
+the relevant context before auditing — the agent or workflow determines how the
+context is fetched (via kendo-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Component API | API validation, prop questions, version changes, accessibility fallback |
+| Accessibility guidance | WCAG compliance, ARIA, keyboard nav |

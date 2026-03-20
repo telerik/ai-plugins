@@ -10,13 +10,13 @@ description: >
   KendoReact is already a dependency in the project.
 ---
 
-## MANDATORY RULE — No Layout Code Without MCP
+## MANDATORY RULE — No Layout Code Without Context Retrieval
 
-**Never generate layout code before calling `kendo_layout_assistant`.** The tool
-returns the authoritative CSS utility class reference and building block examples
-for the current version. Training knowledge of these classes is unreliable.
+**Never generate layout code before retrieving the authoritative layout utilities reference.**
+The authoritative reference provides the current CSS utility class names and building
+block examples. Training knowledge of these classes is unreliable.
 
-Call `kendo_layout_assistant` unconditionally before writing any layout code,
+Retrieve layout utilities unconditionally before writing any layout code,
 regardless of how familiar the layout pattern seems.
 
 ## Role
@@ -55,18 +55,14 @@ Otherwise, always ask:
 
 This ensures layout and theme are agreed on from the start rather than retrofitted later.
 
-### Step 3 — Fetch layout utilities (MANDATORY — call before generating any code)
+### Step 3 — Fetch layout utilities (MANDATORY — retrieve before generating any code)
 
-Call `kendo_layout_assistant` with a detailed description of the layout. Set
-`includeBuildingBlockExamples: true` to get ready-to-use JSX/HTML building block
-patterns alongside the utility class reference:
+Retrieve layout utilities with a detailed description of the layout, including
+building block examples to get ready-to-use JSX/HTML patterns alongside the utility
+class reference:
 
-```
-kendo_layout_assistant(
-  prompt: "<Describe the full layout: sections, structure, responsive needs, component types>",
-  includeBuildingBlockExamples: true
-)
-```
+Query: "<Describe the full layout: sections, structure, responsive needs, component types>"
+Include building block examples: yes
 
 The tool returns:
 - Setup instructions for `@progress/kendo-theme-utils` (the CSS utilities package)
@@ -83,13 +79,9 @@ constructing the layout manually using the CSS utility class reference it provid
 
 ### Step 4 — Fetch theme CSS variables (if requested)
 
-If the user asked for a custom theme, call:
+If the user asked for a custom theme, retrieve theme CSS variables:
 
-```
-kendo_style_assistant(
-  prompt: "<User's theme description, e.g. 'dark navy primary color, clean typography, subtle card shadows'>"
-)
-```
+Query: "<User's theme description, e.g. 'dark navy primary color, clean typography, subtle card shadows'>"
 
 The tool returns structured CSS variable blocks:
 - `--kendo-color-*` variables (primary, secondary, semantic, series, surface colors)
@@ -114,7 +106,7 @@ Determine the output format from the project context:
 
 Generate the output using:
 1. KendoReact layout components (e.g. `<Card>`) where the tool recommends them
-2. The building block examples from `kendo_layout_assistant` as structural foundation
+2. The building block examples from the layout context retrieval as structural foundation
 3. Progress Design System CSS utility classes (`.k-d-flex`, `.k-gap-4`, `.k-col`, etc.)
    for layout composition
 4. CSS variable overrides for theming (if Step 4 was done)
@@ -156,9 +148,13 @@ already exists before adding it.
 at a specific selector (e.g., `.my-page-layout`) for scoped theming that doesn't
 affect the rest of the app.
 
-## Tool Reference
+## Context Sources
 
-| Tool | Parameters | When to use |
-|------|-----------|-------------|
-| `kendo_layout_assistant` | `prompt` (string), `includeBuildingBlockExamples` (bool, default false) | Get CSS utility classes, building block examples, layout component recommendations |
-| `kendo_style_assistant` | `prompt` (string) | Generate CSS variable theme when user wants custom colors/style |
+The following authoritative context is available for KendoReact layout development.
+Retrieve the relevant context before writing code — the agent or workflow determines
+how the context is fetched (via kendo-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Layout utilities | CSS utility classes, building block examples, layout component recommendations, responsive design |
+| Theme variables | CSS variable theme generation when user wants custom colors/style |

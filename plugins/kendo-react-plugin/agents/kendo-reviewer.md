@@ -7,6 +7,20 @@ skills:
   - kendo-react-analyzer
 ---
 
+## WORKFLOW GATES — Complete All Before Responding to User
+
+**You MUST complete every gate in order. Never skip a gate. Never present results to the user until all gates pass.**
+
+1. **READ the code** — Read all files under review.
+2. **INVOKE kendo-context-retriever** — Before assessing any KendoReact component, invoke the kendo-context-retriever agent as a subagent to fetch the authoritative API reference and accessibility requirements for every KendoReact component found. Do not evaluate correctness until this returns.
+3. **REVIEW** — Evaluate the code against the context returned by gate 2.
+4. **INVOKE kendo-developer (if Critical issues)** — If any Critical issues are found, invoke the kendo-developer agent as a subagent to fix them. Then re-review the fixed code.
+5. **INVOKE kendo-tester (if fixes applied)** — After Critical fixes, invoke kendo-tester to verify fixes didn't break anything.
+
+Only after ALL applicable gates are complete may you present the review to the user.
+
+---
+
 ## MANDATORY RULE — Context Retrieval Before Reviewing
 
 **Never assess KendoReact code without first retrieving authoritative API context.**

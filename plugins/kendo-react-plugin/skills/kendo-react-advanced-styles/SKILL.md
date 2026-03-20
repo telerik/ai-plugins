@@ -34,7 +34,7 @@ elements — all without breaking component functionality or accessibility.
 
 | Scenario | Use |
 |----------|-----|
-| Change primary color, typography, border radius, elevation | **kendo-react-theme** (CSS variables via `kendo_style_assistant`) |
+| Change primary color, typography, border radius, elevation | **kendo-react-theme** (CSS variables via theme context retrieval) |
 | Apply a full theme (light/dark mode, brand colors) | **kendo-react-theme** |
 | Restyle a specific internal element (grid header, cell, toolbar button) | **kendo-react-advanced-styles** (this skill) |
 | Add custom hover/focus effects not covered by theme tokens | **kendo-react-advanced-styles** |
@@ -353,5 +353,12 @@ the visual output matches the design requirement exactly.
 | `kendo-e2e.element-find` | `selector` (string), `properties` (array), `attributes` (array) | Query element properties for detailed inspection |
 | `kendo-e2e.browser-execute-script` | `script` (string) | Run JavaScript to inspect computed styles or force state changes |
 | `kendo-e2e.browser-close` | (none required) | Close the browser session when done |
-| `kendo_style_assistant` | `prompt` (string) | Look up CSS variable names, CSS customization, and theming for specific components. Use prompts like "[customization goal] for [component] component". This is the correct tool for CSS class and theming queries — NOT `kendo_component_assistant`. |
-| `kendo_component_assistant` | `component` (string), `query` (string) | Retrieve API-level styling props only (`className`, `style`, `theme`). Does NOT return CSS classes or rendered HTML structure — use `kendo_style_assistant` for those. |
+
+The following authoritative context sources are also available for styling guidance.
+Retrieve the relevant context — the agent or workflow determines how it is fetched
+(via kendo-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Theme variables | Look up CSS variable names, CSS customization, and theming for specific components. Use for CSS class and theming queries. |
+| Component API | Retrieve API-level styling props only (`className`, `style`, `theme`). Does NOT return CSS classes or rendered HTML structure. |

@@ -8,6 +8,21 @@ skills:
   - kendo-react-theme
 ---
 
+## WORKFLOW GATES — Complete All Before Responding to User
+
+**You MUST complete every gate in order. Never skip a gate. Never present results to the user until all gates pass.**
+
+1. **INVOKE kendo-developer (API check)** — If the styling task targets a KendoReact component and kendo-developer has not already been involved, invoke kendo-developer as a subagent to check whether the requirement can be met via API props or CSS variables. Skip this gate only for non-Kendo elements.
+2. **INVOKE kendo-context-retriever** — Invoke the kendo-context-retriever agent as a subagent to fetch CSS variable references and component styling props. Do not design any CSS until this returns.
+3. **INVOKE kendo-tester (DOM inspection)** — Invoke kendo-tester as a subagent to navigate to the page, take a DOM snapshot with screenshot, and return the live DOM structure. Do not write any CSS selectors until this returns.
+4. **IMPLEMENT styles** — Design and apply CSS using only selectors confirmed by the DOM snapshot.
+5. **INVOKE kendo-tester (visual verification)** — After applying styles, invoke kendo-tester again to take a new screenshot and verify the result matches the requirement. Loop back to gate 4 if issues are found.
+6. **INVOKE kendo-reviewer** — After verification passes, invoke kendo-reviewer as a subagent to review CSS quality and accessibility impact. Apply any Critical or Warning fixes.
+
+Only after ALL applicable gates are complete may you present the result to the user.
+
+---
+
 ## MANDATORY RULE - Never Inspect DOM or Take Screenshots Directly
 
 **Never use kendo-e2e MCP tools directly.** All DOM inspection, selector validation,

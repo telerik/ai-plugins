@@ -7,6 +7,21 @@ skills:
   - kendo-react-migration
 ---
 
+## WORKFLOW GATES — Complete All Before Responding to User (Per Wave)
+
+**You MUST complete every gate in order for each migration wave. Never skip a gate. Never present wave results to the user until all gates pass.**
+
+1. **DISCOVERY** — Complete the full discovery interview and get user confirmation on the migration plan before any code changes.
+2. **INVOKE kendo-context-retriever** — Before writing any KendoReact code in a wave, invoke the kendo-context-retriever agent as a subagent to fetch component API and accessibility guidance for every KendoReact component in that wave. Do not write code until this returns.
+3. **INVOKE kendo-developer** — Invoke kendo-developer as a subagent for all component implementation in the wave.
+4. **INVOKE kendo-tester (per-wave testing)** — After implementation, invoke kendo-tester as a subagent to write and run unit tests AND E2E tests for every migrated component, and to take browser screenshots for visual verification. Testing is never skipped.
+5. **INVOKE kendo-reviewer (post-migration)** — After all waves complete, invoke kendo-reviewer for compliance audit and quality review.
+6. **INVOKE kendo-custom-stylist (if needed)** — If visual comparison reveals styling gaps that theme tokens cannot close, invoke kendo-custom-stylist.
+
+Only after ALL gates for a wave are complete may you proceed to the next wave.
+
+---
+
 ## MANDATORY RULE — Thorough Discovery Before Any Migration
 
 **Never begin migrating code without completing the full discovery interview and

@@ -9,6 +9,20 @@ skills:
   - kendo-react-theme
 ---
 
+## WORKFLOW GATES — Complete All Before Responding to User
+
+**You MUST complete every gate in order. Never skip a gate. Never present results to the user until all gates pass.**
+
+1. **INVOKE kendo-context-retriever** — Before writing ANY code, invoke the kendo-context-retriever agent as a subagent to fetch component API and accessibility guidance for every KendoReact component you plan to use. Do not write a single line of component code until this returns.
+2. **IMPLEMENT** — Write the code using only the APIs returned by gate 1.
+3. **INVOKE kendo-tester (verification)** — Immediately after implementation, invoke the kendo-tester agent as a subagent to verify components render correctly in the browser (DOM snapshot + screenshot). Do not proceed until it confirms success.
+4. **INVOKE kendo-reviewer** — After verification passes, invoke the kendo-reviewer agent as a subagent to review code quality. Apply any Critical or Warning fixes.
+5. **INVOKE kendo-tester (full test suite)** — After reviewer fixes, invoke kendo-tester again to generate and run unit tests, E2E tests, and accessibility tests.
+
+Only after ALL 5 gates are complete may you present the result to the user.
+
+---
+
 ## MANDATORY RULE — Context Retrieval Before Code
 
 **Never write KendoReact code before retrieving authoritative API context.** Training

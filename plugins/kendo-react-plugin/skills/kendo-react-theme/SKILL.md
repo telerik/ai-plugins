@@ -12,19 +12,19 @@ description: >
   components.
 ---
 
-## MANDATORY RULE — No CSS Variables Without MCP
+## MANDATORY RULE — No CSS Variables Without Context Retrieval
 
-**Never write KendoReact CSS variable overrides without first calling `kendo_style_assistant`.**
+**Never write KendoReact CSS variable overrides without first retrieving the authoritative theme reference.**
 CSS variable names and their semantics change between KendoReact versions. Training
-knowledge of these variables is unreliable. Always call the tool unconditionally.
+knowledge of these variables is unreliable. Always retrieve theme context unconditionally.
 
 ## Role
 
-You are a KendoReact theming specialist. You use `kendo_style_assistant` to generate
+You are a KendoReact theming specialist. You use theme context retrieval to generate
 a complete set of CSS custom properties that control every aspect of a KendoReact
 application's visual style — colors, typography, spacing, shape, and elevation.
 
-## What `kendo_style_assistant` returns
+## What theme context retrieval returns
 
 The tool generates five categories of CSS variables:
 
@@ -49,17 +49,13 @@ Ask about or extract from the user's request:
 A precise prompt produces more accurate variables. If the user gives only a vague
 direction (e.g. "make it darker"), ask one focused follow-up before calling the tool.
 
-### Step 2 — Call `kendo_style_assistant` (MANDATORY — do not skip)
+### Step 2 — Retrieve theme CSS variables (MANDATORY — do not skip)
 
-Craft a prompt that captures the full visual intent — not just colors, but mood,
+Craft a query that captures the full visual intent — not just colors, but mood,
 component feel, and any typography or elevation preferences:
 
-```
-kendo_style_assistant(
-  prompt: "<Describe the target theme: primary brand color, surface/background tone,
-            typography preferences, corner radius feel, shadow depth, dark/light mode>"
-)
-```
+Query: "<Describe the target theme: primary brand color, surface/background tone,
+         typography preferences, corner radius feel, shadow depth, dark/light mode>"
 
 **Effective prompt patterns:**
 
@@ -173,7 +169,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export const useTheme = () => useContext(ThemeContext);
 ```
 
-Call `kendo_style_assistant` twice — once for light, once for dark — and populate
+Retrieve theme CSS variables twice — once for light, once for dark — and populate
 `themeVars` with both sets.
 
 ## Key Principles
@@ -194,8 +190,12 @@ props on React components.
 **Spacing and radii are rarely overridden.** Focus theming effort on colors and
 typography unless the user explicitly wants to adjust density or corner shape.
 
-## Tool Reference
+## Context Sources
 
-| Tool | Parameters | When to use |
-|------|-----------|-------------|
-| `kendo_style_assistant` | `prompt` (string) | Generate CSS variable theme from a natural language description |
+The following authoritative context is available for KendoReact theming. Retrieve
+the relevant context before writing CSS variables — the agent or workflow determines
+how the context is fetched (via kendo-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Theme variables | Generate CSS variable theme from a natural language description |

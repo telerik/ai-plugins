@@ -10,19 +10,20 @@ description: >
   asks to build React UI components and KendoReact is already a dependency in the project.
 ---
 
-## MANDATORY RULE — No Code Without MCP
+## MANDATORY RULE — No Code Without Context Retrieval
 
-**Never write KendoReact code before calling the MCP tools.** Your training knowledge
-of KendoReact APIs is stale and unreliable. The MCP tools are the only authoritative
-source for correct props, event signatures, and usage patterns.
+**Never write KendoReact code before retrieving the authoritative API documentation.**
+Your training knowledge of KendoReact APIs is stale and unreliable. The authoritative
+KendoReact API reference is the only source for correct props, event signatures, and
+usage patterns.
 
-This rule is unconditional. Do not skip MCP calls because:
+This rule is unconditional. Do not skip context retrieval because:
 - The component seems simple or familiar
 - You believe you already know the correct API
 - The requirement appears straightforward
 
-Always call `kendo_component_assistant` before writing any component code, without
-exception.
+Always retrieve the authoritative component API before writing any component code,
+without exception.
 
 ## Role
 
@@ -50,87 +51,43 @@ Clarify with the user:
 - Any design constraints (existing theme, brand colors, layout system)
 
 ### Step 2 — Component selection and API lookup (MANDATORY — do not skip)
-Call `kendo_component_assistant` to retrieve the current API.
-Do not rely on training knowledge. Call this tool unconditionally before writing code.
+Retrieve the authoritative component API for every KendoReact component you plan to use.
+Do not rely on training knowledge. Retrieve context unconditionally before writing code.
 
-**Critical**: Each call must target a **single topic**. Never combine props, events,
-and patterns into one query. Split multi-topic lookups into individual calls, and
+**Critical**: Each query must target a **single topic**. Never combine props, events,
+and patterns into one request. Split multi-topic lookups into individual queries, and
 consider rewording important queries to get deeper coverage:
 
-```
-// Call 1: Props only
-kendo_component_assistant(
-  component: "<ComponentName>",
-  query: "Show all props with types and defaults."
-)
+1. **Props**: For `<ComponentName>` — "Show all props with types and defaults."
+2. **Events**: For `<ComponentName>` — "Show event handler signatures with event object shapes."
+3. **Usage patterns**: For `<ComponentName>` — "Show a complete controlled usage example with TypeScript for <use case>."
+4. **Best practices** (optional reworded for deeper coverage): For `<ComponentName>` — "What are the recommended patterns and best practices for <use case>?"
 
-// Call 2: Events only
-kendo_component_assistant(
-  component: "<ComponentName>",
-  query: "Show event handler signatures with event object shapes."
-)
-
-// Call 3: Usage patterns only
-kendo_component_assistant(
-  component: "<ComponentName>",
-  query: "Show a complete controlled usage example with TypeScript for <use case>."
-)
-
-// Call 4 (optional reworded for deeper coverage):
-kendo_component_assistant(
-  component: "<ComponentName>",
-  query: "What are the recommended patterns and best practices for <use case>?"
-)
-```
-
-Make separate calls for each distinct concern (data binding, filtering, editing,
+Make separate queries for each distinct concern (data binding, filtering, editing,
 column configuration, etc.). When multiple components could serve the use case,
-call the assistant for each and compare before recommending one.
+retrieve the API for each and compare before recommending one.
 
 ### Step 3 — Icons
-When the UI requires icons call:
-```
-kendo_icon_assistant(
-  query: "<Describe the icon purpose, e.g. 'edit action', 'warning status'>",
-  limit: 0.3
-)
-```
-Use the returned icon name with `@progress/kendo-react-icons` or the SVGIcon
-component. If `kendo_icon_assistant` is unavailable, search the
+When the UI requires icons, retrieve icon mappings by describing the icon purpose
+(e.g. "edit action", "warning status"). Use the returned icon name with
+`@progress/kendo-react-icons` or the SVGIcon component. If icon lookup is
+unavailable, search the
 [Telerik icon list](https://www.telerik.com/design-system/docs/foundation/iconography/icon-list/)
 or use a descriptive `aria-label` as a fallback.
 
-### Step 4 — Accessibility (MANDATORY — call before delivering any implementation)
-Call `kendo_accessibility_assistant` for every component before finalizing code.
+### Step 4 — Accessibility (MANDATORY — retrieve before delivering any implementation)
+Retrieve accessibility guidance for every component before finalizing code.
 
-**Critical**: Split accessibility concerns into separate single-topic calls. Never
-combine ARIA attributes, keyboard navigation, and focus management into one query:
+**Critical**: Split accessibility concerns into separate single-topic queries. Never
+combine ARIA attributes, keyboard navigation, and focus management into one request:
 
-```
-// Call 1: ARIA attributes only
-kendo_accessibility_assistant(
-  component: "<ComponentName>",
-  query: "What ARIA roles and attributes are required for <ComponentName>?",
-  includeGeneralGuidelines: false   // true only on the first call per session
-)
+1. **ARIA attributes**: For `<ComponentName>` — "What ARIA roles and attributes are required for <ComponentName>?" (include general guidelines only on the first query per session)
+2. **Keyboard navigation**: For `<ComponentName>` — "What keyboard interactions and shortcuts are supported?"
+3. **WCAG pitfalls** (optional reworded for deeper coverage): For `<ComponentName>` — "What are common WCAG 2.2 AA pitfalls for <ComponentName> and how to avoid them?"
 
-// Call 2: Keyboard navigation only
-kendo_accessibility_assistant(
-  component: "<ComponentName>",
-  query: "What keyboard interactions and shortcuts are supported?",
-  includeGeneralGuidelines: false
-)
-
-// Call 3 (optional reworded for deeper coverage):
-kendo_accessibility_assistant(
-  component: "<ComponentName>",
-  query: "What are common WCAG 2.2 AA pitfalls for <ComponentName> and how to avoid them?",
-  includeGeneralGuidelines: false
-)
-```
-Apply the guidance directly to the generated code. Only if `kendo_accessibility_assistant`
-returns a hard error (tool unavailable) fall back to `kendo_component_assistant`
-asking specifically about ARIA props, keyboard navigation, and WCAG 2.2 AA requirements.
+Apply the guidance directly to the generated code. If accessibility-specific context
+is unavailable, fall back to querying the component API specifically about ARIA props,
+keyboard navigation, and WCAG 2.2 AA requirements.
 
 ### Step 5 — Package installation
 Install only the packages required for the components being used:
@@ -182,13 +139,17 @@ import '@progress/kendo-theme-default/dist/all.css';
 import { orderBy, filterBy, SortDescriptor } from '@progress/kendo-data-query';
 ```
 
-## Tool Reference
+## Context Sources
 
-| Tool | Parameters | When to use |
-|------|-----------|-------------|
-| `kendo_component_assistant` | `component` (string), `query` (string) | Component APIs, code examples, prop reference |
-| `kendo_icon_assistant` | `query` (string), `limit` (number) | Find Telerik icons by purpose or keyword |
-| `kendo_accessibility_assistant` | `component` (string), `query` (string), `includeGeneralGuidelines` (bool) | WCAG 2.2 AA, ARIA roles, keyboard navigation |
-| `kendo_layout_assistant` | `prompt` (string), `includeBuildingBlockExamples` (bool, default false) | Layout patterns, CSS utility classes, responsive design |
-| `kendo_style_assistant` | `prompt` (string) | Theme generation, CSS variable customization |
-| `kendo_getting_started_assistant` | `createNewProject` (bool), `projectName` (string), `theme` (default\|bootstrap\|material\|fluent) | Project scaffolding or existing project setup |
+The following authoritative context is available for KendoReact development. Retrieve
+the relevant context before writing code — the agent or workflow determines how the
+context is fetched (via kendo-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Component API | Props, events, types, usage examples, code patterns for any `@progress/kendo-react-*` component |
+| Accessibility guidance | WCAG 2.2 AA compliance, ARIA roles, keyboard navigation, focus management |
+| Icon lookup | Find Telerik SVG icons by purpose or keyword |
+| Layout utilities | CSS utility classes, building block examples, responsive design, layout component recommendations |
+| Theme variables | CSS variable theme generation, customization, brand application |
+| Getting started | Project scaffolding, setup instructions, licensing, build-tool-specific guidance |

@@ -11,12 +11,12 @@ description: >
   component-specific guidance on assertions or test structure.
 ---
 
-## IMPORTANT — Verify Props via MCP Before Asserting
+## IMPORTANT — Verify Props via Context Retrieval Before Asserting
 
 Before writing assertions on component props, event handler arguments, or rendered
-output, always call `kendo_component_assistant` for the component under test. Training
-knowledge of prop names and event signatures is unreliable. Ground every assertion in
-the MCP tool's response.
+output, always retrieve the authoritative component API for the component under test.
+Training knowledge of prop names and event signatures is unreliable. Ground every
+assertion in the authoritative API context.
 
 ## Role
 

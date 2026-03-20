@@ -12,13 +12,13 @@ description: >
   equivalents between a third-party library and KendoReact during an active migration.
 ---
 
-## MANDATORY RULE — MCP Tools Before Mapping
+## MANDATORY RULE — Context Retrieval Before Mapping
 
-**Never produce component migration mappings without first calling
-`kendo_component_assistant` for every target KendoReact component.** Training
-knowledge of KendoReact APIs is stale. The MCP tools are the only authoritative
-source for correct prop names, event signatures, and configuration patterns in the
-user's installed KendoReact version.
+**Never produce component migration mappings without first retrieving the
+authoritative API for every target KendoReact component.** Training
+knowledge of KendoReact APIs is stale. The authoritative KendoReact API reference
+is the only source for correct prop names, event signatures, and configuration
+patterns in the user's installed KendoReact version.
 
 ## MANDATORY RULE — Testing Every Migrated Component
 
@@ -81,34 +81,20 @@ Scan the source project to build a complete inventory:
 ### Step 2 — Map to KendoReact equivalents
 
 For each source component identified in Step 1, determine its KendoReact equivalent
-and call `kendo_component_assistant` to retrieve the authoritative API.
+and retrieve the authoritative API.
 
-The `component` parameter must be the **KendoReact** component name, not the source
+The component name must be the **KendoReact** component name, not the source
 library's name. Use your best judgment to identify the likely equivalent *(e.g., a
 source data grid → `Grid`, a source text input → `Input`, a source date selector →
 `DatePicker` — these are illustrations; the actual mapping depends on the source component's behavior)*.
 
-```
-kendo_component_assistant(
-  component: "<KendoReact component name>",
-  query: "Show all props with types and defaults."
-)
-```
+Retrieve for each component, as separate single-topic queries:
 
-Then make additional single-topic calls for each concern:
-```
-kendo_component_assistant(
-  component: "<KendoReact component name>",
-  query: "Show all event handler signatures with event object shapes."
-)
+1. **Props**: For `<KendoReact component name>` — "Show all props with types and defaults."
+2. **Events**: For `<KendoReact component name>` — "Show all event handler signatures with event object shapes."
+3. **Controlled patterns**: For `<KendoReact component name>` — "Show controlled vs uncontrolled patterns with a TypeScript example."
 
-kendo_component_assistant(
-  component: "<KendoReact component name>",
-  query: "Show controlled vs uncontrolled patterns with a TypeScript example."
-)
-```
-
-Make a **separate call for each distinct KendoReact component**. Do not batch multiple
+Make a **separate query for each distinct KendoReact component**. Do not batch multiple
 components into one query.
 
 Build a mapping table from the responses:
@@ -122,45 +108,26 @@ Build a mapping table from the responses:
 - **Moderate**: Different prop names, event signatures, or controlled/uncontrolled patterns
 - **Complex**: Significant API differences, custom rendering logic, or no direct equivalent
 
-If unsure which KendoReact component maps to a source component, call
-`kendo_component_assistant` with a focused query describing the use case:
-```
-kendo_component_assistant(
-  component: "Grid",
-  query: "Is Grid the right component for <describe the source component's purpose>?"
-)
-```
+If unsure which KendoReact component maps to a source component, retrieve the
+component API with a focused query describing the use case:
+
+For `Grid` — "Is Grid the right component for <describe the source component's purpose>?"
 
 ### Step 3 — Build migration spec per component
 
-For each component in the mapping table, call the MCP tools to build a complete
-migration specification. **Do not rely on training knowledge** for prop names, event
-signatures, rendering patterns, or styling approaches — use only MCP tool responses.
+For each component in the mapping table, retrieve the authoritative API to build a
+complete migration specification. **Do not rely on training knowledge** for prop names,
+event signatures, rendering patterns, or styling approaches — use only authoritative
+API context.
 
 **Props and events (MANDATORY for every component):**
 
-Call `kendo_component_assistant` with **single-topic** focused queries for the target
+Retrieve the component API with **single-topic** focused queries for the target
 KendoReact component. Never combine props, events, and rendering in one query:
 
-```
-// Call 1: Props only
-kendo_component_assistant(
-  component: "<KendoReact component>",
-  query: "List all props with types, defaults, and descriptions."
-)
-
-// Call 2: Events only
-kendo_component_assistant(
-  component: "<KendoReact component>",
-  query: "Show all event handler signatures and their event object shapes."
-)
-
-// Call 3 (optional reworded for deeper coverage):
-kendo_component_assistant(
-  component: "<KendoReact component>",
-  query: "Show practical examples of using the most important props and events."
-)
-```
+1. **Props**: For `<KendoReact component>` — "List all props with types, defaults, and descriptions."
+2. **Events**: For `<KendoReact component>` — "Show all event handler signatures and their event object shapes."
+3. **Practical examples** (optional reworded for deeper coverage): For `<KendoReact component>` — "Show practical examples of using the most important props and events."
 
 Use the response to build a prop-by-prop and event-by-event translation from the
 source component to the KendoReact equivalent.
@@ -168,74 +135,36 @@ source component to the KendoReact equivalent.
 **Rendering patterns:**
 
 For components with custom rendering (render props, slots, templates, custom cells),
-ask specifically with a single-topic query:
+query specifically with a single-topic request:
 
-```
-kendo_component_assistant(
-  component: "<KendoReact component>",
-  query: "How do I customize the rendering? Show render props and cell templates."
-)
-
-// Reworded for broader coverage:
-kendo_component_assistant(
-  component: "<KendoReact component>",
-  query: "Show composition examples and slot patterns for custom content."
-)
-```
+1. **Render customization**: For `<KendoReact component>` — "How do I customize the rendering? Show render props and cell templates."
+2. **Composition** (reworded for broader coverage): For `<KendoReact component>` — "Show composition examples and slot patterns for custom content."
 
 **Accessibility (MANDATORY for every interactive component):**
 
 Split accessibility into separate single-topic queries:
 
-```
-// Call 1: ARIA attributes only
-kendo_accessibility_assistant(
-  component: "<KendoReact component>",
-  query: "What ARIA attributes and roles are required?",
-  includeGeneralGuidelines: true   // true only on the first call per session
-)
-
-// Call 2: Keyboard navigation only
-kendo_accessibility_assistant(
-  component: "<KendoReact component>",
-  query: "What keyboard navigation and shortcuts are supported?",
-  includeGeneralGuidelines: false
-)
-
-// Call 3 (optional reworded for deeper coverage):
-kendo_accessibility_assistant(
-  component: "<KendoReact component>",
-  query: "What are common WCAG 2.2 AA pitfalls and accessibility gotchas?",
-  includeGeneralGuidelines: false
-)
-```
+1. **ARIA attributes**: For `<KendoReact component>` — "What ARIA attributes and roles are required?" (include general guidelines only on the first query per session)
+2. **Keyboard navigation**: For `<KendoReact component>` — "What keyboard navigation and shortcuts are supported?"
+3. **WCAG pitfalls** (optional reworded for deeper coverage): For `<KendoReact component>` — "What are common WCAG 2.2 AA pitfalls and accessibility gotchas?"
 
 **Icons:**
 
-When the source component uses icons, find KendoReact equivalents:
-```
-kendo_icon_assistant(
-  query: "<describe the icon's purpose, e.g. 'delete action', 'search', 'edit'>",
-  limit: 0.3
-)
-```
+When the source component uses icons, find KendoReact equivalents by
+retrieving icon mappings:
+
+Query: "<describe the icon's purpose, e.g. 'delete action', 'search', 'edit'>"
 
 **Styling:**
 
 For each source component's styling approach (inline styles, CSS-in-JS, theme tokens),
-call `kendo_style_assistant` to get the KendoReact CSS variable equivalents:
-```
-kendo_style_assistant(
-  prompt: "<describe the target visual style, colors, and any brand requirements>"
-)
-```
+retrieve theme CSS variables for the KendoReact equivalents:
 
-For layout-related components, also call:
-```
-kendo_layout_assistant(
-  prompt: "<describe the layout pattern being migrated>"
-)
-```
+Query: "<describe the target visual style, colors, and any brand requirements>"
+
+For layout-related components, also retrieve layout utilities:
+
+Query: "<describe the layout pattern being migrated>"
 
 ### Step 4 — Handle cross-cutting patterns
 
@@ -248,7 +177,7 @@ require MCP tool calls — they are structural decisions:
 - **Data fetching**: No change needed. KendoReact components consume data via props.
 - **Form handling**: Decide with the user whether to use KendoReact's built-in `<Form>`
   component or keep the existing form library (react-hook-form, Formik, etc.) and wrap
-  KendoReact inputs. Call `kendo_component_assistant(component: "Form", ...)` to
+  KendoReact inputs. Retrieve the component API for `Form` to
   understand the KendoReact Form API if migrating forms.
 - **Internationalization**: KendoReact provides `@progress/kendo-react-intl` for
   component-level messages. Keep existing i18n for app-level text.
@@ -306,13 +235,17 @@ When migrating an entire project, order components by dependency and risk:
 - Run kendo-reviewer for quality check
 - Run final kendo-e2e debugging pass across all pages
 
-## Tool Reference
+## Context Sources
 
-| Tool | Parameters | When to use |
-|------|-----------|-------------|
-| `kendo_component_assistant` | `component` (string), `query` (string) | MANDATORY for every component — get authoritative API, props, events, usage examples |
-| `kendo_style_assistant` | `prompt` (string) | Map source library theming to KendoReact CSS variables |
-| `kendo_accessibility_assistant` | `component` (string), `query` (string), `includeGeneralGuidelines` (bool) | Verify accessibility is preserved — set `includeGeneralGuidelines: true` on the first call only |
-| `kendo_icon_assistant` | `query` (string), `limit` (number) | Map source library icons to KendoReact SVG icons |
-| `kendo_layout_assistant` | `prompt` (string) | Map source library layout components to KendoReact layout patterns |
+The following authoritative context is available for KendoReact migration. Retrieve
+the relevant context before mapping — the agent or workflow determines how the
+context is fetched (via kendo-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Component API | MANDATORY for every component — authoritative API, props, events, usage examples |
+| Theme variables | Map source library theming to KendoReact CSS variables |
+| Accessibility guidance | Verify accessibility is preserved — include general guidelines on the first query only |
+| Icon lookup | Map source library icons to KendoReact SVG icons |
+| Layout utilities | Map source library layout components to KendoReact layout patterns |
 
