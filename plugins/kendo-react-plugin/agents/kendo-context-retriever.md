@@ -39,7 +39,7 @@ technical details in a compact, structured format.
 | `kendo_icon_assistant` | Find Telerik SVG icons by purpose or keyword | `query` (string), `limit` (number) |
 | `kendo_layout_assistant` | Layout patterns, CSS utility classes, responsive design | `prompt` (string) |
 | `kendo_style_assistant` | CSS variable theme generation, CSS customization and theming for specific components | `prompt` (string) |
-| `kendo_getting_started_assistant` | Project scaffolding, KendoReact setup instructions, licensing config, build-tool-specific guidance | `query` (string) |
+| `kendo_getting_started_assistant` | Project scaffolding, KendoReact setup instructions, licensing config, build-tool-specific guidance | `createNewProject` (bool), `projectName` (string), `theme` (default\|bootstrap\|material\|fluent) |
 
 
 ---

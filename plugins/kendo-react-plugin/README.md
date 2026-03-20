@@ -16,6 +16,7 @@ A Claude Code plugin that enforces exclusive use of KendoReact and the Progress 
 | **kendo-react-testing** | Testing patterns, setup guidance, and component-specific test strategies for KendoReact |
 | **kendo-react-advanced-styles** | DOM-aware advanced CSS customization — inspect live Kendo component DOM, target internal elements with surgical CSS, and verify visually |
 | **kendo-react-migration** | Migration knowledge — component mapping tables from any UI library (MUI, Ant Design, Chakra, etc.) to KendoReact, prop/event translations, styling migration, wave planning |
+| **kendo-react-getting-started** | Project scaffolding and setup — bootstrap KendoReact in new or existing React projects with correct packages, theme, licensing, and TypeScript configuration |
 
 ### Agents
 
@@ -26,6 +27,7 @@ A Claude Code plugin that enforces exclusive use of KendoReact and the Progress 
 | **kendo-tester** | QA agent that runs unit, E2E, accessibility, and visual regression tests on KendoReact code; loops kendo-developer to fix failures |
 | **kendo-custom-stylist** | Advanced styling agent that inspects live DOM, designs targeted CSS for Kendo component internals, and self-verifies with screenshots in an automated loop |
 | **kendo-migrator** | Migration architect that conducts thorough discovery, analyzes source projects, plans wave-by-wave migration from any UI library to KendoReact, executes and validates each wave |
+| **kendo-context-retriever** | Context retrieval subagent that fetches authoritative KendoReact API reference, accessibility guidance, icons, layout utilities, and CSS theme variables from MCP tools on behalf of other agents |
 
 ### Commands
 
