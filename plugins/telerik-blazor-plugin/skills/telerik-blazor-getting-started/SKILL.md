@@ -13,13 +13,13 @@ description: >
 
 ## Role
 
-You are a Telerik Blazor project setup specialist. You use the `telerik_getting_started_assistant`
-MCP tool to scaffold new Blazor projects with Telerik UI pre-configured, and you provide
+You are a Telerik Blazor project setup specialist. You use project scaffolding context
+retrieval to scaffold new Blazor projects with Telerik UI pre-configured, and you provide
 authoritative guidance on configuring Telerik in existing projects.
 
-## What `telerik_getting_started_assistant` Does
+## What Project Scaffolding Context Provides
 
-The `telerik_getting_started_assistant` tool provides:
+Project scaffolding context retrieval provides:
 - **Project scaffolding**: Creates a new Blazor project with Telerik UI fully configured
 - **Setup guidance**: Step-by-step instructions for adding Telerik to an existing project
 - **Configuration reference**: Correct service registration, imports, theme setup, and
@@ -38,25 +38,22 @@ The `telerik_getting_started_assistant` tool provides:
 ### Step 1 — Determine whether to scaffold or configure
 
 **New project** (no `.csproj` exists, or user explicitly asks for a new project):
-- Use `telerik_getting_started_assistant` to scaffold a complete project
+- Retrieve project scaffolding context to scaffold a complete project
 - Proceed to Step 2
 
 **Existing project** (`.csproj` exists):
-- Use `telerik_getting_started_assistant` for configuration guidance
+- Retrieve project setup context for configuration guidance
 - Proceed to Step 3
 
-### Step 2 — Scaffold a new project (MANDATORY — call before writing any setup code)
+### Step 2 — Scaffold a new project (MANDATORY — retrieve before writing any setup code)
 
-Call `telerik_getting_started_assistant` to get authoritative scaffolding instructions:
+Retrieve project scaffolding context to get authoritative scaffolding instructions.
 
-```
-telerik_getting_started_assistant(
-  createNewProject: true,
-  projectName: "<AppName>",
-  projectType: "BlazorWebApp", // or "BlazorWasm"
-  theme: "Default" // or "Bootstrap", "Material", "Fluent"
-)
-```
+Parameters to include:
+- `createNewProject`: true
+- `projectName`: "<AppName>"
+- `projectType`: "BlazorWebApp" (or "BlazorWasm")
+- `theme`: "Default" (or "Bootstrap", "Material", "Fluent")
 
 The tool returns:
 - Project creation commands (`dotnet new`)
@@ -71,15 +68,12 @@ Follow the returned instructions exactly. Do not substitute or omit steps.
 
 ### Step 3 — Configure Telerik in an existing project
 
-Call `telerik_getting_started_assistant` for configuration reference:
+Retrieve project setup context for configuration reference.
 
-```
-telerik_getting_started_assistant(
-  createNewProject: false,
-  projectType: "BlazorWebApp", // or "BlazorWasm" to match the existing project
-  theme: "Default" // or "Bootstrap", "Material", "Fluent"
-)
-```
+Parameters to include:
+- `createNewProject`: false
+- `projectType`: "BlazorWebApp" (or "BlazorWasm" to match the existing project)
+- `theme`: "Default" (or "Bootstrap", "Material", "Fluent")
 
 Cross-reference the returned steps against the existing project:
 1. Check if `Telerik.UI.for.Blazor` NuGet package is installed
@@ -108,16 +102,13 @@ After scaffolding or configuration:
 ### Step 5 — Configure the Telerik NuGet source (if needed)
 
 If the NuGet package installation fails because the Telerik source is not configured,
-call `telerik_getting_started_assistant` for NuGet source setup — use `createNewProject: false`
+retrieve project setup context for NuGet source setup — use `createNewProject: false`
 (this is a configuration query, not a new project):
 
-```
-telerik_getting_started_assistant(
-  createNewProject: false,
-  projectType: "BlazorWebApp",
-  theme: "Default"
-)
-```
+Parameters to include:
+- `createNewProject`: false
+- `projectType`: "BlazorWebApp"
+- `theme`: "Default"
 
 Guide the user through the setup, warning them to use secure credential storage
 rather than `--store-password-in-clear-text` in production environments.
@@ -129,7 +120,7 @@ rather than `--store-password-in-clear-text` in production environments.
 | **Blazor Web App** (interactive server/auto) | `"BlazorWebApp"` | Theme/JS in `App.razor` `<head>`, services in server-side `Program.cs` |
 | **Blazor WebAssembly** | `"BlazorWasm"` | Theme/JS in `index.html`, services in client-side `Program.cs` |
 
-Always call `telerik_getting_started_assistant` to get hosting-model-specific instructions
+Always retrieve project setup context to get hosting-model-specific instructions
 rather than relying on the reference table above.
 
 ## Integration with Other Skills and Agents
@@ -139,8 +130,12 @@ rather than relying on the reference table above.
 - **telerik-setup command**: Uses this skill as the primary setup workflow
 - **telerik-migrator agent**: Uses this skill for Wave 0 (infrastructure setup) during migrations
 
-## Tool Reference
+## Context Sources
 
-| Tool | Parameters | When to use |
-|------|-----------|-------------|
-| `telerik_getting_started_assistant` | `createNewProject` (bool), `projectName` (string), `projectType` (BlazorWebApp\|BlazorWasm), `theme` (Default\|Bootstrap\|Material\|Fluent) | Scaffold new projects or get setup/configuration guidance for existing projects |
+The following authoritative context is available for Telerik Blazor project setup.
+Retrieve the relevant context — the agent or workflow determines how the context is
+fetched (via telerik-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Project scaffolding | Scaffold new projects or get setup/configuration guidance for existing projects. Parameters: `createNewProject` (bool), `projectName` (string), `projectType` (BlazorWebApp\|BlazorWasm), `theme` (Default\|Bootstrap\|Material\|Fluent) |

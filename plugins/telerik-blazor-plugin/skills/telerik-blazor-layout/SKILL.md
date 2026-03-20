@@ -10,13 +10,13 @@ description: >
   Telerik.UI.for.Blazor is already a dependency in the project.
 ---
 
-## MANDATORY RULE — No Layout Code Without MCP
+## MANDATORY RULE — No Layout Code Without Context Retrieval
 
-**Never generate layout code before calling `telerik_layout_assistant`.** The tool
-returns the authoritative CSS utility class reference and building block examples
-for the current version. Training knowledge of these classes is unreliable.
+**Never generate layout code before retrieving the authoritative layout utilities reference.**
+The authoritative reference provides the current CSS utility class names and building
+block examples. Training knowledge of these classes is unreliable.
 
-Call `telerik_layout_assistant` unconditionally before writing any layout code,
+Retrieve layout utilities unconditionally before writing any layout code,
 regardless of how familiar the layout pattern seems.
 
 ## Role
@@ -53,16 +53,12 @@ Otherwise, always ask:
 > style — colors, mood, brand, or just say something like 'dark navy', 'warm and minimal',
 > or 'corporate with orange accents'. If no, the default Telerik theme will be used."
 
-### Step 3 — Fetch layout utilities (MANDATORY — call before generating any code)
+### Step 3 — Fetch layout utilities (MANDATORY — retrieve before generating any code)
 
-Call `telerik_layout_assistant` with a detailed description of the layout:
+Retrieve layout utilities with a detailed description of the layout:
 
-```
-telerik_layout_assistant(
-  prompt: "<Describe the full layout: sections, structure, responsive needs, component types>",
-  includeBuildingBlockExamples: true
-)
-```
+Query: "<Describe the full layout: sections, structure, responsive needs, component types>"
+Include building block examples: yes
 
 The tool returns:
 - Setup instructions for `@AmmaSolutions/kendo-theme-utils` (the CSS utilities package)
@@ -76,13 +72,9 @@ over raw CSS utilities when a component exists for the needed pattern.
 
 ### Step 4 — Fetch theme CSS variables (if requested)
 
-If the user asked for a custom theme, call:
+If the user asked for a custom theme, retrieve theme CSS variables:
 
-```
-telerik_style_assistant(
-  prompt: "<User's theme description, e.g. 'dark navy primary color, clean typography, subtle card shadows'>"
-)
-```
+Query: "<User's theme description, e.g. 'dark navy primary color, clean typography, subtle card shadows'>"
 
 The tool returns structured CSS variable blocks:
 - `--kendo-color-*` variables (primary, secondary, semantic, series, surface colors)
@@ -101,7 +93,7 @@ existing `:root` CSS variable overrides in the project to avoid conflicts.
 Generate a Razor component using:
 1. Telerik layout components (e.g. `<TelerikCard>`, `<TelerikDrawer>`, `<TelerikSplitter>`)
    where the tool recommends them
-2. The building block examples from `telerik_layout_assistant` as structural foundation
+2. The building block examples from the layout context retrieval as structural foundation
 3. Progress Design System CSS utility classes (`.k-d-flex`, `.k-gap-4`, `.k-col`, etc.)
    for layout composition
 4. CSS variable overrides for theming (if Step 4 was done)
@@ -130,9 +122,13 @@ divs and utility classes.
 **CSS variables scope.** Apply theme CSS variables at `:root` for global theming, or
 at a specific selector for scoped theming.
 
-## Tool Reference
+## Context Sources
 
-| Tool | Parameters | When to use |
-|------|-----------|-------------|
-| `telerik_layout_assistant` | `prompt` (string), `includeBuildingBlockExamples` (bool) | Get CSS utility classes, building block examples, layout component recommendations |
-| `telerik_style_assistant` | `prompt` (string) | Generate CSS variable theme when user wants custom colors/style |
+The following authoritative context is available for Telerik Blazor layout development.
+Retrieve the relevant context before writing code — the agent or workflow determines
+how the context is fetched (via telerik-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Layout utilities | CSS utility classes, building block examples, layout component recommendations, responsive design |
+| Theme variables | CSS variable theme generation when user wants custom colors/style |

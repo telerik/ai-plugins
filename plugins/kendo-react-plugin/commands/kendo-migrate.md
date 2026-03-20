@@ -12,7 +12,7 @@ Hand off to the **kendo-migrator** agent with the following context:
 - Target: `$ARGUMENTS` if provided, otherwise the current working directory
 - The agent conducts a thorough discovery interview before any code changes
 - The agent uses the **kendo-react-migration skill** for component mapping and wave planning
-- The agent uses the **kendo-react-developer skill** to implement KendoReact replacements
+- The agent delegates to the **kendo-context-retriever** agent for all KendoReact API context retrieval
 - The agent uses the **kendo-e2e skill** for debugging, visual verification, and E2E test generation
 - The agent writes unit tests and E2E tests for every migration wave
 - Post-migration: the agent hands off to **kendo-reviewer** for quality audit and compliance check

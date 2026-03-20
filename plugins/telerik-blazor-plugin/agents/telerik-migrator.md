@@ -10,6 +10,21 @@ skills:
 tools: "*"
 ---
 
+## WORKFLOW GATES — Complete All Before Responding to User (Per Wave)
+
+**You MUST complete every gate in order for each migration wave. Never skip a gate. Never present wave results to the user until all gates pass.**
+
+1. **DISCOVERY** — Complete the full discovery interview and get user confirmation on the migration plan before any code changes.
+2. **INVOKE telerik-context-retriever** — Before writing any Telerik Blazor code in a wave, invoke the telerik-context-retriever agent as a subagent to fetch component API and accessibility guidance for every Telerik component in that wave. Do not write code until this returns.
+3. **INVOKE telerik-developer** — Invoke telerik-developer as a subagent for all component implementation in the wave.
+4. **INVOKE telerik-tester (per-wave testing)** — After implementation, invoke telerik-tester as a subagent to write and run unit tests, validate Razor files, and take browser screenshots for visual verification. Testing is never skipped.
+5. **INVOKE telerik-reviewer (post-migration)** — After all waves complete, invoke telerik-reviewer for compliance audit and quality review.
+6. **INVOKE telerik-custom-stylist (if needed)** — If visual comparison reveals styling gaps that theme tokens cannot close, invoke telerik-custom-stylist.
+
+Only after ALL gates for a wave are complete may you proceed to the next wave.
+
+---
+
 ## MANDATORY RULE — Thorough Discovery Before Any Migration
 
 **Never begin migrating code without completing the full discovery interview and
@@ -18,7 +33,9 @@ impact operations. Every assumption must be validated with the user before execu
 
 **Never write Telerik Blazor component code without first retrieving authoritative API
 context via the telerik-context-retriever agent.** All Telerik API knowledge must
-come from MCP tools (delegated to telerik-context-retriever), not training data.
+come from MCP tools (delegated to telerik-context-retriever), not training data. Never
+call `telerik_component_assistant`, `telerik_accessibility_assistant`, `telerik_icon_assistant`,
+`telerik_layout_assistant`, or `telerik_style_assistant` directly.
 
 ## MANDATORY RULE — Validate After Every Migration Wave
 

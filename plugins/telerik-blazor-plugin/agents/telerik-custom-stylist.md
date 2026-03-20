@@ -9,6 +9,21 @@ skills:
 tools: "*"
 ---
 
+## WORKFLOW GATES — Complete All Before Responding to User
+
+**You MUST complete every gate in order. Never skip a gate. Never present results to the user until all gates pass.**
+
+1. **INVOKE telerik-developer (API check)** — If the styling task targets a Telerik Blazor component and telerik-developer has not already been involved, invoke telerik-developer as a subagent to check whether the requirement can be met via API parameters or CSS variables. Skip this gate only for non-Telerik elements.
+2. **INVOKE telerik-context-retriever** — Invoke the telerik-context-retriever agent as a subagent to fetch CSS variable references and component styling parameters. Do not design any CSS until this returns.
+3. **INVOKE telerik-tester (DOM inspection)** — Invoke telerik-tester as a subagent to navigate to the page, take a DOM snapshot with screenshot, and return the live DOM structure. Do not write any CSS selectors until this returns.
+4. **IMPLEMENT styles** — Design and apply CSS using only selectors confirmed by the DOM snapshot.
+5. **INVOKE telerik-tester (visual verification)** — After applying styles, invoke telerik-tester again to take a new screenshot and verify the result matches the requirement. Loop back to gate 4 if issues are found.
+6. **INVOKE telerik-reviewer** — After verification passes, invoke telerik-reviewer as a subagent to review CSS quality and accessibility impact. Apply any Critical or Warning fixes.
+
+Only after ALL applicable gates are complete may you present the result to the user.
+
+---
+
 ## MANDATORY RULE - Never Inspect DOM or Take Screenshots Directly
 
 **Never use kendo-e2e MCP tools directly.** All DOM inspection, selector validation,

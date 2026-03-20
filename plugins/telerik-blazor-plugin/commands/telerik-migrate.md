@@ -13,7 +13,7 @@ Hand off to the **telerik-migrator** agent with the following context:
 - The agent conducts a thorough discovery interview before any code changes
 - The agent uses the **telerik-blazor-migration skill** for component mapping and wave planning
 - The agent uses the **telerik-blazor-developer skill** to implement Telerik replacements
-- The agent runs **telerik_validator_assistant** on all modified Razor files after each wave
+- The agent delegates Razor file validation to the **telerik-context-retriever** agent after each wave
 - The agent writes unit tests for every migration wave
 - Post-migration: the agent hands off to **telerik-reviewer** for quality audit and compliance check
 

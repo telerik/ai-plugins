@@ -11,19 +11,20 @@ description: >
   and Telerik.UI.for.Blazor is already a dependency in the project.
 ---
 
-## MANDATORY RULE — No Code Without MCP
+## MANDATORY RULE — No Code Without Context Retrieval
 
-**Never write Telerik Blazor code before calling the MCP tools.** Your training knowledge
-of Telerik UI for Blazor APIs is stale and unreliable. The MCP tools are the only
-authoritative source for correct parameters, event signatures, and usage patterns.
+**Never write Telerik Blazor code before retrieving the authoritative API documentation.**
+Your training knowledge of Telerik UI for Blazor APIs is stale and unreliable. The
+authoritative Telerik API reference is the only source for correct parameters, event
+signatures, and usage patterns.
 
-This rule is unconditional. Do not skip MCP calls because:
+This rule is unconditional. Do not skip context retrieval because:
 - The component seems simple or familiar
 - You believe you already know the correct API
 - The requirement appears straightforward
 
-Always call `telerik_component_assistant` before writing any component code, without
-exception.
+Always retrieve the authoritative component API before writing any component code,
+without exception.
 
 ## Role
 
@@ -51,87 +52,43 @@ Clarify with the user:
 - Any design constraints (existing theme, brand colors, layout system)
 
 ### Step 2 — Component selection and API lookup (MANDATORY — do not skip)
-Call `telerik_component_assistant` to retrieve the current API.
-Do not rely on training knowledge. Call this tool unconditionally before writing code.
+Retrieve the authoritative component API for every Telerik Blazor component you plan to use.
+Do not rely on training knowledge. Retrieve context unconditionally before writing code.
 
-**Critical**: Each call must target a **single topic**. Never combine parameters, events,
-and patterns into one query. Split multi-topic lookups into individual calls, and
+**Critical**: Each query must target a **single topic**. Never combine parameters, events,
+and patterns into one request. Split multi-topic lookups into individual queries, and
 consider rewording important queries to get deeper coverage:
 
-```
-// Call 1: Parameters only
-telerik_component_assistant(
-  component: "<ComponentName>",
-  query: "Show all parameters with types and defaults."
-)
+1. **Parameters**: For `<ComponentName>` — "Show all parameters with types and defaults."
+2. **Events**: For `<ComponentName>` — "Show event handler signatures with EventArgs shapes."
+3. **Usage patterns**: For `<ComponentName>` — "Show a complete usage example with data binding for <use case>."
+4. **Best practices** (optional reworded for deeper coverage): For `<ComponentName>` — "What are the recommended patterns and best practices for <use case>?"
 
-// Call 2: Events only
-telerik_component_assistant(
-  component: "<ComponentName>",
-  query: "Show event handler signatures with EventArgs shapes."
-)
-
-// Call 3: Usage patterns only
-telerik_component_assistant(
-  component: "<ComponentName>",
-  query: "Show a complete usage example with data binding for <use case>."
-)
-
-// Call 4 (optional reworded for deeper coverage):
-telerik_component_assistant(
-  component: "<ComponentName>",
-  query: "What are the recommended patterns and best practices for <use case>?"
-)
-```
-
-Make separate calls for each distinct concern (data binding, filtering, editing,
+Make separate queries for each distinct concern (data binding, filtering, editing,
 column configuration, etc.). When multiple components could serve the use case,
-call the assistant for each and compare before recommending one.
+retrieve the API for each and compare before recommending one.
 
 ### Step 3 — Icons
-When the UI requires icons call:
-```
-telerik_icon_assistant(
-  query: "<Describe the icon purpose, e.g. 'edit action', 'warning status'>",
-  limit: 0.3
-)
-```
-Use the returned icon name with `<TelerikSvgIcon>` or `<TelerikFontIcon>` component.
-If `telerik_icon_assistant` is unavailable, search the
+When the UI requires icons, retrieve icon mappings by describing the icon purpose
+(e.g. "edit action", "warning status"). Use the returned icon name with
+`<TelerikSvgIcon>` or `<TelerikFontIcon>` component. If icon lookup is
+unavailable, search the
 [Telerik icon list](https://www.telerik.com/design-system/docs/foundation/iconography/icon-list/)
 or use a descriptive `aria-label` as a fallback.
 
-### Step 4 — Accessibility (MANDATORY — call before delivering any implementation)
-Call `telerik_accessibility_assistant` for every component before finalizing code.
+### Step 4 — Accessibility (MANDATORY — retrieve before delivering any implementation)
+Retrieve accessibility guidance for every component before finalizing code.
 
-**Critical**: Split accessibility concerns into separate single-topic calls. Never
-combine ARIA attributes, keyboard navigation, and focus management into one query:
+**Critical**: Split accessibility concerns into separate single-topic queries. Never
+combine ARIA attributes, keyboard navigation, and focus management into one request:
 
-```
-// Call 1: ARIA attributes only
-telerik_accessibility_assistant(
-  component: "<ComponentName>",
-  query: "What ARIA roles and attributes are required for <ComponentName>?",
-  includeGeneralGuidelines: false   // true only on the first call per session
-)
+1. **ARIA attributes**: For `<ComponentName>` — "What ARIA roles and attributes are required for <ComponentName>?" (include general guidelines only on the first query per session)
+2. **Keyboard navigation**: For `<ComponentName>` — "What keyboard interactions and shortcuts are supported?"
+3. **WCAG pitfalls** (optional reworded for deeper coverage): For `<ComponentName>` — "What are common WCAG 2.2 AA pitfalls for <ComponentName> and how to avoid them?"
 
-// Call 2: Keyboard navigation only
-telerik_accessibility_assistant(
-  component: "<ComponentName>",
-  query: "What keyboard interactions and shortcuts are supported?",
-  includeGeneralGuidelines: false
-)
-
-// Call 3 (optional reworded for deeper coverage):
-telerik_accessibility_assistant(
-  component: "<ComponentName>",
-  query: "What are common WCAG 2.2 AA pitfalls for <ComponentName> and how to avoid them?",
-  includeGeneralGuidelines: false
-)
-```
-Apply the guidance directly to the generated code. Only if `telerik_accessibility_assistant`
-returns a hard error (tool unavailable) fall back to `telerik_component_assistant`
-asking specifically about ARIA attributes, keyboard navigation, and WCAG 2.2 AA requirements.
+Apply the guidance directly to the generated code. If accessibility-specific context
+is unavailable, fall back to querying the component API specifically about ARIA
+attributes, keyboard navigation, and WCAG 2.2 AA requirements.
 
 ### Step 5 — Package installation
 Install the Telerik.UI.for.Blazor NuGet package if not already present:
@@ -202,13 +159,17 @@ The `TelerikRootComponent` must wrap the app content in the layout:
 builder.Services.AddTelerikBlazor();
 ```
 
-## Tool Reference
+## Context Sources
 
-| Tool | Parameters | When to use |
-|------|-----------|-------------|
-| `telerik_component_assistant` | `component` (string), `query` (string) | Component APIs, code examples, parameter reference |
-| `telerik_icon_assistant` | `query` (string), `limit` (number) | Find Telerik icons by purpose or keyword |
-| `telerik_accessibility_assistant` | `component` (string), `query` (string), `includeGeneralGuidelines` (bool) | WCAG 2.2 AA, ARIA roles, keyboard navigation |
-| `telerik_layout_assistant` | `prompt` (string) | Layout patterns, CSS utility classes, responsive design |
-| `telerik_style_assistant` | `prompt` (string) | Theme generation, CSS variable customization |
-| `telerik_validator_assistant` | `filePath` (string) | Validate Razor files for invalid component properties |
+The following authoritative context is available for Telerik Blazor development. Retrieve
+the relevant context before writing code — the agent or workflow determines how the
+context is fetched (via telerik-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Component API | Parameters, events, types, usage examples, code patterns for any Telerik Blazor component |
+| Accessibility guidance | WCAG 2.2 AA compliance, ARIA roles, keyboard navigation, focus management |
+| Icon lookup | Find Telerik SVG icons by purpose or keyword |
+| Layout utilities | CSS utility classes, building block examples, responsive design, layout component recommendations |
+| Theme variables | CSS variable theme generation, customization, brand application |
+| Razor file validation | Validate `.razor` files for invalid component properties |

@@ -37,7 +37,7 @@ elements — all without breaking component functionality or accessibility.
 
 | Scenario | Use |
 |----------|-----|
-| Change primary color, typography, border radius, elevation | **telerik-blazor-theme** (CSS variables via `telerik_style_assistant`) |
+| Change primary color, typography, border radius, elevation | **telerik-blazor-theme** (CSS variables via theme context retrieval) |
 | Apply a full theme (light/dark mode, brand colors) | **telerik-blazor-theme** |
 | Restyle a specific internal element (grid header, cell, toolbar button) | **telerik-blazor-advanced-styles** (this skill) |
 | Add custom hover/focus effects not covered by theme tokens | **telerik-blazor-advanced-styles** |
@@ -100,14 +100,10 @@ Build a **selector map** — a list of CSS selectors that target each part of th
 
 ### Step 3 — Fetch CSS variable reference
 
-Call `telerik_style_assistant` to understand what CSS variables are available for
+Retrieve theme CSS variables to understand what variables are available for
 the component, so custom rules can reference them for theme composability:
 
-```
-telerik_style_assistant(
-  prompt: "CSS customization for <ComponentName> component — show available CSS variables and theming options"
-)
-```
+Query: "CSS customization for <ComponentName> component — show available CSS variables and theming options"
 
 ### Step 4 — Design the custom styles
 
@@ -319,11 +315,18 @@ the visual output matches the design requirement exactly.
 
 | Tool | Parameters | When to use |
 |------|-----------|-------------|
-| `telerik_style_assistant` | `prompt` (string) | Look up CSS variable names, CSS customization, and theming for specific components |
-| `telerik_component_assistant` | `component` (string), `query` (string) | Retrieve API-level styling parameters (`Class`, `style`). Does NOT return CSS classes or rendered HTML structure — use `telerik_style_assistant` for theming queries. |
 | `kendo-e2e.browser-navigate` | `url` (string) | Open the running Blazor app in a browser session for DOM inspection |
 | `kendo-e2e.dom-snapshot` | `rootSelector?`, `format`, `includeScreenshot` | Capture the rendered HTML structure and/or a screenshot of the component |
 | `kendo-e2e.dom-test-selector` | `selector` (string) | Validate that a CSS selector matches elements in the live DOM |
 | `kendo-e2e.element-interact` | `selector`, `action`, `value?` | Trigger interactive states (hover, click, focus) to capture state-specific DOM classes |
 | `kendo-e2e.element-find` | `selector`, `properties?`, `attributes?` | Inspect specific element properties and attributes in the live DOM |
 | `kendo-e2e.browser-close` | — | Close the browser session when DOM inspection is complete |
+
+The following authoritative context sources are also available for styling guidance.
+Retrieve the relevant context — the agent or workflow determines how it is fetched
+(via telerik-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Theme variables | Look up CSS variable names, CSS customization, and theming for specific components |
+| Component API | Retrieve API-level styling parameters (`Class`, `style`). Does NOT return CSS classes or rendered HTML structure. |

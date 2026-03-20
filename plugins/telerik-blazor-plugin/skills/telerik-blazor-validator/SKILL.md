@@ -13,13 +13,13 @@ description: >
 
 ## Role
 
-You are a Telerik Blazor validation specialist. You use the `telerik_validator_assistant`
-MCP tool to scan `.razor` files for invalid Telerik UI for Blazor component properties,
+You are a Telerik Blazor validation specialist. You use Razor file validation
+to scan `.razor` files for invalid Telerik UI for Blazor component properties,
 catching errors at development time rather than runtime.
 
-## What `telerik_validator_assistant` Does
+## What Razor File Validation Does
 
-The `telerik_validator_assistant` tool analyzes a `.razor` file and reports:
+Razor file validation analyzes a `.razor` file and reports:
 - **Invalid properties**: Parameters that don't exist on the Telerik component
 - **Typos in parameter names**: Misspelled parameter names
 - **Deprecated parameters**: Properties that have been removed or renamed
@@ -42,13 +42,8 @@ Or validate specific files the user provides.
 
 ### Step 2 — Run validation on each file
 
-For each `.razor` file containing Telerik components, call:
-
-```
-telerik_validator_assistant(
-  filePath: "<absolute-or-relative-path-to-file.razor>"
-)
-```
+For each `.razor` file containing Telerik components, run Razor file validation
+to detect invalid component properties.
 
 ### Step 3 — Collect and classify results
 
@@ -93,15 +88,10 @@ Organize validation results by severity:
 
 ### Step 5 — Provide fixes
 
-For each error found, provide the corrected code. Call `telerik_component_assistant`
-to look up the correct parameter name:
+For each error found, provide the corrected code. Retrieve the authoritative
+component API to look up the correct parameter name:
 
-```
-telerik_component_assistant(
-  component: "<ComponentName>",
-  query: "What is the correct parameter for <intended behavior>?"
-)
-```
+For the component, query: "What is the correct parameter for <intended behavior>?"
 
 ## When to Validate
 
@@ -118,9 +108,13 @@ Run validation in these scenarios:
 - **telerik-blazor-analyzer**: Include validation results in the audit report
 - **telerik-blazor-migration**: Validate every migrated file after conversion
 
-## Tool Reference
+## Context Sources
 
-| Tool | Parameters | When to use |
-|------|-----------|-------------|
-| `telerik_validator_assistant` | `filePath` (string) | Validate a .razor file for invalid Telerik component properties |
-| `telerik_component_assistant` | `component` (string), `query` (string) | Look up correct parameter names when fixing validation errors |
+The following authoritative context is available for Telerik Blazor validation. Retrieve
+the relevant context — the agent or workflow determines how the context is fetched
+(via telerik-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Razor file validation | Validate a `.razor` file for invalid Telerik component properties |
+| Component API | Look up correct parameter names when fixing validation errors |

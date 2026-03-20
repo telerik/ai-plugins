@@ -12,12 +12,13 @@ description: >
   between a third-party library and Telerik Blazor during an active migration.
 ---
 
-## MANDATORY RULE — No Code Without MCP
+## MANDATORY RULE — No Code Without Context Retrieval
 
-**Never write Telerik Blazor replacement code without first calling
-`telerik_component_assistant`.** Training knowledge of Telerik component APIs is stale.
-The MCP tool is the only authoritative source for parameter names, event signatures,
-and usage patterns. Call it unconditionally for every component being migrated.
+**Never write Telerik Blazor replacement code without first retrieving the
+authoritative component API.** Training knowledge of Telerik component APIs is stale.
+The authoritative Telerik API reference is the only source for parameter names, event
+signatures, and usage patterns. Retrieve context unconditionally for every component
+being migrated.
 
 ## Role
 
@@ -53,14 +54,10 @@ For each file, record:
 
 ### Step 2 — Map components to Telerik equivalents
 
-For each source component, call `telerik_component_assistant` to find the equivalent:
+For each source component, retrieve the authoritative API for the Telerik equivalent:
 
-```
-telerik_component_assistant(
-  component: "<TelerikEquivalent>",
-  query: "Show all parameters, events, and a complete usage example for <TelerikEquivalent>."
-)
-```
+For each component, query: "Show all parameters, events, and a complete usage example
+for <TelerikEquivalent>."
 
 ### Common Component Mappings
 
@@ -98,7 +95,7 @@ telerik_component_assistant(
 For each component being migrated:
 
 1. List the source component's parameters/events being used
-2. Call `telerik_component_assistant` for the Telerik equivalent
+2. Retrieve the authoritative component API for the Telerik equivalent
 3. Map each parameter to its Telerik counterpart
 4. Convert event handlers (EventCallback signatures may differ)
 5. Convert templates and render fragments
@@ -122,14 +119,14 @@ For each wave:
 3. Update `Program.cs` (replace source service registration with `builder.Services.AddTelerikBlazor()`)
 4. Add `<TelerikRootComponent>` wrapper in the main layout
 5. Update CSS imports (replace source theme with Telerik theme)
-6. Run `telerik_validator_assistant` on all modified `.razor` files to catch invalid properties
+6. Run Razor file validation on all modified `.razor` files to catch invalid properties
 7. Build and test
 
 ### Step 6 — Validate migration
 
 After each wave:
 - Build the project (`dotnet build`)
-- Run `telerik_validator_assistant` on all modified Razor files
+- Run Razor file validation on all modified Razor files
 - Run existing tests (if any)
 - Manually verify the UI renders correctly
 
@@ -144,7 +141,7 @@ After all waves:
 
 **One wave at a time.** Never migrate everything at once. Complete and verify each wave.
 
-**Validate with MCP.** After replacing each component, run `telerik_validator_assistant`
+**Validate after migration.** After replacing each component, run Razor file validation
 to catch invalid properties immediately.
 
 **Preserve behavior.** The migrated component must behave identically to the original.
@@ -152,10 +149,14 @@ Data binding, events, and user interactions must work the same way.
 
 **Test after each wave.** Run all available tests and manually verify the UI.
 
-## Tool Reference
+## Context Sources
 
-| Tool | Parameters | When to use |
-|------|-----------|-------------|
-| `telerik_component_assistant` | `component` (string), `query` (string) | Look up Telerik equivalent API for migration |
-| `telerik_validator_assistant` | `filePath` (string) | Validate migrated Razor files for invalid properties |
-| `telerik_accessibility_assistant` | `component` (string), `query` (string), `includeGeneralGuidelines` (bool) | Verify accessibility of migrated components |
+The following authoritative context is available for Telerik Blazor migration. Retrieve
+the relevant context before mapping — the agent or workflow determines how the
+context is fetched (via telerik-context-retriever delegation or direct tool calls).
+
+| Context | Covers |
+|---------|--------|
+| Component API | Look up Telerik equivalent API for migration |
+| Razor file validation | Validate migrated Razor files for invalid properties |
+| Accessibility guidance | Verify accessibility of migrated components |

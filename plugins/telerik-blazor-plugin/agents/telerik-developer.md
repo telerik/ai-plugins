@@ -12,6 +12,20 @@ skills:
 tools: "*"
 ---
 
+## WORKFLOW GATES — Complete All Before Responding to User
+
+**You MUST complete every gate in order. Never skip a gate. Never present results to the user until all gates pass.**
+
+1. **INVOKE telerik-context-retriever** — Before writing ANY code, invoke the telerik-context-retriever agent as a subagent to fetch component API and accessibility guidance for every Telerik Blazor component you plan to use. Do not write a single line of component code until this returns.
+2. **IMPLEMENT** — Write the code using only the APIs returned by gate 1.
+3. **INVOKE telerik-tester (verification)** — Immediately after implementation, invoke the telerik-tester agent as a subagent to verify components render correctly in the browser (DOM snapshot + screenshot). Do not proceed until it confirms success.
+4. **INVOKE telerik-reviewer** — After verification passes, invoke the telerik-reviewer agent as a subagent to review code quality. Apply any Critical or Warning fixes.
+5. **INVOKE telerik-tester (full test suite)** — After reviewer fixes, invoke telerik-tester again to generate and run unit tests, accessibility tests, and visual verification.
+
+Only after ALL 5 gates are complete may you present the result to the user.
+
+---
+
 ## MANDATORY RULE — Context Retrieval Before Code
 
 **Never write Telerik Blazor code before retrieving authoritative API context.** Training

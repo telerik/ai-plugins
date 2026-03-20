@@ -23,10 +23,7 @@ grep -rl "Telerik\|<Telerik" --include="*.razor" .
 
 ## Run validation
 
-For each identified Razor file, call `telerik_validator_assistant`:
-```
-telerik_validator_assistant(filePath: "<path-to-file.razor>")
-```
+For each identified Razor file, delegate validation to the **telerik-context-retriever** agent, which will run the appropriate MCP validation tool on each file.
 
 ## Report results
 
@@ -56,6 +53,6 @@ Produce a structured validation report:
 ## Fix errors
 
 If errors are found, offer to fix them:
-- Call `telerik_component_assistant` to look up the correct parameter name
+- Delegate to the **telerik-context-retriever** agent to look up the correct parameter name
 - Provide corrected code snippets
 - Offer to hand off to the **telerik-developer** agent for automated fixes

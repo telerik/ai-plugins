@@ -17,28 +17,14 @@ Read `package.json` to understand:
 
 If KendoReact is already configured, report what's installed and ask whether to add more packages or fix the existing setup.
 
-## Step 2: Call kendo_getting_started_assistant for authoritative setup guidance
+## Step 2: Retrieve authoritative setup guidance via kendo-context-retriever
 
-Call `kendo_getting_started_assistant` to get authoritative, version-accurate setup instructions for the detected environment:
+Delegate to the **kendo-context-retriever** agent to fetch authoritative, version-accurate setup instructions for the detected environment. The context-retriever will call the appropriate MCP tools and return project scaffolding guidance.
 
-```
-// Existing project
-kendo_getting_started_assistant(
-  createNewProject: false,
-  theme: "default" // or "bootstrap", "material", "fluent"
-)
-```
-
-For a new project with no `package.json`:
-
-```
-// New project
-kendo_getting_started_assistant(
-  createNewProject: true,
-  projectName: "<app-name>",
-  theme: "default" // or "bootstrap", "material", "fluent"
-)
-```
+Provide the context-retriever with:
+- Whether this is an existing project or a new project
+- The desired theme (`"default"`, `"bootstrap"`, `"material"`, or `"fluent"`)
+- For new projects: the project name
 
 > Note: `theme` accepts only `"default"`, `"bootstrap"`, `"material"`, or `"fluent"`.
 > The `classic` theme is not supported by this tool — set to `"default"` and swap the

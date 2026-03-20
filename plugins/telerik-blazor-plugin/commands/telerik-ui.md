@@ -7,36 +7,20 @@ allowed-tools: "*"
 
 Orchestrate a complete Telerik UI for Blazor development workflow to accomplish the user's requirement.
 
-## Routing
+## Workflow Gates — Complete All Before Responding to User
 
-Analyze the user's requirement and hand off to the appropriate agent:
+**You MUST complete every gate in order. Never skip a gate. Never present results to the user until all gates pass.**
 
-### Building new UI components or features
-Hand off to the **telerik-developer** agent with the user's requirement. The agent uses the telerik-blazor-developer, telerik-blazor-layout, and telerik-blazor-theme skills along with MCP tools to implement the feature.
+1. **CHECK SETUP** — Check `.csproj` to determine if Telerik is already installed. If not, hand off to the **telerik-setup** command first.
+2. **INVOKE telerik-developer** — Hand off the user's requirement (`$ARGUMENTS`) to the **telerik-developer** agent. The agent retrieves authoritative API context, implements the feature using Telerik UI for Blazor, and produces production-quality code.
+3. **INVOKE telerik-tester** — After telerik-developer completes, hand off to the **telerik-tester** agent with all files created or modified. The agent writes and runs unit tests, accessibility tests, validates Razor files, and takes browser screenshots to verify correctness.
+4. **FIX ISSUES** — If telerik-tester reports any test failures, validation errors, accessibility violations, or visual defects, invoke the **telerik-developer** agent again with the specific issues to fix. Then re-invoke **telerik-tester** to verify the fixes. Repeat this loop until all tests and visual verification pass with zero failures.
+5. **INVOKE telerik-custom-stylist (if styling needed)** — If the user's requirement includes specific visual design, pixel-perfect styling, or custom look-and-feel beyond default theming, hand off to the **telerik-custom-stylist** agent to inspect the live DOM, design targeted CSS, and visually verify the result. If no custom styling was requested, skip this gate.
 
-### Analyzing or fixing existing Telerik Blazor code
-Hand off to the **telerik-reviewer** agent. The agent uses the telerik-blazor-analyzer skill and MCP tools to audit and fix the code.
+Only after ALL applicable gates are complete may you present the final result to the user.
 
-### Theming and design customization
-Hand off to the **telerik-developer** agent with a theming focus. For advanced DOM-level styling, hand off to the **telerik-custom-stylist** agent.
-
-### Testing
-Hand off to the **telerik-tester** agent. The agent uses the telerik-blazor-testing skill.
-
-### Compliance enforcement
-Hand off to the **telerik-reviewer** agent for a compliance audit using the telerik-blazor-analyzer skill.
-
-### Validating Razor files
-Hand off to the **telerik-tester** agent with a validation focus, or directly use `telerik_validator_assistant`.
-
-### Advanced / deeply custom styling
-Hand off to the **telerik-custom-stylist** agent. The agent inspects the live DOM, writes targeted CSS, and guides visual verification.
-
-### Migrating from another Blazor UI library
-Hand off to the **telerik-migrator** agent. The agent orchestrates the full migration workflow.
-
-## Context to provide the agent
+## Context to provide each agent
 
 - The user's requirement from `$ARGUMENTS`
 - If no argument was provided, ask the user: "What would you like to build? Describe the UI requirement, component, or feature."
-- Check `.csproj` to determine if Telerik is already installed. If not, hand off to the **telerik-setup** command first.
+- Pass all file paths created or modified by the previous agent to the next agent in the chain
