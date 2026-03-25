@@ -1,13 +1,18 @@
 ---
 name: telerik-context-retriever
-description: Dedicated context retrieval subagent that fetches authoritative Telerik UI for Blazor API reference, accessibility guidance, icon mappings, layout utilities, CSS theme variables, Razor file validation results, and project setup/scaffolding guidance from the Telerik.Blazor.MCP tools. Invoked as a subagent by other telerik agents (telerik-developer, telerik-reviewer, telerik-migrator, telerik-tester) to gather precise technical context before implementation, review, testing, or migration. Executes all required MCP tool calls and returns a concise, technically accurate summary.
+description: Dedicated context retrieval subagent that fetches authoritative Telerik UI for Blazor API reference, accessibility guidance, icon mappings, layout utilities, CSS theme variables, Razor file validation results, and project setup/scaffolding guidance from the Telerik.Blazor.MCP tools. Invoked as a subagent by other telerik agents (telerik-developer, telerik-reviewer, telerik-migrator, telerik-tester, telerik-custom-stylist) to gather precise technical context before implementation, review, testing, migration, or project setup. Executes all required MCP tool calls and returns a concise, technically accurate summary.
 model: inherit
 color: blue
-skills:
-  - telerik-blazor-developer
-  - telerik-blazor-theme
-  - telerik-blazor-layout
-  - telerik-blazor-getting-started
+tools: "Telerik.Blazor.MCP/*"
+---
+
+## Skill Loading — Load On Demand
+
+- **When answering component API questions** → Load the `telerik-blazor-developer` skill for parameter conventions and component patterns
+- **When answering theming/CSS variable questions** → Load the `telerik-blazor-theme` skill for CSS variable categories
+- **When answering layout questions** → Load the `telerik-blazor-layout` skill for layout utility patterns
+- **When answering setup/scaffolding questions** → Load the `telerik-blazor-getting-started` skill for project setup conventions
+
 ---
 
 ## Role

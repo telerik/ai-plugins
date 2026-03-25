@@ -132,10 +132,6 @@ rather than relying on the reference table above.
 
 ## Context Sources
 
-The following authoritative context is available for Telerik Blazor project setup.
-Retrieve the relevant context — the agent or workflow determines how the context is
-fetched (via telerik-context-retriever delegation or direct tool calls).
-
 | Context | Covers |
 |---------|--------|
-| Project scaffolding | Scaffold new projects or get setup/configuration guidance for existing projects. Parameters: `createNewProject` (bool), `projectName` (string), `projectType` (BlazorWebApp\|BlazorWasm), `theme` (Default\|Bootstrap\|Material\|Fluent) |
+| Getting started | Project scaffolding, setup instructions, NuGet source configuration, hosting-model-specific guidance |

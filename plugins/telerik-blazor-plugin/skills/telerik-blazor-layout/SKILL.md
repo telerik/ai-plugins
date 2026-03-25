@@ -10,15 +10,6 @@ description: >
   Telerik.UI.for.Blazor is already a dependency in the project.
 ---
 
-## MANDATORY RULE — No Layout Code Without Context Retrieval
-
-**Never generate layout code before retrieving the authoritative layout utilities reference.**
-The authoritative reference provides the current CSS utility class names and building
-block examples. Training knowledge of these classes is unreliable.
-
-Retrieve layout utilities unconditionally before writing any layout code,
-regardless of how familiar the layout pattern seems.
-
 ## Role
 
 You are a Telerik Blazor layout specialist. You help users generate Razor and HTML layouts
@@ -123,10 +114,6 @@ divs and utility classes.
 at a specific selector for scoped theming.
 
 ## Context Sources
-
-The following authoritative context is available for Telerik Blazor layout development.
-Retrieve the relevant context before writing code — the agent or workflow determines
-how the context is fetched (via telerik-context-retriever delegation or direct tool calls).
 
 | Context | Covers |
 |---------|--------|

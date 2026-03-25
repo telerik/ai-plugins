@@ -2,6 +2,16 @@
 
 A Claude Code plugin that enforces exclusive use of Telerik UI for Blazor and the Progress Design System in Blazor applications. Provides AI-powered development workflows covering component implementation, layout, theming, code auditing, accessibility, property validation, and compliance enforcement.
 
+## Architecture
+
+The plugin follows a 3-layer separation of concerns:
+
+1. **Agents** (orchestration) — Own workflow gates, agent handoffs, and user interaction. Agents have zero built-in Telerik Blazor knowledge and load skills on demand.
+2. **telerik-context-retriever** (knowledge gateway) — The single agent that calls `Telerik.Blazor.MCP` tools. All other agents delegate MCP queries to it.
+3. **Skills** (domain patterns) — Pure reference knowledge: component patterns, selector maps, test templates, migration mappings. No workflow orchestration, no MCP tool calls.
+
+Agents reference skills via body-text instructions (e.g., "Load `telerik-blazor-developer` skill when implementing components") rather than frontmatter declarations.
+
 ## Features
 
 ### Skills
@@ -123,7 +133,7 @@ Skills activate based on context — no manual invocation needed:
 | `telerik_component_assistant` | API docs, parameter reference, and code examples for all Telerik Blazor components |
 | `telerik_style_assistant` | Theme generation and CSS variable customization |
 | `telerik_icon_assistant` | Find Telerik SVG icons by purpose or keyword |
-| `telerik_accessibility_assistant` | WCAG 2.1 AA compliance, ARIA roles, keyboard navigation guidance |
+| `telerik_accessibility_assistant` | WCAG 2.2 AA compliance, ARIA roles, keyboard navigation guidance |
 | `telerik_layout_assistant` | Layout patterns and responsive design with Telerik layout components |
 | `telerik_getting_started_assistant` | Scaffold new Blazor projects with Telerik pre-configured, setup guidance |
 | `telerik_validator_assistant` | Validate Razor files for invalid Telerik component properties |

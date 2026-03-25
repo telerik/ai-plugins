@@ -12,12 +12,6 @@ description: >
   components.
 ---
 
-## MANDATORY RULE — No CSS Variables Without Context Retrieval
-
-**Never write Telerik CSS variable overrides without first retrieving the authoritative theme reference.**
-CSS variable names and their semantics change between Telerik versions. Training
-knowledge of these variables is unreliable. Always retrieve theme context unconditionally.
-
 ## Role
 
 You are a Telerik Blazor theming specialist. You use theme context retrieval to generate
@@ -177,10 +171,6 @@ JavaScript interop for dynamic theming.
 typography unless the user explicitly wants to adjust density or corner shape.
 
 ## Context Sources
-
-The following authoritative context is available for Telerik Blazor theming. Retrieve
-the relevant context before writing CSS variables — the agent or workflow determines
-how the context is fetched (via telerik-context-retriever delegation or direct tool calls).
 
 | Context | Covers |
 |---------|--------|

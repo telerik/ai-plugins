@@ -110,10 +110,6 @@ Run validation in these scenarios:
 
 ## Context Sources
 
-The following authoritative context is available for Telerik Blazor validation. Retrieve
-the relevant context — the agent or workflow determines how the context is fetched
-(via telerik-context-retriever delegation or direct tool calls).
-
 | Context | Covers |
 |---------|--------|
 | Razor file validation | Validate a `.razor` file for invalid Telerik component properties |
