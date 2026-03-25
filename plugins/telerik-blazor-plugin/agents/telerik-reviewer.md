@@ -6,7 +6,6 @@ color: cyan
 skills:
   - telerik-blazor-analyzer
   - telerik-blazor-validator
-tools: "*"
 ---
 
 ## WORKFLOW GATES — Complete All Before Responding to User

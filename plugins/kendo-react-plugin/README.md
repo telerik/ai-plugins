@@ -2,6 +2,16 @@
 
 A Claude Code plugin that enforces exclusive use of KendoReact and the Progress Design System in React applications. Provides AI-powered development workflows covering component implementation, layout, theming, code auditing, accessibility, E2E testing, and compliance enforcement.
 
+## Architecture
+
+The plugin follows a 3-layer separation of concerns:
+
+1. **Agents** (orchestration) — Own workflow gates, agent handoffs, and user interaction. Agents have zero built-in KendoReact knowledge and load skills on demand.
+2. **kendo-context-retriever** (knowledge gateway) — The single agent that calls `kendo-react-mcp` tools. All other agents delegate MCP queries to it.
+3. **Skills** (domain patterns) — Pure reference knowledge: component patterns, selector maps, test templates, migration mappings. No workflow orchestration, no MCP tool calls.
+
+Agents reference skills via body-text instructions (e.g., "Load `kendo-react-developer` skill when implementing components") rather than frontmatter declarations.
+
 ## Features
 
 ### Skills
@@ -23,7 +33,7 @@ A Claude Code plugin that enforces exclusive use of KendoReact and the Progress 
 | Agent | Purpose |
 |-------|---------|
 | **kendo-reviewer** | Reviews KendoReact code for correctness, prop usage, theming, accessibility, and performance |
-| **kendo-developer** | Senior development agent that orchestrates all KendoReact skills and MCP tools to build production-quality features |
+| **kendo-developer** | Senior React development agent that uses exclusively KendoReact components. Orchestrates context retrieval, implementation, testing, and review via agent handoffs |
 | **kendo-tester** | QA agent that runs unit, E2E, accessibility, and visual regression tests on KendoReact code; loops kendo-developer to fix failures |
 | **kendo-custom-stylist** | Advanced styling agent that inspects live DOM, designs targeted CSS for Kendo component internals, and self-verifies with screenshots in an automated loop |
 | **kendo-migrator** | Migration architect that conducts thorough discovery, analyzes source projects, plans wave-by-wave migration from any UI library to KendoReact, executes and validates each wave |
@@ -113,7 +123,7 @@ Skills activate based on context — no manual invocation needed:
 | `kendo_component_assistant` | API docs, prop reference, and code examples for all KendoReact components |
 | `kendo_style_assistant` | Theme generation and CSS variable customization |
 | `kendo_icon_assistant` | Find Telerik SVG icons by purpose or keyword |
-| `kendo_accessibility_assistant` | WCAG 2.1 AA compliance, ARIA roles, keyboard navigation guidance |
+| `kendo_accessibility_assistant` | WCAG 2.2 AA compliance, ARIA roles, keyboard navigation guidance |
 | `kendo_layout_assistant` | Layout patterns and responsive design with KendoReact layout components |
 
 ### kendo-e2e (`@progress/kendo-e2e`)

@@ -8,7 +8,6 @@ skills:
   - telerik-blazor-theme
   - telerik-blazor-layout
   - telerik-blazor-getting-started
-tools: "*"
 ---
 
 ## Role

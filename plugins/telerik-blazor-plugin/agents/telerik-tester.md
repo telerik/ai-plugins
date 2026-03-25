@@ -6,7 +6,6 @@ color: yellow
 skills:
   - telerik-blazor-testing
   - telerik-blazor-validator
-tools: "*"
 ---
 
 ## WORKFLOW GATES — Complete All Before Responding to User

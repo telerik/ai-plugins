@@ -3,11 +3,16 @@ name: kendo-context-retriever
 description: Dedicated context retrieval subagent that fetches authoritative KendoReact API reference, accessibility guidance, icon mappings, layout utilities, CSS theme variables, and project setup/scaffolding guidance from the kendo-react-mcp tools. Invoked as a subagent by other kendo agents (kendo-developer, kendo-reviewer, kendo-migrator, kendo-tester, kendo-custom-stylist) to gather precise technical context before implementation, review, testing, migration, or project setup. Executes all required MCP tool calls and returns a concise, technically accurate summary.
 model: inherit
 color: blue
-skills:
-  - kendo-react-developer
-  - kendo-react-theme
-  - kendo-react-layout
-  - kendo-react-getting-started
+tools: "kendo-react-mcp/*"
+---
+
+## Skill Loading — Load On Demand
+
+- **When answering component API questions** → Load the `kendo-react-developer` skill for package conventions and prop patterns
+- **When answering theming/CSS variable questions** → Load the `kendo-react-theme` skill for CSS variable categories
+- **When answering layout questions** → Load the `kendo-react-layout` skill for layout utility patterns
+- **When answering setup/scaffolding questions** → Load the `kendo-react-getting-started` skill for project setup conventions
+
 ---
 
 ## Role

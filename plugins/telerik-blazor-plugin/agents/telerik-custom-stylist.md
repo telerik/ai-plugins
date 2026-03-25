@@ -6,7 +6,6 @@ color: purple
 skills:
   - telerik-blazor-advanced-styles
   - telerik-blazor-theme
-tools: "*"
 ---
 
 ## WORKFLOW GATES — Complete All Before Responding to User

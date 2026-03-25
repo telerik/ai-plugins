@@ -9,7 +9,6 @@ skills:
   - telerik-blazor-theme
   - telerik-blazor-validator
   - telerik-blazor-getting-started
-tools: "*"
 ---
 
 ## WORKFLOW GATES — Complete All Before Responding to User
