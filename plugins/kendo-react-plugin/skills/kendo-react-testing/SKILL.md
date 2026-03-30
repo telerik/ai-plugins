@@ -1,20 +1,23 @@
 ---
 name: kendo-react-testing
 description: >
-  Use this skill when writing tests for KendoReact components, setting up a
-  KendoReact test environment, selecting the right testing library, or applying
-  test patterns for specific KendoReact components. Trigger when the user mentions
-  "unit test KendoReact", "how to test KendoReact Grid", "set up testing for my
-  Kendo app", "test a KendoReact form", "mock KendoReact components", "add
-  accessibility tests for Kendo", or asks about testing patterns for any
-  @progress/kendo-react-* component. Also trigger when kendo-tester needs
-  component-specific guidance on assertions or test structure.
+  Use this skill when writing unit tests or E2E tests for React components,
+  setting up a test environment, selecting the right testing library, or applying
+  test patterns for specific component types. Trigger when the user mentions
+  "unit test", "E2E test", "write tests", "test setup", "mock components",
+  "accessibility tests", or when an agent needs guidance on test structure,
+  assertions, and patterns for React components. This skill covers test writing
+  only — for browser automation and DOM inspection, load the `kendo-e2e` skill.
 ---
 
 ## Role
 
-You are a KendoReact testing expert. You provide authoritative guidance on test
-setup, patterns, and strategies specifically for `@progress/kendo-react-*` components.
+This skill teaches an agent how to write unit tests and E2E tests for React
+components. It covers test environment setup, component-specific test patterns,
+mocking strategies, and test organization.
+
+For browser-level operations (DOM snapshotting, screenshot capture, selector
+validation, live page interaction), load the `kendo-e2e` skill instead.
 
 ---
 
@@ -61,18 +64,18 @@ import { toHaveNoViolations } from 'jest-axe';
 expect.extend(toHaveNoViolations);
 ```
 
-### Theme in tests
+### CSS/Theme imports in tests
 
-KendoReact components require a theme to render without warnings. Import in `test-setup.ts`:
+If components require CSS or theme imports to render without warnings, add them to `test-setup.ts`:
 
 ```ts
-import '@progress/kendo-theme-default/dist/all.css';
+import 'your-theme-or-css-file.css';
 ```
 
 Or mock CSS imports if they cause issues:
 
 ```ts
-vi.mock('@progress/kendo-theme-default/dist/all.css', () => ({}));
+vi.mock('your-theme-or-css-file.css', () => ({}));
 ```
 
 ---
@@ -83,7 +86,7 @@ vi.mock('@progress/kendo-theme-default/dist/all.css', () => ({}));
 
 ```tsx
 it('renders without crashing', () => {
-  const { container } = render(<MyKendoComponent />);
+  const { container } = render(<MyComponent />);
   expect(container).toBeTruthy();
 });
 ```
@@ -94,7 +97,7 @@ it('renders without crashing', () => {
 it('calls onChange with the new value', async () => {
   const onChange = vi.fn();
   const user = userEvent.setup();
-  render(<Input value="" onChange={onChange} />);
+  render(<MyInput value="" onChange={onChange} />);
   await user.type(screen.getByRole('textbox'), 'Hello');
   expect(onChange).toHaveBeenCalled();
 });
@@ -107,9 +110,7 @@ import { axe, toHaveNoViolations } from 'jest-axe';
 expect.extend(toHaveNoViolations);
 
 it('has no accessibility violations', async () => {
-  const { container } = render(
-    <DropDownList data={['Option A', 'Option B']} value="Option A" onChange={() => {}} />
-  );
+  const { container } = render(<MyComponent />);
   const results = await axe(container);
   expect(results).toHaveNoViolations();
 });
@@ -119,24 +120,20 @@ it('has no accessibility violations', async () => {
 
 ## Component-Specific Patterns
 
-> **IMPORTANT**: The patterns below are structural examples for illustration purposes only.
-> Exact prop names, event signatures, and event object shapes **must** be verified via
-> kendo-context-retriever before writing any assertions.
+> **IMPORTANT**: The patterns below are structural examples. Exact prop names, event
+> signatures, and event object shapes **must** be verified against the component's
+> API reference (from injected context) before writing any assertions.
 
-### Data Grid
+### Data Grid / Table
 
 ```tsx
 it('renders all data rows', () => {
-  render(
-    <Grid data={data}>
-      <GridColumn field="name" title="Name" />
-    </Grid>
-  );
+  render(<MyGrid data={data} />);
   expect(screen.getByText('Product A')).toBeInTheDocument();
 });
 ```
 
-Notes: Use fixed height for virtualisation tests. Check state change events on filter/sort/page.
+Notes: Use fixed height for virtualization tests. Check state change events on filter/sort/page.
 
 ### Form & Input
 
@@ -144,29 +141,22 @@ Notes: Use fixed height for virtualisation tests. Check state change events on f
 it('shows validation error on invalid submit', async () => {
   const user = userEvent.setup();
   const onSubmit = vi.fn();
-  render(
-    <Form onSubmit={onSubmit} render={(formRenderProps) => (
-      <FormElement>
-        <Field name="email" component={Input} validator={(v) => v ? '' : 'Required'} />
-        <button type="submit" disabled={!formRenderProps.allowSubmit}>Submit</button>
-      </FormElement>
-    )} />
-  );
+  render(<MyForm onSubmit={onSubmit} />);
   await user.click(screen.getByRole('button', { name: 'Submit' }));
   expect(screen.getByText('Required')).toBeInTheDocument();
 });
 ```
 
-### Selection/Dropdown
+### Selection / Dropdown
 
 ```tsx
 it('calls onChange with the selected value', async () => {
   const onChange = vi.fn();
   const user = userEvent.setup();
-  render(<DropDownList data={sports} value={sports[0]} onChange={onChange} />);
+  render(<MyDropdown data={items} value={items[0]} onChange={onChange} />);
   await user.click(screen.getByRole('combobox'));
-  await user.click(screen.getByText('Basketball'));
-  expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ value: 'Basketball' }));
+  await user.click(screen.getByText('Option B'));
+  expect(onChange).toHaveBeenCalled();
 });
 ```
 
@@ -175,19 +165,19 @@ it('calls onChange with the selected value', async () => {
 Some date/time components render multiple segmented inputs. Target specific segments
 with `getByRole` + `name`.
 
-### Dialog/Overlay
+### Dialog / Overlay
 
 ```tsx
 it('calls onClose when escape key is pressed', async () => {
   const onClose = vi.fn();
   const user = userEvent.setup();
-  render(<Dialog title="Test" onClose={onClose}><p>Content</p></Dialog>);
+  render(<MyDialog title="Test" onClose={onClose}><p>Content</p></MyDialog>);
   await user.keyboard('{Escape}');
   expect(onClose).toHaveBeenCalled();
 });
 ```
 
-### Chart/Visualization
+### Chart / Visualization
 
 Charts render SVG. Use `container.querySelector('svg')` to verify rendering.
 Charts may render asynchronously — use `waitFor` or `findByRole`.
@@ -204,13 +194,13 @@ vi.mock('../api/products', () => ({
 }));
 ```
 
-### Mock KendoReact module (partial)
+### Partial module mock
 
 Only mock the minimum. Prefer real renders:
 
 ```tsx
-vi.mock('@progress/kendo-react-grid', async () => {
-  const actual = await vi.importActual('@progress/kendo-react-grid');
+vi.mock('some-library', async () => {
+  const actual = await vi.importActual('some-library');
   return { ...actual };
 });
 ```

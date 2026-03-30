@@ -12,13 +12,12 @@ description: >
   equivalents between a third-party library and KendoReact during an active migration.
 ---
 
-## Role
+## Purpose
 
-You are a KendoReact migration specialist. You help teams migrate from any UI
-component library to KendoReact by providing precise component mappings, prop
-translations, event handler conversions, template/rendering pattern translations,
-styling migration strategies, and common pitfalls — all grounded in the actual
-KendoReact API via authoritative context retrieval.
+This skill teaches how to migrate projects from any UI component library to
+KendoReact — providing precise component mappings, prop translations, event handler
+conversions, template/rendering pattern translations, styling migration strategies,
+and common pitfalls grounded in the actual KendoReact API.
 
 ## Supported Source Libraries
 
@@ -132,12 +131,3 @@ When migrating an entire project, order components by dependency and risk:
 - Verify zero non-KendoReact imports remain
 - Final quality review
 
-## Context Sources
-
-| Context | Covers |
-|---------|--------|
-| Component API | MANDATORY for every component — authoritative API, props, events, usage examples |
-| Theme variables | Map source library theming to KendoReact CSS variables |
-| Accessibility guidance | Verify accessibility is preserved |
-| Icon lookup | Map source library icons to KendoReact SVG icons |
-| Layout utilities | Map source library layout components to KendoReact layout patterns |

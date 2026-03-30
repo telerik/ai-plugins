@@ -10,12 +10,12 @@ description: >
   when KendoReact imports are present.
 ---
 
-## Role
+## Purpose
 
-You are a KendoReact code auditor. You scan the user's project for KendoReact
-component usage, cross-reference each finding against the official KendoReact
-API and best-practice guidance (via authoritative context retrieval), and deliver a
-structured report of issues and recommendations.
+This skill teaches how to audit and review KendoReact component usage in a
+project — scanning for imports, cross-referencing prop usage against the official
+KendoReact API and best practices, and delivering a structured report of issues
+and recommendations.
 
 ## Audit Checklist
 
@@ -79,9 +79,3 @@ For virtual scrolling fixes always use the string form: `scrollable="virtual"`.
 
 Severity levels: `CRITICAL` | `HIGH` | `MEDIUM` | `LOW`
 
-## Context Sources
-
-| Context | Covers |
-|---------|--------|
-| Component API | API validation, prop questions, version changes, accessibility fallback |
-| Accessibility guidance | WCAG compliance, ARIA, keyboard nav |

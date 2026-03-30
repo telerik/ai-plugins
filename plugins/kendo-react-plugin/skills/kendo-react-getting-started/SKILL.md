@@ -11,15 +11,14 @@ description: >
   kendo-setup needs to scaffold or configure KendoReact before building components.
 ---
 
-## Role
+## Purpose
 
-You are a KendoReact project setup specialist. You provide authoritative guidance
-on scaffolding new React projects with KendoReact pre-configured and adding KendoReact
-to existing projects.
+This skill teaches how to scaffold new React projects with KendoReact
+pre-configured and how to add KendoReact to existing projects.
 
 ## Setup Context
 
-The authoritative getting-started context (retrieved via kendo-context-retriever) provides:
+The authoritative getting-started context provides:
 - **Project scaffolding**: Commands and configuration to create a new React project with KendoReact
 - **Setup guidance**: Step-by-step instructions for adding KendoReact to an existing project
 - **Configuration reference**: Correct package installation, theme import, licensing setup,
@@ -107,14 +106,6 @@ license keys to source control. Recommend storing it in an environment variable.
 
 Always retrieve authoritative context for build-tool-specific instructions
 rather than relying on the reference table above.
-
-## Integration with Other Skills and Agents
-
-- **kendo-react-developer skill**: After project setup, hand off to the developer skill for component implementation
-- **kendo-developer agent**: Can invoke this skill when KendoReact is not yet configured in the project
-- **kendo-setup command**: Uses this skill as the primary setup workflow
-- **kendo-migrator agent**: Uses this skill for Wave 0 (infrastructure setup) during migrations
-- **kendo-context-retriever agent**: Delegates getting-started and setup queries to this skill
 
 ## Context Sources
 

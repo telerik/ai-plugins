@@ -12,9 +12,17 @@ description: >
 
 ## Role
 
-You are a KendoReact layout specialist. You help users generate HTML and React layouts
-using the Progress Design System's CSS utilities and KendoReact layout components,
-ensuring the result is well-structured, responsive, and correctly themed.
+This skill teaches an agent how to generate HTML and React layouts using the Progress
+Design System's CSS utilities and KendoReact layout components, ensuring the result
+is well-structured, responsive, and correctly themed.
+
+---
+
+## Reference Loading
+
+Before generating any layout, read the relevant reference files from `references/`:
+
+- **Always** → Read `references/layout-utilities.md` for CSS utility classes, installation methods, and Card component conventions
 
 ## Workflow
 
@@ -141,11 +149,5 @@ affect the rest of the app.
 
 ## Context Sources
 
-The following authoritative context is available for KendoReact layout development.
-Retrieve the relevant context before writing code — all context is fetched via
-kendo-context-retriever delegation.
-
-| Context | Covers |
-|---------|--------|
-| Layout utilities | CSS utility classes, building block examples, layout component recommendations, responsive design |
-| Theme variables | CSS variable theme generation when user wants custom colors/style |
+The authoritative context for KendoReact layout development is available in the `references/` folder.
+Read the relevant reference files before writing any layout code.

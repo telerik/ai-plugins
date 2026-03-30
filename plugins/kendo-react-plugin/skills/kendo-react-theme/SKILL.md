@@ -14,9 +14,19 @@ description: >
 
 ## Role
 
-You are a KendoReact theming specialist. You use theme context retrieval to generate
-a complete set of CSS custom properties that control every aspect of a KendoReact
-application's visual style — colors, typography, spacing, shape, and elevation.
+This skill teaches an agent how to theme, restyle, and visually customize KendoReact
+applications using CSS custom properties that control colors, typography, spacing,
+shape, and elevation.
+
+---
+
+## Reference Loading
+
+Before applying any theme changes, read the relevant reference files from `references/`:
+
+- **Always** → Read `references/suite-identity.md` for available themes and theme package names
+- **When applying CSS variables** → Read `references/styling-theming.md` for the 4 CSS variable application methods
+- **When using icons** → Read `references/icons.md` for SVG/font icon packages and common icon reference
 
 ## What theme context retrieval returns
 
@@ -186,10 +196,5 @@ typography unless the user explicitly wants to adjust density or corner shape.
 
 ## Context Sources
 
-The following authoritative context is available for KendoReact theming. Retrieve
-the relevant context before writing CSS variables — all context is fetched via
-kendo-context-retriever delegation.
-
-| Context | Covers |
-|---------|--------|
-| Theme variables | Generate CSS variable theme from a natural language description |
+The authoritative context for KendoReact theming is available in the `references/` folder.
+Read the relevant reference files before writing any CSS variables or theme overrides.

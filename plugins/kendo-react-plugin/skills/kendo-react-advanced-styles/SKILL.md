@@ -14,12 +14,12 @@ description: >
   just CSS variable tokens.
 ---
 
-## Role
+## Purpose
 
-You are a KendoReact advanced styling specialist. You work at the intersection of
-the KendoReact component rendering layer and CSS authoring. Your job is to produce
-clean, maintainable CSS that targets KendoReact component internals — all without
-breaking component functionality or accessibility.
+This skill teaches advanced CSS styling techniques for KendoReact component
+internals — targeting rendered DOM elements, state classes, and internal structure
+to produce clean, maintainable CSS without breaking component functionality or
+accessibility.
 
 ## When to Use This Skill vs kendo-react-theme
 
@@ -36,7 +36,7 @@ breaking component functionality or accessibility.
 
 A **selector map** is the foundation of every advanced styling task. Before writing
 any CSS, build a map of CSS selectors for each element to style. The selector map
-must come from live DOM inspection (via kendo-tester / kendo-e2e), never from memory.
+must come from live DOM inspection (via the kendo-e2e skill), never from memory.
 
 For each target element, record:
 - **Root element**: The component's outermost container and its classes (e.g., `.k-grid`, `.k-datepicker`)
