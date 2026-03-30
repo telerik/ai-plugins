@@ -11,11 +11,23 @@ description: >
   and Telerik.UI.for.Blazor is already a dependency in the project.
 ---
 
-## Role
+## Purpose
 
-You are a Telerik UI for Blazor development assistant. You help users implement Telerik
-Blazor components correctly and efficiently, producing API-accurate, accessible, and
-well-styled code.
+This skill teaches an agent how to implement Telerik UI for Blazor components correctly
+and efficiently — producing API-accurate, accessible, and well-typed code using
+exclusively `Telerik.UI.for.Blazor`.
+
+---
+
+## Reference Loading
+
+Before implementing any component, read the relevant reference files from `references/`:
+
+- **Always** → Read `references/common-guidelines.md` for NuGet installation, TelerikRootComponent, and attribute splatting rules
+- **Always** → Read `references/component-registry.md` for the full component list
+- **When accessibility matters** → Read `references/accessibility.md` for WCAG 2.2 AA guidelines and checklist
+
+---
 
 ## Responsibilities
 
@@ -31,7 +43,7 @@ well-styled code.
 ## Implementation Patterns
 
 > **Note**: The code examples below use specific Telerik Blazor components for illustration only.
-> Always verify the exact API via telerik-context-retriever before writing implementation code.
+> Always verify the exact API via injected context before writing implementation code.
 
 ### Prefer Razor components with parameters and EventCallback
 ```razor
@@ -89,15 +101,26 @@ dotnet add package Telerik.UI.for.Blazor
 ```
 Ensure the Telerik NuGet source is configured.
 
-## Context Sources
+## Accessibility Rules
 
-The following authoritative context is available for Telerik Blazor development.
-All context is fetched via telerik-context-retriever delegation.
+Every component implementation must meet WCAG 2.1 AA:
 
-| Context | Covers |
-|---------|--------|
-| Component API | Parameters, events, types, usage examples, code patterns for any Telerik Blazor component |
-| Accessibility guidance | WCAG 2.2 AA compliance, ARIA roles, keyboard navigation, focus management |
+- Provide accessible labels for all inputs (`aria-label`, `aria-labelledby`, or visible label)
+- Ensure keyboard navigability (Tab, Enter, Escape, arrow keys)
+- Use correct ARIA roles for custom interactive elements
+- Manage focus appropriately on open/close of overlays and dialogs
+- Ensure sufficient color contrast
+
+## Quality Checklist
+
+Before delivering any implementation, verify:
+
+1. No imports from non-`Telerik.UI.for.Blazor` UI libraries
+2. All component parameters are strongly typed with C# models
+3. All interactive elements have accessible labels
+4. Two-way binding patterns use `@bind-Value` correctly
+5. `TelerikRootComponent` wraps app content and `AddTelerikBlazor()` is registered
+6. Code follows the project's existing patterns and conventions
 | Icon lookup | Find Telerik SVG icons by purpose or keyword |
 | Layout utilities | CSS utility classes, building block examples, responsive design, layout component recommendations |
 | Theme variables | CSS variable theme generation, customization, brand application |

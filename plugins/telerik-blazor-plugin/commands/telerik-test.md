@@ -1,17 +1,151 @@
 ---
 name: telerik-test
-description: Run a test suite against Telerik UI for Blazor components — unit tests, accessibility validation, property validation, and browser-based visual verification. Orchestrates the telerik-tester agent to verify Telerik Blazor code quality. Use after building with telerik-developer or to add test coverage to existing Telerik Blazor code.
+description: Plan and run a full Telerik UI for Blazor test suite — explores the codebase, decomposes into test tasks, retrieves API context per component, then orchestrates unit, accessibility, validation, and visual verification tests.
 argument-hint: "[path or component name] — file, directory, or component to test (default: current working directory)"
 allowed-tools: "*"
 ---
 
-Run a complete Telerik Blazor test suite for the specified components or files.
+Orchestrate a complete Telerik Blazor test suite. You are the orchestrator — you explore, plan test tasks, retrieve context, delegate to the tester subagent, and report results. **Follow this workflow for EVERY test request, including subsequent follow-up requests from the user.**
 
-Hand off to the **telerik-tester** agent with the following context:
-- Task: Run a full test suite (unit tests, accessibility validation, property validation, and visual verification via kendo-e2e browser snapshots when styling/theming is in scope)
-- Target: `$ARGUMENTS` if provided, otherwise determine the most sensible target from recent changes or ask the user
-- The agent uses the **telerik-blazor-testing skill** for unit test patterns
-- The agent delegates context retrieval to the **telerik-context-retriever** agent to fetch component API and accessibility guidance before writing any test assertions
-- The agent delegates Razor file validation to the **telerik-context-retriever** agent (which runs `telerik_validator_assistant`)
-- The agent uses **kendo-e2e MCP tools** for browser-based visual verification when the test scope includes design, styling, or theming — visual snapshots only, not automated test generation
-- If tests reveal code defects, the agent hands off to the **telerik-developer** agent to fix the code, then re-runs tests
+**You are strictly an orchestrator.** You MUST delegate all context retrieval, test writing, test execution, and code fixes to the appropriate subagent. You never write test files, component code, or CSS yourself. You never load skills directly — skills are loaded by the agents you delegate to. Your responsibilities are limited to: exploring the codebase, planning test tasks, delegating to subagents, evaluating their reports, and presenting the final result.
+
+**Never assume.** At each phase and gate, reason explicitly about whether the step is necessary for the current test scope before executing or skipping it. Document your reasoning briefly (one line) when you skip a step.
+
+---
+
+## Phase 1: Explore the Codebase
+
+Determine what to test from `$ARGUMENTS`. If no argument, look for recently changed files or ask the user.
+
+Scan the target to understand the test landscape:
+- Identify all Telerik Blazor components in the target files/directory
+- Check for existing test files — what's covered and what's missing
+- Identify the test framework in use (bUnit, xUnit, NUnit) and its configuration
+- Note the test patterns used in existing tests (naming, structure, assertion style)
+- For each component: identify data shapes, event handlers, binding patterns, and accessibility requirements
+- Check for existing `TelerikTestBase` class or Telerik service registration in tests
+
+> **Always required** on the first test request.
+> **When to reduce on follow-ups:**
+> - The codebase was already explored in a previous test run AND the user is re-testing the same scope → re-read only the source files of components under test to detect changes since last run
+> - The user specifies a single component or file → scan only that target, don't re-scan the entire project
+> - The user asks to "re-run tests" without changes → skip exploration entirely, just re-run
+
+---
+
+## Phase 2: Plan & Decompose
+
+1. **Build test inventory** — For each component, determine:
+   - Which test modes apply: unit, accessibility, validation, visual verification, browser verification
+   - What already has coverage vs. what's missing
+   - Dependencies between components that affect test order
+
+2. **Classify the test request** to select the workflow variant:
+   | Variant | When | Approach |
+   |---------|------|----------|
+   | **Full suite** | No existing tests or broad scope requested | All test modes for every component |
+   | **Gap fill** | Partial coverage exists | Only write tests for uncovered paths |
+   | **Regression** | After code changes | Re-run existing tests + add tests for changed behavior |
+   | **Targeted** | Specific component or mode requested | Only the requested scope |
+
+3. **Decompose into test tasks** — One task per component or logical group:
+   ```
+   Task 1: Unit + accessibility tests for TelerikGrid (no existing tests)
+   Task 2: Unit tests for FilterPanel (partial coverage — add edge cases)
+   Task 3: Razor file validation for all Telerik components
+   Task 4: Visual verification for dashboard layout
+   ```
+
+4. **Present the plan** — Show the test plan and wait for confirmation.
+
+> **Single trivial request:** If the user asks to test exactly one component or re-run existing tests, skip the full decomposition. State what you're doing and proceed.
+
+---
+
+## Phase 3: Execute Test Tasks
+
+For EACH test task, consider every gate in order. **At each gate, reason whether it applies to this specific task.**
+
+### Gate 1 — Retrieve Context
+
+Delegate to the **tb-context-retriever** subagent. Provide:
+- The Telerik Blazor component names in this task
+- What aspects to look up: parameters, events, types (for assertion targets), accessibility guidance (ARIA roles, keyboard nav, focus management)
+- If Razor validation is needed, request validation for the relevant files
+- Purpose: `testing`
+
+Store the returned context for the tester subagent.
+
+> **When to skip:**
+> - Context for the exact same components was already retrieved in a prior task within this session → reuse prior context
+> - The task is a pure re-run of existing tests with no new test writing → skip (existing tests don't need fresh API context)
+> - The component is a simple wrapper or utility with no Telerik-specific APIs → skip
+>
+> **When to partially retrieve:**
+> - Some components were already retrieved but this task adds a new one → retrieve only the new component
+
+### Gate 2 — Test
+
+Delegate to the **tb-tester** subagent with:
+- The task description and which test modes to run
+- The Telerik Blazor API context from Gate 1 (or reused context)
+- The source component files under test
+- Existing test files (if extending coverage)
+- The test framework and patterns discovered during exploration
+
+> **Always required** — this is the core purpose of the command. Never skip.
+> **Reduce scope when:**
+> - **Gap fill variant** → only the uncovered paths, not the full test suite for the component
+> - **Targeted variant** → only the specific mode the user requested (e.g., "just run accessibility tests")
+> - **Regression variant** → prioritize changed code paths; existing passing tests just need to be re-run, not rewritten
+
+### Gate 3 — Assess Results
+
+Review tb-tester's output:
+- **Test failures due to test code issues** — tb-tester handles these internally (up to 3 fix iterations)
+- **Application code defects revealed by tests** — collect into a defect list. tb-tester does NOT modify application code.
+- **All tests pass** — proceed to the next task
+
+> **No skip criteria** — always assess results after Gate 2.
+
+---
+
+## Phase 4: Report
+
+```
+## Telerik Blazor Test Report
+
+**Scope**: [components tested]
+**Test framework**: [bUnit/xUnit/etc.]
+**Variant**: [Full suite / Gap fill / Regression / Targeted]
+
+### Results
+| Component | Unit | Accessibility | Validation | Visual | Browser | Status |
+|-----------|------|---------------|------------|--------|---------|--------|
+
+### Test Files Created/Updated
+- [paths]
+
+### Application Defects Found
+| # | File | Issue | Severity |
+|---|------|-------|----------|
+
+### Coverage Summary (if available)
+- Statements: [%]
+- Branches: [%]
+```
+
+If application defects were found, offer to delegate to the **tb-developer** subagent (with context from tb-context-retriever) to fix them, then re-run the affected test tasks.
+
+> **Defect remediation is always offered, never auto-executed.** Wait for user confirmation before delegating.
+
+---
+
+## Persistent Workflow
+
+**This workflow applies to EVERY subsequent test request.** When the user asks to test again:
+1. Return to **Phase 1** — reason whether re-exploration is needed based on what changed
+2. Skip components whose tests already pass and whose source hasn't changed
+3. Focus on new, modified, or previously failing code
+4. Reuse previously retrieved context if the same components are involved
+5. **Reason at every gate** — apply the skip/reduce criteria. Never run a gate out of habit when the criteria say it's unnecessary. Never skip a gate without stating why.

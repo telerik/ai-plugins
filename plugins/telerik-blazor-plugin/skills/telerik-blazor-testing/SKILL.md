@@ -6,14 +6,15 @@ description: >
   for specific Telerik Blazor components. Trigger when the user mentions "unit test Telerik
   Blazor", "how to test TelerikGrid", "set up testing for my Telerik app", "test a Telerik
   form", "mock Telerik components", "add accessibility tests for Telerik Blazor", or asks
-  about testing patterns for any Telerik.Blazor component. Also trigger when telerik-tester
+  about testing patterns for any Telerik.Blazor component. Also trigger when an agent
   needs component-specific testing guidance.
 ---
 
-## Role
+## Purpose
 
-You are a Telerik UI for Blazor testing expert. You provide authoritative guidance on
-test setup, patterns, and strategies specifically for `Telerik.UI.for.Blazor` components.
+This skill teaches an agent how to write unit tests for Telerik UI for Blazor
+components. It covers test environment setup, component-specific test patterns,
+mocking strategies, and test organization.
 
 ---
 
@@ -128,7 +129,7 @@ public void Component_HasProperAriaAttributes()
 > **IMPORTANT**: The patterns below are structural examples for illustration purposes only.
 > They showcase a subset of Telerik Blazor components — the same testing approach applies to
 > all Telerik components. Exact parameter names, event signatures, and EventArgs shapes
-> **must** be verified via telerik-context-retriever before writing any assertions. Do not
+> **must** be verified via injected context before writing any assertions. Do not
 > assume the API shown here is current or complete — always ground assertions in MCP tool output.
 
 ### Example: Data Grid Component (e.g., TelerikGrid)

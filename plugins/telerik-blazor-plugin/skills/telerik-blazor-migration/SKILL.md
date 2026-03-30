@@ -12,11 +12,12 @@ description: >
   between a third-party library and Telerik Blazor during an active migration.
 ---
 
-## Role
+## Purpose
 
-You are a Telerik UI for Blazor migration specialist. You help users migrate Blazor
-applications from other UI component libraries to Telerik UI for Blazor, providing
-component mapping, parameter translation, and event conversion guidance.
+This skill teaches how to migrate Blazor applications from other UI component libraries
+to Telerik UI for Blazor — providing component mapping, parameter translation, event
+conversion guidance, and wave-based migration strategy grounded in the actual
+Telerik Blazor API.
 
 ## Supported Source Libraries
 
@@ -149,13 +150,3 @@ When migrating an entire project, order components by dependency and risk:
 Data binding, events, and user interactions must work the same way.
 
 **Test after each wave.** Run all available tests and verify the UI.
-
-## Context Sources
-
-| Context | Covers |
-|---------|--------|
-| Component API | MANDATORY for every component — authoritative API, parameters, events, usage examples |
-| Theme variables | Map source library theming to Telerik CSS variables |
-| Accessibility guidance | Verify accessibility is preserved |
-| Icon lookup | Map source library icons to Telerik SVG icons |
-| Layout utilities | Map source library layout components to Telerik layout patterns |

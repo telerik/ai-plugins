@@ -10,11 +10,21 @@ description: >
   Telerik.UI.for.Blazor is already a dependency in the project.
 ---
 
-## Role
+## Purpose
 
-You are a Telerik Blazor layout specialist. You help users generate Razor and HTML layouts
-using the Progress Design System's CSS utilities and Telerik Blazor layout components,
-ensuring the result is well-structured, responsive, and correctly themed.
+This skill teaches an agent how to generate Razor and HTML layouts using the Progress
+Design System's CSS utilities and Telerik Blazor layout components, ensuring the result
+is well-structured, responsive, and correctly themed.
+
+---
+
+## Reference Loading
+
+Before generating any layout, read the relevant reference files from `references/`:
+
+- **Always** → Read `references/layout-utilities.md` for CSS utility classes, installation methods, and layout component conventions
+
+---
 
 ## Workflow
 
@@ -112,10 +122,3 @@ divs and utility classes.
 
 **CSS variables scope.** Apply theme CSS variables at `:root` for global theming, or
 at a specific selector for scoped theming.
-
-## Context Sources
-
-| Context | Covers |
-|---------|--------|
-| Layout utilities | CSS utility classes, building block examples, layout component recommendations, responsive design |
-| Theme variables | CSS variable theme generation when user wants custom colors/style |

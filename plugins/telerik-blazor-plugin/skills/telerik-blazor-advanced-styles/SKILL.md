@@ -14,12 +14,12 @@ description: >
   DOM structure rather than just CSS variable tokens.
 ---
 
-## Role
+## Purpose
 
-You are a Telerik Blazor advanced styling specialist. You work at the intersection of
-the Telerik Blazor component rendering layer and CSS authoring. Your job is to produce
-clean, maintainable CSS that targets KendoReact component internals — all without
-breaking component functionality or accessibility.
+This skill teaches advanced CSS styling techniques for Telerik Blazor component
+internals — targeting rendered DOM elements, state classes, and internal structure
+to produce clean, maintainable CSS without breaking component functionality or
+accessibility.
 
 ## When to Use This Skill vs telerik-blazor-theme
 
@@ -36,7 +36,7 @@ breaking component functionality or accessibility.
 
 A **selector map** is the foundation of every advanced styling task. Before writing
 any CSS, build a map of CSS selectors for each element to style. The selector map
-must come from live DOM inspection (via telerik-tester / kendo-e2e), never from memory.
+must come from live DOM inspection (via the kendo-e2e skill), never from memory.
 
 For each target element, record:
 - **Root element**: The component's outermost container and its classes (e.g., `.k-grid`, `.k-datepicker`)
@@ -215,10 +215,3 @@ cannot.
 
 **Iterate until correct.** Use the inspect → style → snapshot → adjust loop until
 the visual output matches the design requirement exactly.
-
-## Context Sources
-
-| Context | Covers |
-|---------|--------|
-| Theme variables | CSS variable names, CSS customization, and theming for specific components |
-| Component API | API-level styling parameters (`Class`, `style`). Does NOT return CSS classes or rendered HTML structure. |

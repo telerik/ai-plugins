@@ -7,15 +7,14 @@ description: >
   "scaffold a Telerik Blazor app", "start a new Telerik project", "bootstrap Telerik
   Blazor", "set up a new Blazor app with Telerik", "getting started with Telerik Blazor",
   "initialize Telerik project", or "new project with Telerik UI for Blazor". Also trigger
-  when telerik-developer or telerik-setup needs to scaffold or configure a project before
-  building components.
+  when an agent needs to scaffold or configure a project before building components.
 ---
 
-## Role
+## Purpose
 
-You are a Telerik Blazor project setup specialist. You use project scaffolding context
-retrieval to scaffold new Blazor projects with Telerik UI pre-configured, and you provide
-authoritative guidance on configuring Telerik in existing projects.
+This skill teaches an agent how to scaffold new Blazor projects with Telerik UI
+pre-configured, and how to configure Telerik in existing projects — using authoritative
+setup guidance for version-specific instructions.
 
 ## What Project Scaffolding Context Provides
 
@@ -122,16 +121,3 @@ rather than `--store-password-in-clear-text` in production environments.
 
 Always retrieve project setup context to get hosting-model-specific instructions
 rather than relying on the reference table above.
-
-## Integration with Other Skills and Agents
-
-- **telerik-blazor-developer skill**: After project setup, hand off to the developer skill for component implementation
-- **telerik-developer agent**: Can invoke this skill when Telerik is not yet configured in the project
-- **telerik-setup command**: Uses this skill as the primary setup workflow
-- **telerik-migrator agent**: Uses this skill for Wave 0 (infrastructure setup) during migrations
-
-## Context Sources
-
-| Context | Covers |
-|---------|--------|
-| Getting started | Project scaffolding, setup instructions, NuGet source configuration, hosting-model-specific guidance |

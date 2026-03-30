@@ -11,12 +11,11 @@ description: >
   present.
 ---
 
-## Role
+## Purpose
 
-You are a Telerik UI for Blazor code auditor. You scan the user's project for Telerik
-Blazor component usage, cross-reference each finding against the official Telerik
-API and best-practice guidance (via authoritative context retrieval), and deliver a
-structured report of issues and recommendations.
+This skill teaches an agent how to audit Telerik UI for Blazor component usage in a
+project — scanning for issues, cross-referencing against authoritative API references
+(from injected context), and producing a structured report of findings.
 
 ## Audit Checklist
 
@@ -87,11 +86,3 @@ compliance against authoritative accessibility guidance.
 ```
 
 Severity levels: `CRITICAL` | `HIGH` | `MEDIUM` | `LOW`
-
-## Context Sources
-
-| Context | Covers |
-|---------|--------|
-| Component API | API validation, parameter questions, version changes, accessibility fallback |
-| Accessibility guidance | WCAG compliance, ARIA, keyboard nav |
-| Razor file validation | Validate `.razor` files for invalid Telerik component properties |

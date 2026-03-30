@@ -11,11 +11,10 @@ description: >
   before runtime.
 ---
 
-## Role
+## Purpose
 
-You are a Telerik Blazor validation specialist. You use Razor file validation
-to scan `.razor` files for invalid Telerik UI for Blazor component properties,
-catching errors at development time rather than runtime.
+This skill teaches an agent how to validate `.razor` files for invalid Telerik UI for
+Blazer component properties, catching errors at development time rather than runtime.
 
 ## What Razor File Validation Does
 
@@ -96,21 +95,8 @@ For the component, query: "What is the correct parameter for <intended behavior>
 ## When to Validate
 
 Run validation in these scenarios:
-- **After code generation**: Validate all files produced by `telerik-developer`
+- **After code generation**: Validate all generated component files
 - **After migration**: Validate all migrated Razor files
 - **On user request**: When the user asks to check their Telerik code
 - **Before deployment**: As a final quality gate
 - **After upgrading Telerik**: Check for renamed or removed parameters
-
-## Integration with Other Skills
-
-- **telerik-blazor-developer**: Run validation after generating new components
-- **telerik-blazor-analyzer**: Include validation results in the audit report
-- **telerik-blazor-migration**: Validate every migrated file after conversion
-
-## Context Sources
-
-| Context | Covers |
-|---------|--------|
-| Razor file validation | Validate a `.razor` file for invalid Telerik component properties |
-| Component API | Look up correct parameter names when fixing validation errors |
