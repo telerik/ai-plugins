@@ -24,6 +24,7 @@ Before implementing any component, read the relevant reference files from `refer
 
 - **Always** → Read `references/common-guidelines.md` for architecture and package installation rules
 - **Always** → Read `references/component-registry.md` for the full component list and aliases
+- **When accessibility matters** → Read `references/accessibility.md` for WCAG 2.2 AA guidelines and checklist
 - **When using DataGrid/Grid** → Read `references/datagrid-deprecated.md` for deprecated properties and modern replacements
 - **When using Editor** → Read `references/editor-tools.md` for the required tool import pattern
 - **When using Smart Grid / AI Grid** → Read `references/smart-grid.md` for GridToolbarAIAssistant setup
