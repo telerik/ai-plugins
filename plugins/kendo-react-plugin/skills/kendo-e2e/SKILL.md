@@ -16,6 +16,27 @@ browser-level operations — it does not cover writing test files or test assert
 
 ---
 
+## Step 0 — Detect Existing Browser Testing Tools
+
+**Always run this before any browser-based operation.** Check whether another browser
+testing tool is already present and available in this conversation.
+
+**Decision logic:**
+
+- **No other browser tool found** → proceed with the `kendo-e2e` MCP tools as documented below.
+- **Another browser tool is found** → pause and ask the user:
+
+  > "I found **[tool name]** already configured in this project. Which tool would you like to use for browser testing?
+  > 1. **kendo-e2e** (MCP-based, integrated with this workflow)
+  > 2. **[detected tool]** (already installed in the project)"
+
+  Wait for the user's answer before proceeding.
+  - If the user chooses `kendo-e2e` → proceed with this skill as normal.
+  - If the user chooses the detected tool → use that tool's APIs for the browser testing steps
+    and skip the `kendo-e2e` MCP tool calls below.
+
+---
+
 ## Available MCP Tools
 
 | Tool | Purpose |

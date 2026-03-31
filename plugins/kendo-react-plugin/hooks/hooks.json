@@ -1,0 +1,49 @@
+{
+  "description": "KendoReact plugin hooks: credential guard and post-development audit reminder",
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "bash": "/Users/idjemere/work/plugins-test/plugins/kendo-react-plugin/hooks/debug.sh"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "type": "command",
+        "bash": "/Users/idjemere/work/plugins-test/plugins/kendo-react-plugin/hooks/debug.sh"
+      },
+      {
+        "type": "command",
+        "bash": "/Users/idjemere/work/plugins-test/plugins/kendo-react-plugin/hooks/file-guard.sh"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "type": "command",
+        "bash": "/Users/idjemere/work/plugins-test/plugins/kendo-react-plugin/hooks/debug.sh"
+      },
+      {
+        "type": "command",
+        "bash": "/Users/idjemere/work/plugins-test/plugins/kendo-react-plugin/hooks/stop-subagent.sh"
+      }
+    ],
+    "SubagentStart": [
+      {
+        "type": "command",
+        "bash": "/Users/idjemere/work/plugins-test/plugins/kendo-react-plugin/hooks/debug.sh"
+      }
+    ],
+    "SubagentStop": [
+      {
+        "type": "command",
+        "bash": "/Users/idjemere/work/plugins-test/plugins/kendo-react-plugin/hooks/debug.sh"
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "bash": "/Users/idjemere/work/plugins-test/plugins/kendo-react-plugin/hooks/debug.sh"
+      }
+    ] 
+  }
+}

@@ -25,11 +25,19 @@ validation.
 1. **Understand the requirement** — Extract what to test, the test scope, test modes, and any specific concerns from the provided input. Ask back for further clarifications if needed.
 2. **Context** — Thoroughly read and internalize all component API references, accessibility requirements, and prior analysis provided in the input prompt. Treat this injected context as your authoritative knowledge source before writing any test.
 3. **Read source files** — Examine all component files under test. Identify KendoReact components, data shapes, props, state, and event handlers.
-4. **Plan** — Derive the full test plan exclusively from the input parameters and injected context. Select test modes, identify assertions, and determine coverage targets. Never ask the user for additional input — make well-reasoned decisions for any gaps.
-5. **Implement** — Write and run tests using only APIs and assertions grounded in the injected context. If you need to go outside the scope of the input context always ask for approval and provide justification.
-6. **Accessibility audit** — Write accessibility tests that verify ARIA roles, keyboard navigability, focus management, and color contrast. Reference WCAG 2.1 AA as the minimum bar.
-7. **Security review** — Verify tests do not contain hardcoded credentials, ensure test data does not expose sensitive information, and confirm test infrastructure does not introduce security risks.
-8. **Self-check** — Verify all tests pass, assertions are grounded in the injected context, and the output is consistent with the project's existing test patterns.
+4. **Detect browser testing tools** — Before any browser-based test mode (E2E, visual regression, browser verification), check whether another browser testing tool is already present and available in this conversation. If one is found alongside the `kendo-e2e` MCP tools, pause and ask the user:
+   > "I found **[tool name]** already configured in this project. Which tool would you like to use for browser testing?
+   > 1. **kendo-e2e** (MCP-based, integrated with this workflow)
+   > 2. **[detected tool]** (already installed in the project)"
+
+   Wait for the user's answer before proceeding. Apply the chosen tool consistently for all browser-based test modes in this session. The `kendo-react-testing` and `kendo-e2e` skills cover `kendo-e2e` patterns — if the user selects a different tool, apply that tool's standard APIs and patterns instead.
+
+   > **Skip this detection step** only if the user has already specified a browser tool earlier in this conversation.
+5. **Plan** — Derive the full test plan exclusively from the input parameters and injected context. Select test modes, identify assertions, and determine coverage targets. Never ask the user for additional input — make well-reasoned decisions for any gaps.
+6. **Implement** — Write and run tests using only APIs and assertions grounded in the injected context. If you need to go outside the scope of the input context always ask for approval and provide justification.
+7. **Accessibility audit** — Write accessibility tests that verify ARIA roles, keyboard navigability, focus management, and color contrast. Reference WCAG 2.1 AA as the minimum bar.
+8. **Security review** — Verify tests do not contain hardcoded credentials, ensure test data does not expose sensitive information, and confirm test infrastructure does not introduce security risks.
+9. **Self-check** — Verify all tests pass, assertions are grounded in the injected context, and the output is consistent with the project's existing test patterns.
 
 ---
 
