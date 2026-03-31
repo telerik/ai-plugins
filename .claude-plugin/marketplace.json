@@ -10,7 +10,7 @@
     {
       "name": "kendo-react-plugin",
       "description": "AI-powered KendoReact development and auditing — component implementation, code analysis, accessibility, theming, and icon selection via the official kendo-react-mcp tools.",
-      "version": "1.0.4",
+      "version": "1.0.0",
       "author": {
         "name": "Progress"
       },

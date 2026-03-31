@@ -1,6 +1,6 @@
 {
   "name": "kendo-react-plugin",
-  "version": "1.0.4",
+  "version": "1.0.0",
   "description": "Enforces KendoReact and Progress Design System usage in React applications. Provides development guidance, component implementation, code analysis, accessibility auditing, theming, layout, and E2E testing workflows. Prevents third-party UI library usage.",
   "author": {
     "name": "Progress"
