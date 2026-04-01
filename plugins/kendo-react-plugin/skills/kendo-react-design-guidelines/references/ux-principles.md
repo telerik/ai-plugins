@@ -14,8 +14,6 @@ These principles apply across all Kendo components and should inform every UI de
 5. [Interaction Design](#5-interaction-design)
 6. [Responsive Design](#6-responsive-design)
 7. [UX Writing](#7-ux-writing)
-8. [Content Scanning & Information Hierarchy](#8-content-scanning--information-hierarchy)
-9. [Navigation & Wayfinding](#9-navigation--wayfinding)
 
 ---
 
@@ -265,43 +263,6 @@ Kendo UI is primarily designed for desktop and tablet. For mobile:
 
 ---
 
-## 8. Content Scanning & Information Hierarchy
-
-### How users scan interfaces
-
-Users scan rather than read. Eye-tracking research shows an F-pattern or layer-cake pattern:
-users read the first line fully, then scan down the left edge, occasionally moving right when
-something catches their attention.
-
-Design implications:
-- Place the most important information at the **top left** of each content area
-- Lead headings and list items with the keyword — users read the first 1–2 words and decide
-  whether to continue
-- Never bury the primary call to action or key data point in a right-aligned or lower position
-- A 1400px-wide layout does not mean 1400px-wide content — use `max-width` on content areas
-  for readable text columns (see line length rule in Section 1)
-
-### Structuring content for scannability
-
-- **Use descriptive headings** at every logical break — "Order History" not "Information"
-- **Use bullet points** for lists of 3+ items rather than inline prose
-- **Keep paragraphs short**: 3–4 lines maximum; split longer explanations into separate paragraphs
-- **Bold the key term** in a sentence rather than bolding entire sentences
-- Use consistent **visual weight** — do not bold things that are not genuinely important
-
-### Heading hierarchy as navigation
-
-Sighted users scan headings as a navigation device before reading body content:
-
-- One `<h1>` per page/view for the page title
-- `<h2>` for major sections within the page
-- `<h3>` for subsections — never skip levels (no jumping from H2 to H4)
-- Do not use heading elements for visual styling — use `k-font-size-*` utilities instead
-
-This maps directly to the Kendo class hierarchy: `k-h1` → `k-h2` → `k-h3` → `k-h4`.
-
----
-
 ## 7. UX Writing
 
 ### Labels and placeholders
@@ -347,58 +308,5 @@ Every empty state needs:
 No orders found
 Try adjusting your filters or date range.
 [Clear filters]
-```
-
----
-
-## 9. Navigation & Wayfinding
-
-### Search placement
-
-If the application includes search, the search input must be visible from every page —
-not hidden behind a menu or placed only on a dedicated search page.
-
-- **Placement**: top-right of the page header
-- **Width**: minimum 200px — a narrow search field signals low confidence in search
-- **Behavior**: submit on Enter and on the search icon click
-
-### Breadcrumbs
-
-Add breadcrumb navigation on any page that is more than 2 levels deep in the site hierarchy.
-
-```jsx
-// Use Kendo Breadcrumb for deep content pages
-<Breadcrumb data={breadcrumbItems} />
-```
-
-Rules:
-- Always show the full path from home to the current page
-- Make all ancestor items links — the current page should not be a link
-- Place breadcrumbs above the page title, not below it
-
-### Navigation structure
-
-- **Top-level items**: maximum 7. Beyond this, users cannot hold the menu in working memory.
-- **Labels**: use plain, descriptive nouns and verbs. Avoid product-team jargon or internal
-  naming conventions that users will not recognize.
-- Use **left-aligned vertical navigation** for complex applications with many sections — it
-  scales better than horizontal menus and does not truncate under translated strings.
-- On **mobile** (< 640px): a collapsed navigation (hamburger) is acceptable, but ensure
-  critical actions remain accessible without opening the menu. On desktop, navigation must
-  always be visible without an extra interaction.
-
-### "No results" states
-
-A search or filter that returns zero results is a navigation failure. Never show a blank list.
-Always provide:
-
-1. A clear statement that no results were found
-2. The context of what was searched or filtered
-3. A corrective action (e.g., "Clear filters", "Try a different search", "Browse all items")
-
-```
-No results for "invoice 2024"
-Try adjusting your search or clear the date filter.
-[Clear filters]   [Browse all invoices]
 ```
 

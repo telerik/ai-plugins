@@ -18,7 +18,7 @@ description: >
 
 ## Reference Files
 
-This skill ships two authoritative reference files. They encode the definitive knowledge
+This skill ships authoritative reference files. They encode the definitive knowledge
 base — the SKILL.md body defines the process and structure; the reference files supply the
 detailed domain content to apply during each phase.
 
@@ -34,12 +34,10 @@ detailed domain content to apply during each phase.
 - Interaction patterns: focus states, loading patterns, error recovery, tooltip rules, hover states
 - Responsive breakpoints (Mobile < 640px / Tablet 640–1024px / Desktop 1024–1440px / Wide > 1440px) and how Kendo components behave at each
 - UX writing standards: label vs placeholder usage, button verb rules, error message quality, Grid column header conventions, empty state structure
-- Content scanning patterns: F-pattern scanning behavior, heading hierarchy as navigation device, content structure for scannability (bullets, short paragraphs, descriptive headings)
-- Navigation & wayfinding: search placement rules, breadcrumb usage for deep hierarchies, max 7 top-level items, "no results" state design, mobile vs desktop navigation patterns
 
 ### `references/anti-patterns.md` — Anti-Patterns
 
-**Load for Phase B (Design Review).** Contains the definitive list of what NOT to do, organized into 9 categories:
+**Load for Phase B (Design Review).** Contains the definitive list of what NOT to do, organized into 7 categories:
 - **Theming**: `!important` overrides, mixing theme packages, hardcoded colors, custom font risks
 - **Grid**: missing column widths, no pagination/virtualization, feature overload, missing focusable on cell interactives, misaligned numeric columns, raw ISO dates
 - **Accessibility**: outline removal, color-only status, icon-only buttons without labels, `<div>` for interactive cell content
@@ -47,13 +45,45 @@ detailed domain content to apply during each phase.
 - **Layout**: Splitter as page layout, mixed `size` variants, infinite-width containers
 - **Performance**: inline object literals bound to Chart inputs, unbounced incell edit saves
 - **Visual Layout**: components without layout containers, dark theme without page background, flex child without `min-width: 0`, Grid/Chart without explicit height, DropDownList/DatePicker width collapse, hardcoded colors in dark-themed templates
-- **Navigation**: hamburger as primary nav on desktop, missing breadcrumbs, empty "no results" dead ends, inconsistent link styling, > 7 top-level nav items
-- **Forms**: missing required field indicators, reset buttons, misplaced error messages, excessive fields
 
 Cross-check every audit finding against this list. Findings that match a known anti-pattern
 must reference it by name in the report.
 
-**Load both** when performing a full end-to-end design review of a feature or page.
+### `references/nng-content-scanning.md` — NNG: Content Scanning & Hierarchy
+
+**Load for Phase A (Pre-Implementation) when structuring content-heavy pages.** Contains:
+- F-pattern and layer-cake scanning behavior — where user attention falls on screen
+- Left-side priority: placement rules for CTAs, key data, and headings
+- Content structure for scannability: descriptive headings, bullet points, short paragraphs, selective bolding
+- Heading hierarchy as a navigation device with Kendo class mappings (`k-h1` → `k-h4`)
+
+### `references/nng-navigation-wayfinding.md` — NNG: Navigation & Wayfinding
+
+**Load for Phase A (Pre-Implementation) when designing navigation, search, or empty states.** Contains:
+- Search placement rules: top-right, minimum 200px width, keyboard/click behavior
+- Breadcrumb usage: when to add, placement relative to page title, correct Kendo component
+- Navigation structure limits: maximum 7 top-level items, label conventions, vertical vs horizontal nav
+- Mobile vs desktop: when hamburger is acceptable and when it is not
+- "No results" state design: required content (explanation + context + corrective action)
+
+### `references/nng-navigation-anti-patterns.md` — NNG: Navigation Anti-Patterns
+
+**Load for Phase B (Design Review) when auditing navigation.** Contains:
+- Hamburger as sole desktop navigation
+- Missing breadcrumbs on deep content pages
+- Empty "no results" dead ends
+- Inconsistent link and navigation styling
+- More than 7 top-level navigation items
+
+### `references/nng-forms-anti-patterns.md` — NNG: Forms Anti-Patterns
+
+**Load for Phase B (Design Review) when auditing forms.** Contains:
+- Missing required field indicators
+- Reset / Clear form buttons
+- Error messages positioned far from the offending input
+- Overloading forms with excessive fields
+
+**Load both `anti-patterns.md` and the relevant `nng-*` files** when performing a full end-to-end design review.
 
 ---
 
