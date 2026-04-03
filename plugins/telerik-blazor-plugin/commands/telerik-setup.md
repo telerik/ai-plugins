@@ -9,7 +9,27 @@ Bootstrap Telerik UI for Blazor in the current Blazor project. You are the orche
 
 **You are strictly an orchestrator.** You MUST delegate all context retrieval and browser verification to the appropriate subagent. You never load skills directly — skills are loaded by the agents you delegate to. For setup steps (NuGet installation, file edits, configuration), you execute them directly since they are orchestration-level operations, not component implementation.
 
-**Never assume.** At each phase and step, reason explicitly about whether it is necessary for the current project state before executing or skipping it. Document your reasoning briefly (one line) when you skip a step.
+**Subagent reports are mandatory.** Every subagent returns a structured completion report. Read each report fully before proceeding.
+
+---
+
+## Prohibited Actions
+
+The following actions are **forbidden** even for a setup orchestrator:
+
+- **NEVER** write Blazor component code beyond the minimal setup verification example (Phase 8). You do not build application features.
+- **NEVER** treat your own built-in knowledge of Telerik Blazor setup procedures as "retrieved context." Only a Context Retrieval Report produced by `tb-context-retriever` in THIS conversation counts as authoritative setup guidance.
+- **NEVER** skip Phase 2 (Retrieve Setup Guidance) for initial setup. The MCP tools provide version-accurate instructions that may differ from your training data.
+
+---
+
+## Phase Gates
+
+| Phase | Required Artifact | Produced By |
+|-------|-------------------|-------------|
+| Phase 1 | Project assessment summary | You (orchestrator) |
+| Phase 2 | **Context Retrieval Report** (setup guidance) | `tb-context-retriever` subagent |
+| Phase 9 | **Test Report** (browser verification) | `tb-tester` subagent |
 
 ---
 
@@ -27,10 +47,7 @@ Read `.csproj` and scan the project to understand:
 
 If Telerik is already configured, report what's installed and ask whether to fix or extend the setup.
 
-> **Always required** on the first setup.
-> **When to reduce on follow-ups:**
-> - The user asks to change the theme on an already-assessed project → re-read only the entry file and `.csproj`, skip full project scan
-> - The user asks to fix a specific configuration issue → read only the relevant file(s)
+**On follow-ups:** re-read only the entry file and `.csproj` when changing themes, or only the relevant file(s) for a specific fix.
 
 ---
 
@@ -41,17 +58,15 @@ Delegate to the **tb-context-retriever** subagent to fetch version-accurate setu
 - The desired theme: `$ARGUMENTS` if provided, otherwise ask: "Which Telerik theme? Options: **default**, fluent, material, bootstrap. (default is recommended)"
 - The detected hosting model and .NET version
 
-Follow the returned instructions as the primary guide for Steps 3–8 below.
+Read the retriever's completion report. Follow the returned instructions as the primary guide for Steps 3–8 below.
 
-> **When to skip:**
-> - The user is only fixing a specific configuration issue in an already-working setup → no setup guidance needed
-> - Setup guidance was already retrieved in this session and nothing has changed → reuse prior guidance
+**Your own built-in knowledge of Telerik Blazor setup procedures is NOT retrieved context.** Only a Context Retrieval Report produced by `tb-context-retriever` in THIS conversation counts. The MCP tools provide version-accurate instructions that may differ from your training data.
+
+**Skip ONLY if** the user is only fixing a specific configuration issue in an already-working setup, or if a Context Retrieval Report with setup guidance was already retrieved this session.
 
 ---
 
-## Phase 3: Execute Setup Steps
-
-### Step 3: Determine the theme
+## Phase 3: Determine the Theme
 
 Map the user's selection to the correct theme:
 - `default` → `kendo-theme-default`
@@ -59,30 +74,35 @@ Map the user's selection to the correct theme:
 - `material` → `kendo-theme-material`
 - `bootstrap` → `kendo-theme-bootstrap`
 
-> **Skip if** a theme is already installed and the user didn't request a change.
+**Skip if** a theme is already installed and the user didn't request a change.
 
-### Step 4: Install the NuGet package
+---
+
+## Phase 4: Install the NuGet Package
 
 Ensure the Telerik NuGet source is configured, then install:
-
 ```bash
 dotnet add package Telerik.UI.for.Blazor
 ```
 
 If the Telerik NuGet source is not configured, guide the user through setup. Warn about secure credential storage rather than `--store-password-in-clear-text` in production environments.
 
-> **Skip if** the package is already installed (detected in Phase 1). Only install what's missing.
+**Skip if** the package is already installed. Only install what's missing.
 
-### Step 5: Register Telerik services
+---
+
+## Phase 5: Register Telerik Services
 
 Add to `Program.cs`:
 ```csharp
 builder.Services.AddTelerikBlazor();
 ```
 
-> **Skip if** already registered (detected in Phase 1).
+**Skip if** already registered.
 
-### Step 6: Add TelerikRootComponent
+---
+
+## Phase 6: Add TelerikRootComponent
 
 Find the main layout file and wrap content:
 ```razor
@@ -91,9 +111,11 @@ Find the main layout file and wrap content:
 </TelerikRootComponent>
 ```
 
-> **Skip if** already present. **Fix if** incorrectly placed.
+**Skip if** already present. **Fix if** incorrectly placed.
 
-### Step 7: Configure imports
+---
+
+## Phase 7: Configure Imports
 
 Add to `_Imports.razor`:
 ```razor
@@ -101,9 +123,11 @@ Add to `_Imports.razor`:
 @using Telerik.Blazor.Components
 ```
 
-> **Skip if** already present.
+**Skip if** already present.
 
-### Step 8: Add theme CSS and JS references
+---
+
+## Phase 8: Add Theme CSS and JS References
 
 Add to the HTML host file (`App.razor`, `_Host.cshtml`, or `index.html` depending on hosting model):
 ```html
@@ -111,58 +135,20 @@ Add to the HTML host file (`App.razor`, `_Host.cshtml`, or `index.html` dependin
 <script src="_content/Telerik.UI.for.Blazor/js/telerik-blazor.js"></script>
 ```
 
-> **Skip if** the theme reference already exists. **Replace if** the user requested a different theme.
+**Skip if** the theme reference already exists. **Replace if** the user requested a different theme.
 
-### Step 9: Create a usage example
-
-Create a simple test component at `Pages/TelerikSetupTest.razor`:
-```razor
-@page "/telerik-test"
-
-<h3>Telerik Setup Test</h3>
-
-<TelerikButton ThemeColor="@ThemeConstants.Button.ThemeColor.Primary"
-               OnClick="@OnButtonClick">
-    Telerik UI for Blazor is ready!
-</TelerikButton>
-
-<p>@message</p>
-
-@code {
-    private string message = "";
-
-    private void OnButtonClick()
-    {
-        message = "Setup is working correctly!";
-    }
-}
-```
-
-> **Skip if** the user is fixing configuration on an existing working setup — the setup is already verified. Only create the example for initial setup.
+Create a simple test component at `Pages/TelerikSetupTest.razor` for initial setup. **Skip if** fixing existing configuration.
 
 ---
 
-## Phase 4: Verify & Report
+## Phase 9: Verify & Report
 
-1. **Build check** — Run `dotnet build` to verify no errors from the new packages or configuration.
-2. **Browser verification** — Delegate to the **tb-tester** subagent in **browser verification** mode. Provide:
-   - The example component file (`TelerikSetupTest.razor`)
-   - The page/route where the example renders (start the dev server if needed)
-   - Verification criteria:
-     - The TelerikButton renders with the selected theme's styling (correct colors, typography, spacing)
-     - No console errors related to missing CSS, theme imports, JS interop, or service registration
-   - If tb-tester reports theme rendering issues, diagnose (missing import, wrong host file, CSS load order) and fix before reporting
+1. **Build check** — Run `dotnet build` to verify no errors.
+2. **Browser verification** — Delegate to **tb-tester** in browser verification mode with the example component and verification criteria (correct theme styling, no console errors).
 
-> **Build check is always required** when packages or configuration were changed.
-> **Browser verification skip criteria:**
-> - The user only fixed a specific configuration issue (no theme change) → skip browser verification
-> - The example component from Step 9 was skipped → skip browser verification (nothing new to render)
-> **Browser verification always required when:**
-> - A new theme was installed or changed
-> - This is the initial Telerik setup
+**Skip browser verification if** only a specific config fix was applied (no theme change), or if the example was skipped.
 
 3. **Report:**
-
 ```
 ## Telerik UI for Blazor Setup Complete
 
@@ -170,6 +156,10 @@ Create a simple test component at `Pages/TelerikSetupTest.razor`:
 **Package**: Telerik.UI.for.Blazor [version]
 **Hosting model**: [Server/WebAssembly/Hybrid]
 **Build**: [PASS/FAIL]
+
+### Phase Artifacts
+- Context Retrieval Report: [received / skipped — reason]
+- Test Report (browser verification): [received / skipped — reason]
 
 **Next steps**:
 - Configure the Telerik NuGet source if not yet done
@@ -182,8 +172,6 @@ Create a simple test component at `Pages/TelerikSetupTest.razor`:
 
 ## Persistent Workflow
 
-**This workflow applies to subsequent setup requests.** When the user asks to change the theme, add configuration, or fix setup issues:
-1. Return to **Phase 1** to re-assess only the relevant aspects of the current state
-2. Skip already-completed steps (don't reinstall what's present)
-3. Focus only on the requested changes
-4. **Reason at every step** — apply the skip criteria. Never run a step out of habit when the criteria say it's unnecessary. Never skip a step without stating why.
+When the user asks to change the theme, add configuration, or fix setup issues:
+1. Return to **Phase 1** to re-assess only relevant aspects.
+2. Skip already-completed steps. Focus only on requested changes.

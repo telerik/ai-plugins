@@ -1,6 +1,6 @@
 {
   "name": "telerik-blazor-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Enforces Telerik UI for Blazor and Progress Design System usage in Blazor applications. Provides development guidance, component implementation, code analysis, accessibility auditing, theming, layout, validation, and compliance enforcement. Prevents third-party UI library usage.",
   "author": {
     "name": "Progress"

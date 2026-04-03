@@ -17,11 +17,11 @@ description: >
 | Agent | Name | Purpose |
 |-------|------|---------|
 | Context Retriever | `kr-context-retriever` | Fetches authoritative component API docs, accessibility guidance, icon mappings, layout utilities, and CSS variables via MCP tools. **Always the first call before any implementation, review, test, or styling work involving KendoReact components.** |
-| Design Guidelines | `kr-design-guidelines` | Enforces design system standards and WCAG accessibility requirements. Runs proactively before implementation (design contract) and after implementation (design review). |
+| Design Guidelines | `kr-designer` | Enforces design system standards and WCAG accessibility requirements. Runs proactively before implementation (design contract) and after implementation (design review). |
 | Developer | `kr-developer` | Builds and extends React components and features. Uses KendoReact when UI components are needed. |
 | Tester | `kr-tester` | Writes and runs unit, E2E, accessibility, visual regression, and browser verification tests. |
 | Reviewer | `kr-reviewer` | Audits code for correctness, accessibility, performance, and best practices. |
-| Custom Stylist | `kr-custom-stylist` | Applies pixel-perfect CSS targeting component internals when CSS variable overrides are not enough. |
+| Stylist | `kr-stylist` | Owns all CSS and visual styling — theming, custom component styles, layout CSS, responsive design, animations. Inspects live DOM for KendoReact components. Handles CSS-related accessibility (contrast, focus). |
 
 ---
 
@@ -37,9 +37,9 @@ Select the workflow that best matches the request. For compound requests, combin
 
 ```
 1. kr-context-retriever   →  fetch component API, props, events, accessibility (KendoReact components only; skip for plain React)
-2. kr-design-guidelines   →  establish design contract (tokens, spacing, a11y pre-checks, component selection)
+2. kr-designer             →  establish design contract (tokens, spacing, a11y pre-checks, component selection)
 3. kr-developer           →  implement using the retrieved context and design contract
-4. kr-design-guidelines   →  design review of the implementation
+4. kr-designer             →  design review of the implementation
 5. kr-tester              →  browser verification (visual + interaction check)
 6. kr-tester              →  unit + accessibility tests
 ```
@@ -56,12 +56,11 @@ Select the workflow that best matches the request. For compound requests, combin
 **Triggers:** "change the button color", "apply dark mode", "match our brand colors", "pixel-perfect styling for the grid", "custom look for the dropdown", "update the layout spacing"
 
 ```
-1. kr-context-retriever  →  fetch CSS variables and component DOM structure (KendoReact components only; skip for plain CSS/React)
-2. kr-custom-stylist     →  apply scoped CSS using confirmed selectors and CSS variables
-3. kr-tester             →  browser verification (screenshot + visual check)
+1. kr-stylist             →  inspect DOM (for Kendo components), apply scoped CSS, theme variables, or custom overrides
+2. kr-tester             →  browser verification (screenshot + visual check)
 ```
 
-**Skip rule:** If only CSS variable overrides or plain React styling is needed (no internal KendoReact DOM targeting), `kr-developer` can apply them directly — skip `kr-context-retriever` and `kr-custom-stylist`.
+**Skip rule:** If only CSS variable overrides or plain React styling is needed (no internal KendoReact DOM targeting), `kr-developer` can apply them directly — skip `kr-stylist`.
 
 ---
 
@@ -71,9 +70,9 @@ Select the workflow that best matches the request. For compound requests, combin
 
 ```
 1. kr-context-retriever    →  fetch layout utilities, design system tokens, and APIs for planned components
-2. kr-design-guidelines    →  establish design contract: spacing scale, token mapping, component selection, accessibility pre-checks
+2. kr-designer              →  establish design contract: spacing scale, token mapping, component selection, accessibility pre-checks
 3. kr-developer            →  scaffold project structure, routing, and core layout shell
-4. kr-design-guidelines    →  design review of the shell before feature build-out
+4. kr-designer              →  design review of the shell before feature build-out
 5. kr-developer            →  implement features, pages, and data-driven components using the design contract
 6. kr-tester               →  browser verification (visual + interaction check per page/feature)
 7. kr-tester               →  unit + accessibility + E2E tests
@@ -93,10 +92,10 @@ Select the workflow that best matches the request. For compound requests, combin
 
 ```
 1. kr-reviewer             →  audit existing codebase: identify outdated patterns, deprecated APIs, accessibility gaps, design token violations
-2. kr-design-guidelines    →  design review of current implementation: full conformance audit against design system and WCAG 2.1 AA
+2. kr-designer              →  design review of current implementation: full conformance audit against design system and WCAG 2.1 AA
 3. kr-context-retriever    →  fetch current KendoReact APIs for components that will be updated or migrated
 4. kr-developer            →  apply modernization changes wave by wave (class → function components, deprecated props, library migrations)
-5. kr-design-guidelines    →  design review after each wave — verify design conformance is maintained or improved
+5. kr-designer              →  design review after each wave — verify design conformance is maintained or improved
 6. kr-tester               →  regression tests after each wave (unit + accessibility + browser verification)
 7. kr-reviewer             →  final audit confirming all modernization goals are met
 ```
@@ -182,8 +181,23 @@ Otherwise (build, extend, implement a feature):
 
 ## Rules That Apply to All Workflows
 
-- **Retrieve context when KendoReact is involved** — no agent has built-in KendoReact knowledge. Run `kr-context-retriever` before any task that uses `@progress/kendo-react-*` components. For plain React work with no KendoReact components, skip this step.
-- **Pass context forward** — every context payload retrieved in step 1 must be passed verbatim to all downstream agents in that workflow.
-- **One agent per concern** — never ask `kr-developer` to do styling-only work; never ask `kr-custom-stylist` to write component logic.
+- **Retrieve context when KendoReact is involved** — no agent has built-in KendoReact knowledge. Run `kr-context-retriever` before any task that uses `@progress/kendo-react-*` components. The calling agent's own built-in knowledge does NOT satisfy this requirement — only a Context Retrieval Report from `kr-context-retriever` counts as retrieved context. For plain React work with no KendoReact components, skip this step.
+- **Pass context forward** — every context payload retrieved in step 1 must be passed verbatim to all downstream agents in that workflow. Do not summarize, paraphrase, or omit sections.
+- **One agent per concern** — never ask `kr-developer` to do styling-only work; never ask `kr-stylist` to write component logic.
 - **Sequential, not parallel** — each agent depends on the output of the previous one within a workflow step.
 - **Fix loop cap** — if `kr-tester` reports failures after a fix attempt, re-delegate to the implementing agent with evidence. Cap at 2 re-delegation cycles per task to avoid infinite loops.
+- **Testing is never optional** — every workflow that produces code must include a `kr-tester` step. If no test files exist in the project, `kr-tester` creates them. The absence of a test framework is a setup task, not a reason to skip testing.
+
+---
+
+## Delegation Anti-Patterns
+
+These are **violations** of the workflow contract. If you recognize yourself doing any of them, stop and correct immediately.
+
+| Anti-Pattern | Why It Fails | Correct Action |
+|---|---|---|
+| **Orchestrator writes code** instead of delegating to `kr-developer` | Bypasses the developer's deeper domain knowledge, accessibility checks, and structured report. Produces code without specialist validation. | Invoke `kr-developer` as a subagent — always. Even for "trivial" changes. |
+| **Orchestrator writes CSS** instead of delegating to `kr-stylist` | Bypasses the stylist's mandatory DOM-first workflow. CSS written from memory targets incorrect or unstable selectors. | Invoke `kr-stylist` — it will inspect the live DOM, confirm selectors, and write scoped styles. |
+| **Orchestrator skips `kr-context-retriever`** because it "already knows" the API | Built-in knowledge is unverified and may be outdated, incomplete, or wrong. Context retrieval also surfaces accessibility and theming requirements not visible from memory. | Always run `kr-context-retriever` when KendoReact components are involved, unless a Context Retrieval Report for the same components already exists in this conversation. |
+| **Orchestrator accepts build success** as a substitute for `kr-tester` verification | A passing build confirms syntax — it does not confirm visual correctness, accessibility, interactivity, or absence of runtime errors. | Delegate to `kr-tester` for browser verification AND test execution. Both are required. |
+| **Orchestrator skips `kr-reviewer`** because tests passed | Tests verify behavior; reviews verify quality — correct API usage, accessibility compliance, theming patterns, performance, and library best practices. These are complementary, not redundant. | Run `kr-reviewer` after the last task completes testing, unless the strict skip conditions are met. |

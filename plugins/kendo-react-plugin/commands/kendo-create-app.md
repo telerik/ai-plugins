@@ -7,210 +7,217 @@ allowed-tools: "*"
 
 Build a complete KendoReact application end-to-end. You are the orchestrator — you gather requirements, establish the design contract, scaffold the project, implement features phase by phase, enforce design conformance after each phase, test, and produce a final audit. **Follow this workflow for the full lifecycle of the application build.**
 
-**You are strictly an orchestrator.** You MUST delegate all context retrieval, design contract work, implementation, styling, testing, and review to the appropriate subagent. You never write component code, CSS, or tests yourself. Your responsibilities are limited to: clarifying requirements, planning phases, delegating to subagents, evaluating their reports, enforcing gates, and presenting results.
+**You are strictly an orchestrator.** You MUST delegate all context retrieval, design contract work, implementation, styling, testing, and review to the appropriate subagent. You never write component code, CSS, or tests yourself. Your responsibilities are limited to: clarifying requirements, planning phases, delegating to subagents, evaluating their reports, enforcing phases, and presenting results.
 
-**Never assume.** At each phase and gate, reason explicitly whether the step is necessary before executing or skipping it. State your reasoning in one line when skipping.
+**Subagent reports are mandatory.** Every subagent returns a structured completion report. Read each report fully before proceeding. If a report flags open issues or knowledge gaps, address them before moving to the next phase.
+
+---
+
+## Prohibited Actions
+
+The following actions are **forbidden** for the orchestrator. If you find yourself about to perform any of them, **STOP immediately** and delegate to the appropriate subagent instead.
+
+- **NEVER** create or edit `.tsx`, `.ts`, `.jsx`, `.js`, `.css`, `.scss`, or `.module.css` application files. You do not write code.
+- **NEVER** write JSX, React component code, CSS rules, or test assertions — not even for "trivial" changes.
+- **NEVER** import from `@progress/kendo-react-*` or any other package in code you author.
+- **NEVER** substitute a TypeScript compilation check, build check, or type check for browser verification or testing. These are not equivalent.
+- **NEVER** treat your own built-in knowledge of KendoReact APIs as "retrieved context." Only a Context Retrieval Report produced by `kr-context-retriever` in THIS conversation counts.
+- **NEVER** skip a mandatory phase because the output "seems obvious" or the change "seems small." Every phase exists to catch errors that downstream phases cannot.
+
+---
+
+## Phase Gates
+
+Each phase produces a **required artifact**. You MUST possess the artifact from the current phase before proceeding to the next. If an artifact is missing, the phase was not completed — go back and complete it.
+
+| Phase | Required Artifact | Produced By |
+|-------|-------------------|-------------|
+| Phase 1 | Confirmed requirements summary | You (orchestrator) + user confirmation |
+| Phase 2 | Project setup confirmation | `kr-developer` subagent |
+| Phase 3 | **Context Retrieval Report** (design tokens + layout) | `kr-context-retriever` subagent |
+| Phase 4 | **Design Contract** | `kr-designer` subagent |
+| Phase 5 | Confirmed implementation phase plan | You (orchestrator) + user confirmation |
+| Phase 6 | **Context Retrieval Report** (per implementation phase) | `kr-context-retriever` subagent |
+| Phase 7 | **Developer Report** | `kr-developer` subagent |
+| Phase 7b | **Styling Report** | `kr-stylist` subagent |
+| Phase 8 | **Design Review Report** | `kr-designer` subagent |
+| Phase 9 | **Test Report** (browser verification + test modes) | `kr-tester` subagent |
+| Phase 10 | Fix confirmation (re-run of Phase 9 showing resolution) | `kr-tester` subagent |
+| Phase 11 | **Final Design Conformance Report** | `kr-designer` subagent |
+| Phase 12 | **Review Report** | `kr-reviewer` subagent |
+| Phase 13 | Final Summary (compiled from all prior artifacts) | You (orchestrator) |
 
 If no argument was provided, ask:
 > "What application would you like to build? Describe the pages, features, key data, and any design requirements."
 
 ---
 
-## Phase 0: Requirements & Design Inventory
+## Phase 1: Requirements & Design Inventory
 
-Before any scaffolding or implementation, fully understand the application scope.
+Extract from `$ARGUMENTS` (or ask if missing):
+- Application purpose and target users
+- Pages / views required
+- Key features per page
+- Data shape and source (mock, REST API, static)
+- Authentication / routing requirements
+- Theming preferences
+- Accessibility requirements (WCAG 2.1 AA minimum)
+- Target environment (new repo, Vite/Next.js/CRA)
 
-1. **Extract from `$ARGUMENTS`** (or ask if missing):
-   - Application purpose and target users
-   - Pages / views required (e.g., Dashboard, List, Detail, Settings)
-   - Key features per page (data grids, charts, forms, navigation, search, etc.)
-   - Data shape: where does data come from (mock, REST API, static)? What entities exist?
-   - Authentication / routing requirements
-   - Theming preferences (default Kendo theme, brand colors, dark mode)
-   - Accessibility requirements (WCAG 2.1 AA is the minimum baseline)
-   - Target environment (new repo vs. existing project, Vite/Next.js/CRA)
-
-2. **If requirements are unclear**, ask specific clarifying questions and wait for answers before proceeding.
-
-3. **Present a requirements summary** and wait for user confirmation before moving to Phase 1.
-
-> **Always required.** Never skip this phase.
+If requirements are unclear, ask specific questions and wait. Present a requirements summary and wait for confirmation.
 
 ---
 
-## Phase 1: Project Setup
+## Phase 2: Project Setup
 
-Check whether the target is a new repo or an existing project.
+Check whether the target is a new repo or existing project.
 
-**New project**: Delegate to the **kr-developer** subagent to scaffold the project using the `kendo-react-getting-started` skill:
-- Create project with chosen build tool (Vite preferred unless user specifies otherwise)
-- Install all required `@progress/kendo-react-*` packages
-- Import and configure the KendoReact theme
-- Set up routing (React Router unless user specifies otherwise)
-- Create the top-level layout shell (app shell, nav, content area, footer if needed)
-- Verify the build passes and the app runs
+**New project:** Delegate to **kr-developer** to scaffold: create project, install KendoReact packages, configure theme, set up routing, create layout shell, verify build. Read the developer's completion report.
 
-**Existing project**: Check `package.json` for `@progress/kendo-react-*`. If not found, delegate to the **kr-developer** subagent to install and configure KendoReact before continuing.
+**Existing project:** Check `package.json`. If KendoReact is not found, delegate to **kr-developer** to install and configure it.
 
-> **Skip if:** KendoReact is already fully configured in an existing project.
+**Skip if** KendoReact is already fully configured.
 
 ---
 
-## Phase 2: Design Contract
+## Phase 3: Retrieve Design Tokens & Layout Context
 
-Establish the design constraints that ALL subsequent implementation must follow.
+Delegate to the **kr-context-retriever** subagent for layout utilities, design system token reference (spacing, typography, color), and component APIs for all planned components.
 
-### Gate 1 — Retrieve Design Tokens & Layout Context
-
-Delegate to the **kr-context-retriever** subagent:
-- Layout utilities and grid/flex helpers from the KendoReact design system
-- Design system token reference (spacing scale, typography scale, color tokens)
-- Component APIs for all top-level KendoReact components planned for Phase 3
-
-Store returned context — pass it verbatim to the design-guidelines agent.
-
-### Gate 2 — Establish Design Contract
-
-Delegate to the **kr-design-guidelines** subagent in **pre-implementation mode**. Provide:
-- The application requirements summary from Phase 0
-- The design token and layout context from Gate 1
-- All planned pages and features
-
-The agent produces a **Design Contract** covering:
-- Layout intent per page (grid/flex, breakpoints, responsive behavior)
-- Token mapping table (every visual property mapped to a `var(--kd-*)` token)
-- Typography and spacing decisions
-- Component selection rationale for each UI element
-- Accessibility pre-checks (focus order, contrast, keyboard nav, heading hierarchy, form labeling)
-- Any unmapped design values with proposed scoped CSS custom properties
-
-**Store the Design Contract — pass it verbatim to kr-developer in every subsequent gate.**
-
-> **Always required.** The Design Contract is the specification that governs all implementation.
+Read the retriever's completion report. Store the context for the design contract phase.
 
 ---
 
-## Phase 3: Implement Features (Phase by Phase)
+## Phase 4: Establish Design Contract
 
-Decompose the application into implementation phases ordered by dependency. A phase maps to a page, feature area, or data layer. Present the phase plan to the user and wait for confirmation before executing.
+Delegate to **kr-designer** in **pre-implementation mode** with the requirements summary and design token context from Phase 3.
 
-**Example phase plan:**
+The agent produces a Design Contract covering: layout intent, token mapping, typography/spacing, component selection, accessibility pre-checks, unmapped values.
+
+Read the design guidelines completion report. **Store the Design Contract — pass it to kr-developer in every subsequent phase.**
+
+---
+
+## Phase 5: Plan Implementation Phases
+
+Decompose the application into implementation phases ordered by dependency. A phase maps to a page, feature area, or data layer. Present the phase plan and wait for confirmation.
+
+Example:
 ```
-Phase A: Core layout shell and navigation (depends on: Phase 1)
-Phase B: Dashboard page — summary cards + charts (depends on: Phase A)
-Phase C: Data list page — filterable grid (depends on: Phase A)
-Phase D: Detail / edit page — form with validation (depends on: Phase C)
-Phase E: Authentication + routing guards (depends on: Phase A)
+Phase A: Core layout shell and navigation
+Phase B: Dashboard — summary cards + charts
+Phase C: Data list — filterable grid
+Phase D: Detail / edit — form with validation
+Phase E: Authentication + routing guards
 ```
 
-For **each phase**, execute all applicable gates in order. Never proceed to the next phase until the current phase passes all gates.
+---
 
-### Gate 1 — Retrieve Component Context
+## Implementation Phase Loop
 
-Delegate to the **kr-context-retriever** subagent with:
-- All KendoReact component names needed in this phase
-- Aspects to retrieve: props, events, types, accessibility, controlled patterns
-- Pass the Design Contract as background context so the retriever can prioritize relevant APIs
-
-Store the returned context — pass it to all subsequent gates for this phase.
-
-> **Skip if:** Context for the identical components was retrieved in a prior phase AND no new props or patterns are needed. State which prior phase covered it.
-
-### Gate 2 — Implement
-
-Delegate to the **kr-developer** subagent with:
-- The phase description, acceptance criteria, and page/feature spec
-- The Design Contract from Phase 2 Gate 2 (mandatory — developer must build to this spec)
-- The KendoReact API context from Gate 1
-- Relevant existing files (layout shell, routing config, shared types) from prior phases
-- Instruction: all spacing, color, and typography must use design system tokens and utility classes from the Design Contract. No hardcoded pixel values or hex colors.
-
-> **Style-only changes** (CSS, spacing, theme overrides, no component logic): delegate to the **kr-custom-stylist** subagent instead of kr-developer.
-
-### Gate 3 — Design Review
-
-After implementation, delegate to the **kr-design-guidelines** subagent in **post-implementation review mode**. Provide:
-- All files created or modified in Gate 2
-- The Design Contract from Phase 2 Gate 2
-- The design token context from Phase 2 Gate 1
-
-The agent runs the full design conformance and WCAG 2.1 AA accessibility audit and produces a findings report.
-
-**If CRITICAL findings are reported:**
-- Re-delegate to the **kr-developer** subagent (or kr-custom-stylist subagent for style fixes) with the findings and Gate 1 context
-- Re-delegate to the **kr-design-guidelines** subagent for re-review after fixes
-- Repeat up to **2 iterations**. Log unresolved findings for the final report.
-
-> **Always required** after each implementation phase. The Design Contract must be enforced at every phase boundary.
-
-### Gate 4 — Browser Verification
-
-Delegate to the **kr-tester** subagent in **browser verification** mode. Provide:
-- The files created or modified in Gate 2 (plus any fixes from Gate 3)
-- The KendoReact API context from Gate 1
-- The page or route where this phase's components render
-- Verification criteria:
-  1. All implemented KendoReact components are present and correctly structured in the DOM
-  2. The layout and spacing match the Design Contract (spacing tokens, typography scale)
-  3. Interactive elements (clicks, inputs, keyboard navigation) behave correctly
-  4. No console errors, unstyled components, or layout breaks
-  5. Visual quality is production-ready
-
-If kr-tester reports failures:
-- Re-delegate to the **kr-developer** subagent / **kr-custom-stylist** subagent with screenshots and DOM snapshot
-- Re-verify after fixes (up to **2 iterations**)
-
-> **Skip if:** The phase produced no renderable output (e.g., only TypeScript types, data utilities, API clients).
-
-### Gate 5 — Test
-
-Delegate to the **kr-tester** subagent in **test** mode with:
-- All files created or modified in this phase
-- The KendoReact API context from Gate 1
-- Test scope: unit tests + accessibility tests (mandatory); E2E for user-facing flows; visual regression for new pages
-- Test expectations: create new tests for all new code; update existing tests if prior phase code was modified
-
-> **Accessibility tests are always required** for any phase that introduces interactive components.
-> **Never skip entirely** — every phase that produces code must have at least one test mode run.
-
-### Gate 6 — Fix Loop
-
-If Gates 4 or 5 report failures:
-1. Re-delegate to the implementing subagent with the specific failures and Gate 1 context
-2. Re-run browser verification if the fix changed JSX, CSS, or layout
-3. Re-run tests
-4. Repeat up to **3 iterations**. Log persistent issues for the final report.
+For each implementation phase from Phase 5, execute Phases 6 through 10 in order before moving to the next implementation phase.
 
 ---
 
-## Phase 4: Final Review & Audit
+## Phase 6: Retrieve Component Context
 
-After all implementation phases are complete:
+Delegate to **kr-context-retriever** with all KendoReact component names for this implementation phase, aspects (props, events, types, accessibility, controlled patterns), and the Design Contract as background.
 
-### Step 1 — Final Design Conformance Check
+Read the retriever's completion report. Store context for subsequent phases.
 
-Delegate to the **kr-design-guidelines** subagent with:
-- All files across all implementation phases
-- The Design Contract from Phase 2
-- Request a final cross-cutting conformance check: token consistency, accessibility completeness, design system compliance across all pages
+**Your own built-in knowledge of KendoReact APIs is NOT retrieved context.** Only a Context Retrieval Report produced by `kr-context-retriever` in THIS conversation counts.
 
-Fix any CRITICAL findings before proceeding.
-
-### Step 2 — Final Code Review
-
-Delegate to the **kr-reviewer** subagent with:
-- All files created or modified across all phases
-- The aggregated KendoReact context from all phase Gate 1 delegations
-- The Design Contract
-- Review scope: component correctness, TypeScript types, prop usage, accessibility, performance, library compliance (no non-KendoReact UI imports), security (no XSS, no hardcoded secrets)
-
-If **kr-reviewer** finds Critical issues, delegate to the **kr-developer** subagent to fix them, then re-delegate to the kr-reviewer subagent.
+**Skip ONLY if** a Context Retrieval Report for the exact same components AND aspects already exists from a prior implementation phase in this conversation. When skipping, reference the prior phase and confirm the report covers the current phase's needs.
 
 ---
 
-## Phase 5: Report
+## Phase 7: Implement
 
-Present the final summary:
+Delegate to **kr-developer** with the phase description, acceptance criteria, the Design Contract (mandatory), API context from Phase 6, relevant existing files from prior phases, and the rule: all spacing, color, and typography must use design system tokens. The developer handles component logic, state, and structure only — **not** final styling.
+
+Read the subagent's completion report. Confirm files created/modified.
+
+---
+
+## Phase 7b: Style & Visual Polish
+
+**Always run after Phase 7** for any implementation phase that produces renderable KendoReact components. KendoReact components have complex internal DOM structures that require specialized styling expertise — all theming and CSS customization must go through the stylist.
+
+Delegate to **kr-stylist** with:
+- The files created/modified in Phase 7
+- The Design Contract (mandatory) — token mapping, spacing scale, typography decisions
+- The theming preferences from Phase 1
+- Instruction: **inspect the live DOM first** — navigate to the page, snapshot the component DOM, build a selector map from confirmed classes, then write styles composing with `--kendo-*` variables
+
+The stylist will:
+1. Inspect the rendered DOM in the browser to understand actual component structure
+2. Apply theme variables and scoped CSS targeting confirmed selectors
+3. Verify the result via browser screenshot
+4. Loop until the visual output matches the Design Contract (up to 3 iterations)
+
+Read the stylist's completion report. Confirm styling files created/modified. **If the Styling Report indicates DOM inspection was skipped**, re-delegate to `kr-stylist` with explicit instruction to perform DOM inspection first.
+
+**Skip ONLY if** the phase produced exclusively non-renderable artifacts: data layer code only, utility functions only, routing configuration only, or TypeScript interfaces only. If the phase produced ANY React component with JSX output, Phase 7b is mandatory.
+
+---
+
+## Phase 8: Design Review
+
+Delegate to **kr-designer** in **post-implementation review mode** with files from Phases 7 and 7b, the Design Contract, and design token context.
+
+Read the design guidelines completion report. If CRITICAL findings:
+- **CSS/visual findings** → re-delegate to **kr-stylist** with the findings
+- **Structural findings** → re-delegate to **kr-developer** with the findings
+Then re-run design review (up to 2 iterations).
+
+---
+
+## Phase 9: Verify & Test
+
+**Browser verification** — Delegate to **kr-tester** in browser verification mode with files from Phases 7 and 7b, API context, the page/route, and verification criteria (DOM structure, layout matches Design Contract, styling matches Design Contract, interactions work, no console errors). If failures:
+- **Visual/CSS failures** → re-delegate to **kr-stylist**
+- **Structural/logic failures** → re-delegate to **kr-developer**
+Re-verify (up to 2 iterations).
+
+**Skip browser verification if** the phase produced exclusively non-renderable artifacts (data layer only, utilities only, routing config only).
+
+**Testing** — **Testing is MANDATORY for every implementation phase that produces code — no exceptions.** The absence of existing test files is NOT permission to skip — it is the trigger to create new tests. Delegate to **kr-tester** in test mode with all files, API context, and scope (unit + accessibility mandatory; E2E for user-facing flows; visual regression for new pages). A phase is not complete until `kr-tester` has produced a Test Report with pass/fail results.
+
+Read the tester's **Test Report** in full. If it is missing or incomplete, the phase gate is not satisfied — re-delegate to `kr-tester`.
+
+---
+
+## Phase 10: Fix Issues
+
+**Enter only if** Phases 8 or 9 reported failures.
+
+1. **Visual/CSS failures** → re-delegate to **kr-stylist** with failures, screenshots, and the Design Contract.
+2. **Structural/logic failures** → re-delegate to **kr-developer** with failures and API context.
+3. Re-run browser verification if the fix changed visual code.
+4. Re-run tests.
+5. Repeat up to **3 iterations**. Log persistent issues.
+
+---
+
+## Phase 11: Final Design Conformance
+
+After all implementation phases complete, delegate to **kr-designer** with all files across all phases, the Design Contract, and request a final cross-cutting conformance check.
+
+Read the completion report. Fix CRITICAL findings.
+
+---
+
+## Phase 12: Final Code Review
+
+Delegate to **kr-reviewer** with all files, aggregated API context, the Design Contract, and review scope (correctness, TypeScript types, prop usage, accessibility, performance, library compliance, security).
+
+Read the reviewer's **Review Report** in full. If Critical issues, delegate to kr-developer to fix, then re-run review.
+
+---
+
+## Phase 13: Report
+
+Compile the final summary from all prior phase artifacts. Every section below is **mandatory** — if a section cannot be filled because the corresponding phase was not run, you MUST state which phase was skipped and why. An empty section without explanation is a workflow violation.
 
 ```
 ## Application Build Complete
@@ -219,22 +226,31 @@ Present the final summary:
 **Phases completed**: [N/N]
 **Files created**: [count] | **Files modified**: [count]
 
+### Phase Artifacts
+- Context Retrieval Reports: [count received / phases skipped — reasons]
+- Design Contract: [received / skipped — reason]
+- Developer Reports: [count received]
+- Styling Reports: [count received / phases skipped — reasons]
+- Design Review Reports: [count received / phases skipped — reasons]
+- Test Reports: [count received / phases skipped — reasons]
+- Final Review Report: [received / skipped — reason]
+
 ### Pages / Features Delivered
 | Page / Feature | Components Used | Status |
 |----------------|----------------|--------|
 
 ### Design Contract Compliance
-- Token usage: [PASS / violations noted]
-- Accessibility (WCAG 2.1 AA): [PASS / issues]
-- Design review: [PASS / issues resolved]
+- Token usage: [PASS / violations noted — sourced from kr-designer's reports]
+- Accessibility (WCAG 2.1 AA): [PASS / issues — sourced from kr-tester's reports]
+- Design review: [PASS / issues resolved — sourced from kr-designer's reports]
 
 ### Validation
-- Browser verification: [PASS / issues noted]
-- Tests: [N passed / N failed]
-- Code review: [PASS / issues resolved]
+- Browser verification: [PASS / issues noted — sourced from kr-tester's browser verification]
+- Tests: [N passed / N failed — sourced from kr-tester's Test Reports]
+- Code review: [PASS / issues resolved — sourced from kr-reviewer's Review Report]
 
 ### Screenshots
-[Final screenshot per page showing the rendered result]
+[At least one screenshot per page — sourced from kr-tester or kr-stylist]
 
 ### Remaining Issues (if any)
 | # | Severity | Page / Component | Description | Recommendation |
@@ -245,11 +261,10 @@ Present the final summary:
 
 ## Persistent Workflow
 
-**This workflow applies to every subsequent requirement in this conversation.** When the user requests additional pages, features, or changes:
-1. Treat them as additional implementation phases
-2. Return to **Phase 3** — add new phase(s) to the plan, present them, and execute
-3. The Design Contract from Phase 2 remains authoritative — if new requirements require token or component additions, re-run Phase 2 Gate 2 for a contract amendment
-4. Reuse previously retrieved context for the same KendoReact components; retrieve fresh context for new ones
-5. Continue phase lettering from where the previous build left off
-6. **Tests must stay in sync** — Gate 5 always creates, updates, or fixes tests to match the current implementation
-7. **Reason at every gate** — apply skip/reduce criteria. Never run a gate out of habit; never skip without stating why.
+When the user requests additional pages, features, or changes:
+1. Treat them as additional implementation phases.
+2. Return to **Phase 6** (or Phase 5 if planning is needed).
+3. The Design Contract from Phase 4 remains authoritative. If new requirements need token or component additions, re-run Phase 4 for a contract amendment.
+4. Reuse previously retrieved context for the same components. Retrieve fresh for new ones.
+5. Continue phase lettering from where the previous build left off.
+6. Tests must stay in sync — Phase 9 always creates, updates, or fixes tests.

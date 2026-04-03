@@ -9,88 +9,100 @@ Audit the Blazor project for compliance with the Telerik-only component library 
 
 **You are strictly an orchestrator.** You MUST delegate all context retrieval, code review, implementation, and styling work to the appropriate subagent. You never write code, tests, or CSS yourself. You never load skills directly — skills are loaded by the agents you delegate to. Your responsibilities are limited to: exploring the codebase, planning audit tasks, delegating to subagents, evaluating their reports, and presenting the final result.
 
-**Never assume.** At each phase, reason explicitly about whether the step is necessary for the current audit scope before executing or skipping it. Document your reasoning briefly (one line) when you skip a step.
+**Subagent reports are mandatory.** Every subagent returns a structured completion report. Read each report fully before proceeding.
+
+---
+
+## Prohibited Actions
+
+The following actions are **forbidden** for the orchestrator. If you find yourself about to perform any of them, **STOP immediately** and delegate to the appropriate subagent instead.
+
+- **NEVER** create or edit `.razor`, `.cs`, `.css`, `.scss` application files. You do not write code.
+- **NEVER** write Razor markup, C# code, CSS rules, or test assertions — not even for "trivial" fixes.
+- **NEVER** treat your own built-in knowledge of Telerik Blazor APIs as "retrieved context." Only a Context Retrieval Report produced by `tb-context-retriever` in THIS conversation counts.
+- **NEVER** skip a mandatory phase because the output "seems obvious" or the audit "seems clean." Every phase exists to catch issues that other phases cannot.
+
+---
+
+## Phase Gates
+
+Each phase produces a **required artifact**. You MUST possess the artifact from the current phase before proceeding to the next. If an artifact is missing, the phase was not completed — go back and complete it.
+
+| Phase | Required Artifact | Produced By |
+|-------|-------------------|-------------|
+| Phase 1 | Codebase exploration inventory (packages, imports, violations) | You (orchestrator) |
+| Phase 2 | Audit task plan | You (orchestrator) |
+| Phase 3 | **Context Retrieval Report** | `tb-context-retriever` subagent |
+| Phase 4 | **Review Report** | `tb-reviewer` subagent |
+| Phase 5 | Final Compliance Audit Report (compiled from all prior artifacts) | You (orchestrator) |
 
 ---
 
 ## Phase 1: Explore the Codebase
 
-Scan the project (scope: `$ARGUMENTS` if provided, otherwise the current working directory) to build a complete picture:
-- Read `.csproj` — identify ALL UI library NuGet dependencies (MudBlazor, Radzen, Syncfusion.Blazor, Blazorise, etc.) and their versions
+Scan the project (scope: `$ARGUMENTS` if provided, otherwise current working directory):
+- Read `.csproj` — identify ALL non-Telerik UI library NuGet dependencies (MudBlazor, Radzen, Syncfusion.Blazor, Blazorise, etc.)
 - Search source files for non-Telerik UI imports (`@using MudBlazor`, `@using Radzen`, `<Mud*>`, `<Radzen*>`, etc.)
 - Identify whether `Telerik.UI.for.Blazor` is installed and actively used
 - Check styling files for hardcoded values that should use `--kendo-*` CSS variables
 - Check if a Telerik theme is imported, `TelerikRootComponent` is present, and `AddTelerikBlazor()` is registered
 - Catalog existing Telerik Blazor component usage patterns
 
-> **Always required** on the first audit.
-> **When to reduce on re-audits:**
-> - The codebase was already fully scanned in a previous audit AND the user is asking to re-check → scan only previously flagged files plus any files changed since last audit
-> - The user specifies a narrow scope (e.g., a single directory or file) → scan only that scope, don't re-scan the entire project
+**On re-audits:** scan only previously flagged files plus changed files, or the narrowed scope the user specified.
 
 ---
 
 ## Phase 2: Plan the Audit
 
-Based on exploration findings, identify which audit tasks apply:
+Based on findings, identify which audit tasks apply:
 
 | Audit Task | When | Focus |
 |------------|------|-------|
-| **Dependency compliance** | Forbidden NuGet packages found in `.csproj` | List violations with Telerik equivalents |
-| **Import compliance** | Non-Telerik UI imports in source files | List every file and import with replacement |
-| **Styling compliance** | Hardcoded values instead of `--kendo-*` variables | List files and specific values |
-| **Telerik health** | Telerik is installed | Verify theme, services, TelerikRootComponent, correct parameter usage, accessibility |
-| **Telerik missing** | No `Telerik.UI.for.Blazor` package | Flag and offer setup |
+| **Dependency compliance** | Forbidden NuGet packages in `.csproj` | Violations with Telerik equivalents |
+| **Import compliance** | Non-Telerik UI imports in source | Every file and import with replacement |
+| **Styling compliance** | Hardcoded values instead of `--kendo-*` | Files and specific values |
+| **Telerik health** | Telerik is installed | Theme, services, TelerikRootComponent, parameter usage, accessibility |
+| **Telerik missing** | No `Telerik.UI.for.Blazor` | Flag and offer setup |
 
-> **Reason about which tasks apply.** If exploration found zero non-Telerik dependencies and imports, skip Dependency and Import compliance — don't run them for completeness. If no styling files exist, skip Styling compliance. Only run tasks that have findings to evaluate.
+Only run tasks that have findings. If no non-Telerik dependencies or imports exist, skip those tasks.
 
 ---
 
 ## Phase 3: Retrieve Context
 
-Delegate to the **tb-context-retriever** subagent to fetch Telerik equivalents for every non-Telerik component found during exploration. Provide:
-- Each third-party component name discovered (e.g., "MudBlazor DataGrid", "Radzen DropDown")
-- Request: equivalent Telerik Blazor component name, parameters, and basic usage
-- If existing Telerik code was found, also fetch API references for those components (for correctness validation)
-- If Razor files with Telerik components were found, request validation of those files
+Delegate to the **tb-context-retriever** subagent to fetch Telerik equivalents for every non-Telerik component found. Provide each third-party component name and request the equivalent Telerik component, parameters, and basic usage. Also fetch API references for existing Telerik code (for correctness validation). If Razor files with Telerik components were found, request validation of those files.
 
-Store the returned context for the review subagent.
+Read the retriever's completion report. Store the returned context — pass it verbatim to the reviewer in Phase 4.
 
-> **When to skip:**
-> - The project is already fully Telerik-compliant (no third-party UI libraries found) AND no Telerik health check is needed → skip context retrieval entirely
-> - Re-audit where the same components were already retrieved and no new violations were found → reuse prior context
->
-> **When to partially retrieve:**
-> - Some components were already retrieved in a prior audit but new violations involve different components → retrieve only the new ones
+**Your own built-in knowledge of Telerik Blazor APIs is NOT retrieved context.** Only a Context Retrieval Report produced by `tb-context-retriever` in THIS conversation counts.
+
+**Skip ONLY if** the project has zero non-Telerik UI imports AND zero existing Telerik code to validate. When skipping, state the reason explicitly. **Reduce if** only new violations involve different components from a prior audit.
 
 ---
 
 ## Phase 4: Review
 
-Delegate to the **tb-reviewer** subagent with:
-- The complete exploration inventory (dependencies, imports, styling issues, existing Telerik usage)
-- The Telerik Blazor API context from Phase 3
-- Review scope: library compliance, component correctness (for existing Telerik code), parameter usage, accessibility, infrastructure (TelerikRootComponent, services, imports)
+Delegate to the **tb-reviewer** subagent with the exploration inventory, API context from Phase 3, and review scope (library compliance, component correctness, parameter usage, accessibility, infrastructure).
 
-> **When to skip:**
-> - No violations and no existing Telerik code to review → skip directly to reporting compliance
-> - The audit scope was narrowed to a single file with a known issue → the exploration findings are sufficient to report without a full review subagent delegation
->
-> **Always required when:**
-> - Existing Telerik code was found (needs correctness/accessibility review)
-> - Multiple violations were found across different categories
+Read the reviewer's **Review Report** in full. Note findings and severity.
+
+**Skip ONLY if** both Phase 1 found zero non-Telerik imports AND zero existing Telerik code. When skipping, state the reason explicitly. **Always required when** existing Telerik code was found, any violations exist, or the user requested a health check.
 
 ---
 
 ## Phase 5: Report & Remediate
 
-Present a structured compliance report:
+Compile the final report from all prior phase artifacts. Every section below is **mandatory** — if a section cannot be filled because the corresponding phase was not run, you MUST state which phase was skipped and why.
 
 ```
 ## Compliance Audit Report
 
 **Scope**: [path scanned]
 **Status**: [COMPLIANT / VIOLATIONS FOUND]
+
+### Phase Artifacts
+- Context Retrieval Report: [received / skipped — reason]
+- Review Report: [received / skipped — reason]
 
 ### Critical Issues (must fix)
 | # | File | Issue | Telerik Equivalent | Package |
@@ -106,23 +118,22 @@ Present a structured compliance report:
 - TelerikRootComponent: [yes/no]
 - Services registered: [yes/no]
 - Validation issues: [count or none]
-- Parameter/accessibility issues: [count or none]
+- Parameter/accessibility issues: [count or none — sourced from tb-reviewer's Review Report]
 ```
 
-After the report, based on findings:
-- **Critical violations** → offer to delegate to **tb-developer** subagent (with the retrieved context) to replace non-Telerik components
-- **Telerik missing** → offer to run the **telerik-setup** command
-- **Styling violations** → offer to delegate to **tb-custom-stylist** subagent (with styling context from tb-context-retriever)
+Based on findings, offer remediation:
+- **Critical violations** → offer to delegate to **tb-developer** (with retrieved context) to replace non-Telerik components
+- **Telerik missing** → offer to run **telerik-setup** command
+- **Styling violations** → offer to delegate to **tb-stylist** (with styling context)
 - **No violations** → confirm compliance
 
-> **Remediation is always offered, never auto-executed.** Wait for user confirmation before delegating to any implementing subagent.
+**Remediation is always offered, never auto-executed.** Wait for user confirmation.
 
 ---
 
 ## Persistent Workflow
 
-**This workflow applies to EVERY subsequent audit request.** When the user asks to re-audit:
-1. Return to **Phase 1** — reason whether full or partial re-scan is needed
-2. Carry forward knowledge of the previous audit to track resolved vs. new violations
-3. Reuse previously retrieved context if the same components are involved
-4. **Reason at every phase** — apply the skip/reduce criteria. Never run a phase out of habit when the criteria say it's unnecessary. Never skip a phase without stating why.
+When the user asks to re-audit:
+1. Return to **Phase 1** — reason whether full or partial re-scan is needed.
+2. Carry forward knowledge of the previous audit to track resolved vs. new violations.
+3. Reuse previously retrieved context if the same components are involved.

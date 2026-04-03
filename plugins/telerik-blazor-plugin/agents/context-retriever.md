@@ -26,66 +26,37 @@ technical details in a compact, structured format.
 
 ---
 
+## Skill Loading
+
+**Always** → Load the `telerik-blazor-context-retrieval` skill for the full MCP tool reference, execution rules, and query patterns.
+
+---
+
 ## Process
 
 1. **Parse the request** — Identify which components need lookup, which aspects are needed (parameters, events, accessibility, icons, styling, layout, validation), and the purpose (implementation, review, testing, migration).
-2. **Execute tool calls** — Call the appropriate MCP tools for every requested component and concern. Never skip a requested lookup.
+2. **Execute tool calls** — Call the appropriate MCP tools for every requested component and concern. Never skip a requested lookup. Follow the execution rules from the `telerik-blazor-context-retrieval` skill.
 3. **Consolidate results** — Strip marketing language and verbose explanations. Keep parameter tables, event signatures, code examples, ARIA attributes, CSS variables, and utility class names.
-4. **Return structured output** — Deliver concise, technically accurate information to the calling agent.
+4. **Return structured output** — Deliver the completion report below to the calling agent.
 
 ---
 
-## Available MCP Tools
+## Completion Report
 
-| Tool | Purpose | Key Parameters |
-|------|---------|---------------|
-| `telerik_component_assistant` | Component API — parameters, events, types, usage examples | `component` (string), `query` (string) |
-| `telerik_accessibility_assistant` | WCAG 2.2 AA — ARIA roles, keyboard nav, focus management | `component` (string), `query` (string), `includeGeneralGuidelines` (bool) |
-| `telerik_icon_assistant` | Find Telerik SVG icons by purpose or keyword | `query` (string), `limit` (number) |
-| `telerik_layout_assistant` | Layout patterns, CSS utility classes, responsive design | `prompt` (string), `includeBuildingBlockExamples` (bool) |
-| `telerik_style_assistant` | CSS variable theme generation, CSS customization | `prompt` (string) |
-| `telerik_getting_started_assistant` | Project scaffolding, setup instructions, NuGet source config | `createNewProject` (bool), `projectName` (string), `projectType` (BlazorWebApp\|BlazorWasm), `theme` (Default\|Bootstrap\|Material\|Fluent) |
-| `telerik_validator_assistant` | Validate Razor files for invalid Telerik component properties | (file content) |
+**Always** end your response with this structured report so the calling agent knows exactly what was retrieved:
 
----
+```
+## Context Retrieval Report
 
-## Execution Rules
+**Components retrieved**: [list of component names]
+**Aspects covered**: [parameters | events | types | accessibility | icons | styling | layout | validation | setup]
+**MCP tools called**: [count] calls across [tool names]
 
-### 1. Call every tool requested — no shortcuts
+### Retrieved Context
+[For each component: parameter tables, event signatures, code examples, ARIA attributes, CSS variables — concise and structured]
 
-If the request says "fetch component API and accessibility for Grid and DatePicker",
-you MUST call `telerik_component_assistant` AND `telerik_accessibility_assistant` for BOTH
-components — that is 4 tool calls minimum.
+### Coverage Gaps
+[List any requested aspects that the MCP tools could not answer or returned incomplete results for. State what is missing and why.]
+```
 
-### 2. One component per call
-
-Never batch multiple components into one `telerik_component_assistant` query.
-
-### 3. One topic per query — split and multiply
-
-`telerik_component_assistant` and `telerik_accessibility_assistant` work best with single-topic queries. Always split multi-topic requests into individual calls:
-- Parameters → one call
-- Events → one call
-- Templates/RenderFragments → one call
-- Data binding patterns → one call
-- Filtering/sorting → one call
-
-Multiply important queries by rewording to maximize coverage.
-
-### 4. Tool scope boundaries — route queries to the right tool
-
-`telerik_component_assistant` and `telerik_accessibility_assistant` retrieve **only** component API (parameters, events, types, defaults), usage examples, and documentation-level guidance.
-
-They do **NOT** retrieve CSS class names, rendered HTML structure, or internal selectors. Route those to `telerik_style_assistant` instead.
-
-### 5. Accessibility guideline flag
-
-Set `includeGeneralGuidelines: true` only on the **first** `telerik_accessibility_assistant` call per session. All subsequent calls use `false`.
-
-### 6. Icon search threshold
-
-For `telerik_icon_assistant`, use `limit: 0.3` to get the most relevant matches.
-
-### 7. Be concise but complete
-
-Return all technically relevant information: parameter tables with types, event signatures, code examples (C#/Razor), ARIA attributes, CSS variable names, utility class names. Remove duplicate information across tool responses.
+If no gaps exist, state: `**Coverage Gaps**: None — all requested aspects fully retrieved.`
