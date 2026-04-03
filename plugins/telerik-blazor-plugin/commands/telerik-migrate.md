@@ -1,7 +1,7 @@
 ---
 name: telerik-migrate
 description: Migrate a project from any Blazor UI component library to Telerik UI for Blazor. Explores the source project, plans wave-by-wave migration with Telerik context retrieval, executes and validates each wave, then runs a final compliance audit.
-argument-hint: "[path or description] — path to the project to migrate, or a brief description of what needs migrating (default: current working directory)"
+argument-hint: "[source_path] [--target target_path] [--in-place] [--incremental] — source project path (default: cwd), target output directory, migration mode"
 allowed-tools: "*"
 ---
 
@@ -23,7 +23,113 @@ The following actions are **forbidden** for the orchestrator. If you find yourse
 - **NEVER** treat your own built-in knowledge of Telerik Blazor APIs as "retrieved context." Only a Context Retrieval Report produced by `tb-context-retriever` in THIS conversation counts.
 - **NEVER** skip a mandatory phase because the migration "seems straightforward." Every phase exists to catch regressions that downstream phases cannot.
 
+- **NEVER** embed complete implementation code (Razor markup, C# classes, CSS rules) in subagent delegation prompts. You may provide specifications, acceptance criteria, API context references, and source file paths — but you MUST NOT author implementation code and pass it for the subagent to copy. Let the subagent read source files and write the implementation.
+- **NEVER** run git commands (`git commit`, `git push`, `git init`, `git add`, etc.). The orchestrator does not manage version control under any circumstances. The user manages their own git workflow.
+
 **Scoped exception — Wave 0 and Final Wave only:** Package installation (Wave 0) and package removal (Final Wave) are orchestration-level operations. You may execute `dotnet add package` / `dotnet remove package` commands directly for these waves. This exception does NOT extend to writing component code, CSS, or tests in any wave.
+
+---
+
+## Scope Guard
+
+Before proceeding with any migration work, determine the source project's technology stack.
+
+**Same-framework source (Blazor project — `.csproj` with Blazor dependencies):**
+Proceed with the standard migration workflow below. Use `tb-migrator` for analysis (Phase 1) and wave execution (Phase 4).
+
+**Cross-framework source (React, Angular, Vue, or other non-Blazor project):**
+This is a **rebuild**, not a migration. The source code cannot be translated line-by-line — it must be re-implemented in Blazor. Inform the user:
+> "The source project is a [framework] application, not a Blazor project. This requires a cross-framework rebuild rather than a library migration. I'll adapt the workflow: using `tb-developer` instead of `tb-migrator` for implementation, and performing source analysis directly since `tb-migrator` cannot parse [framework] files."
+
+Then apply these adaptations to the standard workflow:
+
+| Phase | Standard (Blazor→Blazor) | Adapted (Cross-framework→Blazor) |
+|-------|-------------------------|-----------------------------------|
+| Phase 1 | Delegate to `tb-migrator` analysis-only mode | Perform source analysis directly (read files, build inventory) — `tb-migrator` cannot parse non-Blazor code |
+| Phase 4 | Delegate to `tb-migrator` | Delegate to `tb-developer` with component specs derived from source analysis |
+| All other phases | No change | No change — context retrieval, styling, testing, review all apply identically |
+
+The cross-framework adaptation changes ONLY the analysis agent and the implementation agent. **All other phases — artifact creation, context retrieval, styling, testing, review, and reporting — remain mandatory and unchanged.** The `.migration/state.md` must note `Mode: Cross-framework rebuild` and record the source framework.
+
+---
+
+## Subagent Failure Protocol
+
+If a subagent returns no response, an empty response, or an error:
+
+1. **Retry once** with the same delegation prompt.
+2. **If the retry fails**, fall back to performing the work directly:
+   - For `tb-context-retriever` failures: call the Telerik MCP tools directly and compile the context yourself.
+   - For other subagent failures: inform the user and ask whether to proceed with a different subagent or abort.
+3. **Save the results to the same artifact path** that the subagent would have used (e.g., `context-cache/wave-{N}.md`).
+4. **Note the deviation** in `state.md`: "Phase X: [subagent] failed — fallback to [action]. Artifact saved to [path]."
+
+The fallback MUST produce the same artifact that the subagent would have. Skipping the artifact is not an acceptable fallback.
+
+---
+
+## Subagent Selection Guide
+
+Use this table to select the correct execution subagent:
+
+| Scenario | Analysis (Phase 1) | Implementation (Phase 4) | Rationale |
+|----------|-------------------|-------------------------|------------|
+| Blazor → Blazor library swap | `tb-migrator` (analysis-only) | `tb-migrator` (wave execution) | Same framework, code can be translated |
+| Cross-framework → Blazor rebuild | Orchestrator directly | `tb-developer` | Source is not Blazor; needs fresh implementation from specs |
+| No-equivalent component gap | N/A | `tb-developer` | Building net-new, not translating |
+| Post-migration feature request | N/A | `tb-developer` | Net-new development, not migration |
+
+---
+
+## Resume Protocol
+
+Before starting any migration work, check for `{target_path}/.migration/state.md`.
+
+**If it exists:**
+1. Read `state.md` to determine current phase, wave, and migration mode.
+2. Read `wave-plan.md` to load the approved plan.
+3. Read the latest wave reports in `.migration/reports/` to understand what was last completed.
+4. Present a resume summary to the user: "Found an in-progress migration. Last completed: Wave N. Currently at: Wave M, Phase X. Resume from here?"
+5. On confirmation, continue from the recorded state — do NOT re-run completed phases.
+
+**If it does not exist:** Proceed with Phase 0 (Input Gathering) as normal.
+
+---
+
+## `.migration/` Directory Structure
+
+All migration artifacts are stored at `{target_path}/.migration/`:
+
+| File | Purpose | Written by |
+|------|---------|------------|
+| `state.md` | Master state tracker — current phase, wave progress, blockers | Orchestrator (you) |
+| `source-spec.md` | Deep source analysis | `tb-migrator` (analysis-only mode) |
+| `wave-plan.md` | Approved wave plan with status per wave | Orchestrator (you) |
+| `component-map.md` | Source → target mapping table with status | Orchestrator (you) |
+| `context-cache/wave-{N}.md` | Context retrieval report per wave | `tb-context-retriever` |
+| `reports/wave-{N}-migration.md` | Migration report per wave | `tb-migrator` |
+| `reports/wave-{N}-styling.md` | Styling report per wave | `tb-stylist` |
+| `reports/wave-{N}-test.md` | Test report per wave | `tb-tester` |
+| `reports/final-review.md` | Final audit report | `tb-reviewer` |
+
+**State file format** (`state.md`):
+
+```
+# Migration State
+
+**Source**: [library + version] @ [source_path]
+**Target**: Telerik UI for Blazor @ [target_path]
+**Mode**: Full | Incremental
+**Started**: [date]
+**Current phase**: [phase description]
+**Last updated**: [timestamp]
+
+## Wave Progress
+| Wave | Description | Status | Blockers |
+|------|-------------|--------|----------|
+```
+
+Update `state.md` after every phase completion and wave transition.
 
 ---
 
@@ -33,7 +139,8 @@ Each phase produces a **required artifact**. You MUST possess the artifact from 
 
 | Phase | Required Artifact | Produced By |
 |-------|-------------------|-------------|
-| Phase 1 | Codebase exploration inventory | You (orchestrator) |
+| Phase 0 | Confirmed source path, target path, migration mode | You (orchestrator) + user confirmation |
+| Phase 1 | Source specification + codebase inventory | `tb-migrator` subagent (analysis-only mode) |
 | Phase 2 | User-confirmed wave plan | You (orchestrator) + user confirmation |
 | Phase 3 | **Context Retrieval Report** (per wave) | `tb-context-retriever` subagent |
 | Phase 4 | **Migration Report** (per wave) | `tb-migrator` subagent |
@@ -45,10 +152,28 @@ Each phase produces a **required artifact**. You MUST possess the artifact from 
 
 ---
 
-## Phase 1: Explore the Codebase
+## Phase 0: Input Gathering
 
-1. **Determine the target** from `$ARGUMENTS`. If no argument: check for `.csproj`, detect the UI library, confirm with user.
-2. **Build a complete project inventory**: all UI library NuGet packages in `.csproj`, every source file importing from the source library, component usage frequency and complexity (Simple/Moderate/Complex), styling approach, state patterns, existing tests, build configuration (.NET version, hosting model, project type).
+1. **Source project**: Determine from `$ARGUMENTS` or default to the current working directory. Check the source path for project type indicators (`.csproj` for Blazor, `package.json` for JS frameworks, etc.). Apply the **Scope Guard** rules above to determine the workflow mode (standard migration vs. cross-framework rebuild).
+2. **Target folder**: Determine the output directory for the migrated project.
+   - If `$ARGUMENTS` contains `--target <path>`, use it.
+   - If `$ARGUMENTS` contains `--in-place`, set target = source (both libraries will coexist until cleanup). **Note:** `--in-place` is not supported for cross-framework rebuilds — always use a separate target.
+   - Otherwise, **ask the user**: "Where should I create the migrated project? Provide an absolute path, or I'll use `{source_parent}/{source_name}-telerik/`."
+3. **Migration mode**: Full (default) or Incremental (if `--incremental` flag or user requests it). See **Migration Mode** section below.
+4. **Create `.migration/` directory** at `{target_path}/.migration/`. Create subdirectories: `context-cache/`, `reports/`.
+5. **Initialize state file** at `{target_path}/.migration/state.md` with source path, target path, mode, source framework, and timestamp.
+
+**GATE CHECK:** Phase 0 is not complete until `{target_path}/.migration/state.md` exists on disk. Verify the file was written before proceeding to Phase 1.
+
+---
+
+## Phase 1: Source Analysis
+
+1. **Delegate to `tb-migrator` in analysis-only mode**:
+   > Analyze the project at `{source_path}`. Do NOT migrate anything. Produce a source specification covering: executive summary, technology stack (.NET version, hosting model, project type), architecture overview, component inventory with complexity ratings, cross-cutting concerns (state management, routing, forms, auth, i18n, styling, service registration), dependency list, and testing infrastructure. Save to `{target_path}/.migration/source-spec.md`.
+2. **Read the source spec**. Present the executive summary and component inventory to the user.
+3. **Build a shallow project inventory** from the spec: all UI library NuGet packages, every source file importing from the library, component usage frequency and complexity (Simple/Moderate/Complex), styling approach, state patterns, existing tests, build configuration.
+4. **Confirm with user** before proceeding to Phase 2.
 
 **On follow-ups:** re-scan only the new scope if the inventory was already built.
 
@@ -58,15 +183,44 @@ Each phase produces a **required artifact**. You MUST possess the artifact from 
 
 1. **Build component inventory table** with source component, files, usage count, complexity, and Telerik equivalent.
 2. **Create wave plan**: Wave 0 (Foundation — install Telerik NuGet, configure services, add TelerikRootComponent, add _Imports.razor entries, import theme CSS/JS), Waves 1-N (Components ordered by dependency — leaf first, composites last), Final Wave (Cleanup — remove source packages and CSS).
-3. **Present the plan** and wait for user confirmation.
+3. **Wave 0 must include test infrastructure**: If no test project exists (no `*.Tests.csproj`), add a Wave 0 step: "Create a bUnit test project, add a reference to the main project, and verify the test runner works with a trivial passing test." This ensures Phase 5 has a foundation to build on.
+4. **Present the plan** and wait for user confirmation.
+5. **Save wave plan** to `{target_path}/.migration/wave-plan.md`.
+6. **Save component map** to `{target_path}/.migration/component-map.md`.
+7. **Update state** — set current phase to "Phase 2 complete, ready for wave execution" in `state.md`.
 
-**Skip Wave 0 if** Telerik is already installed and configured (theme imported, TelerikRootComponent present, services registered).
+**GATE CHECK:** Phase 2 is not complete until `{target_path}/.migration/wave-plan.md` AND `{target_path}/.migration/component-map.md` exist on disk. Do NOT proceed to wave execution without these files.
+
+**Skip Wave 0 if** Telerik is already installed and configured (theme imported, TelerikRootComponent present, services registered) AND a test project already exists.
 
 ---
 
-## Wave Execution Loop
+## Two-Pass Wave Execution
 
-For each wave from Phase 2, execute Phases 3 through 7 in order before moving to the next wave.
+The migration uses a **documentation-first, implementation-second** approach. All waves are fully planned and documented with retrieved context before any implementation begins. This ensures the orchestrator has complete knowledge of the target API surface across all waves before writing any code.
+
+### Pass 1: Documentation (all waves)
+
+For each wave in the wave plan (Wave 0 through Final Wave), execute Phase 3 (Context Retrieval) only. Do NOT implement anything during this pass.
+
+1. For each wave, delegate to `tb-context-retriever` to retrieve all Telerik Blazor API context needed.
+2. Save each wave's context report to `{target_path}/.migration/context-cache/wave-{N}.md`.
+3. After all waves have context reports, update `state.md`: set current phase to "Documentation pass complete — all context retrieved. Ready for implementation."
+
+**GATE CHECK:** Pass 1 is complete when every wave that requires context retrieval has a corresponding `context-cache/wave-{N}.md` file on disk. Do NOT begin Pass 2 until this is satisfied.
+
+### Pass 2: Implementation (all waves)
+
+For each wave in the wave plan, execute Phases 4 through 7 in order, using the context already retrieved in Pass 1.
+
+For each wave:
+1. **Phase 4** — Migrate (delegate to subagent with pre-retrieved context)
+2. **Phase 4b** — Style & Visual Polish (delegate to stylist)
+3. **Phase 5** — Verify & Test (delegate to tester)
+4. **Phase 6** — Fix Issues (if Phase 5 reported failures)
+5. **Phase 7** — Wave Complete (update state, update component map)
+
+**Update `state.md` after EVERY wave completion in Pass 2.** Mark the wave as DONE, record the timestamp, and set the current phase to the next wave. This is critical for resumability.
 
 ---
 
@@ -74,21 +228,41 @@ For each wave from Phase 2, execute Phases 3 through 7 in order before moving to
 
 Delegate to the **tb-context-retriever** subagent for all Telerik Blazor components needed in this wave. Provide component names, aspects (parameters, events, types, accessibility, binding patterns), and purpose. For Wave 0, also request setup guidance.
 
-Read the retriever's completion report. Store context for subsequent phases.
+Read the retriever's completion report. Store context for subsequent phases. Save the report to `{target_path}/.migration/context-cache/wave-{N}.md`.
 
 **Your own built-in knowledge of Telerik Blazor APIs is NOT retrieved context.** Only a Context Retrieval Report produced by `tb-context-retriever` in THIS conversation counts.
 
-**Skip ONLY if** a Context Retrieval Report for the exact same components AND aspects already exists from a prior wave in this conversation. When skipping, reference the prior wave and confirm the report covers the current wave's needs. **Skip for** Final Wave (Cleanup). **Reduce if** only new components need retrieval.
+**Skip ONLY if** a Context Retrieval Report for the exact same components AND aspects already exists from a prior wave in this conversation. When skipping, reference the prior wave and confirm the report covers the current wave's needs. **Skip for** Final Wave (Cleanup). **Skip if** the wave contains no Telerik Blazor components (e.g., data model waves, pure C# service waves with no UI). **Reduce if** only new components need retrieval.
+
+**Context reuse across waves:** If a prior wave's Context Retrieval Report already covers the components needed in this wave, you may reuse it without re-retrieving. Reference the prior wave number, confirm coverage explicitly, and document the reuse in `state.md`. Retrieve only net-new components not covered by any prior report. This is the ONLY acceptable way to skip retrieval — you must still confirm coverage in writing.
+
+**GATE CHECK:** Phase 3 is not complete until `{target_path}/.migration/context-cache/wave-{N}.md` exists on disk (either freshly created or explicitly reused from a prior wave with a documented reference).
 
 ---
 
 ## Phase 4: Migrate
 
-Delegate to the **tb-migrator** subagent with the wave description, source-to-target mappings, API context from Phase 3, source files, and instruction to preserve all business logic. The migrator handles component structure and logic only — **not** final styling.
+Delegate to the **tb-migrator** subagent (or **tb-developer** for cross-framework rebuilds — see Subagent Selection Guide) with the wave description, source-to-target mappings, API context from Phase 3, source files, and instruction to preserve all business logic. The migrator handles component structure and logic only — **not** final styling.
+
+**The Phase 4 delegation prompt MUST NOT include CSS specifications, visual styling instructions, or theme customization.** All styling goes through Phase 4b. If you find yourself writing CSS rules or visual descriptions in the Phase 4 prompt, stop and move that content to Phase 4b. **Note:** The implementation subagent (`tb-developer` or `tb-migrator`) may produce minimal CSS as part of building a working component — this is acceptable. Phase 4b serves as the CSS verification, refinement, and DOM-inspection pass, not necessarily the sole CSS author.
 
 Read the migrator's completion report. Confirm files modified and component mappings.
 
-**Wave 0:** Execute package installation directly (scoped exception — see Prohibited Actions). **Final Wave:** Execute package removal directly (scoped exception). These exceptions apply ONLY to package management commands, not to writing component code or CSS.
+**GATE CHECK:** Phase 4 is not complete until the subagent's Migration Report is saved to `{target_path}/.migration/reports/wave-{N}-migration.md`.
+
+**Wave 0 — Foundation:**
+- **Package installation**: Execute `dotnet add package` directly (scoped exception — see Prohibited Actions).
+- **Project scaffolding** (new target directory only): If `{target_path}` is a new directory (not in-place), delegate to **tb-developer** with setup guidance from the Phase 3 Context Retrieval Report:
+  > Set up a new Blazor project at `{target_path}`. Install the Telerik NuGet package, configure `nuget.config` for the Telerik feed, register `AddTelerikBlazor()` in `Program.cs`, add `TelerikRootComponent` in `MainLayout.razor`, add Telerik namespaces to `_Imports.razor`, import the theme CSS and JS, and verify the project builds with zero errors. Do NOT migrate any components — just create a buildable shell.
+  Read the developer's completion report. The target project must build before proceeding to Wave 1.
+
+- **Test infrastructure** (all migrations): If no test project exists, delegate to **tb-developer**:
+  > Create a bUnit test project for the Blazor project at `{target_path}`. Add a project reference to the main project, install `bunit` and `xunit` NuGet packages, and verify the test runner works with a trivial passing test. Save the test project alongside the main project.
+  Read the developer's completion report. The test runner must execute successfully before proceeding.
+
+- **Application server** (all migrations): After Wave 0 builds successfully, start the application with `dotnet watch` in the background. Verify it loads in a browser. Keep it running for all subsequent waves — Phase 4b and Phase 5 require a live application for DOM inspection and browser verification. If the server crashes during a later wave, restart it before proceeding to Phase 4b.
+
+**Final Wave:** Execute package removal directly (scoped exception). These exceptions apply ONLY to package management commands, not to writing component code or CSS.
 
 ---
 
@@ -112,6 +286,10 @@ Read the stylist's completion report. Confirm styling files created/modified. **
 
 **Skip for** Wave 0 and Final Wave (Cleanup). **Skip ONLY if** the wave produced exclusively non-renderable artifacts (C# interfaces only, configuration only, data services with no Razor output). If the wave migrated ANY Blazor component with Razor output, Phase 4b is mandatory.
 
+**Server startup prerequisite:** The application server should already be running from Wave 0 (see Phase 4, Wave 0 — Application server). If it is not running, start it now with `dotnet watch` in the background before delegating to `tb-stylist`. DOM inspection requires a live application. If the server cannot start (build errors), fix the build first by re-entering Phase 6, then return to Phase 4b.
+
+**GATE CHECK:** Phase 4b is not complete until the Styling Report is saved to `{target_path}/.migration/reports/wave-{N}-styling.md`.
+
 ---
 
 ## Phase 5: Verify & Test
@@ -125,11 +303,13 @@ Re-verify (up to 2 iterations).
 
 **Validation** — Build check (`dotnet build`) is always required. Then delegate to **tb-tester** in test mode with modified files and API context. **Testing is MANDATORY for every wave that produces or modifies code — no exceptions.** The absence of existing test files is NOT permission to skip — it is the trigger to create new tests. Scope: unit tests for functional parity, accessibility tests, Razor file validation. Update existing tests to use Telerik APIs and assertions. Compliance check: no source library imports in migrated files.
 
-A wave is not complete until `tb-tester` has produced a Test Report with pass/fail results.
+A wave is not complete until `tb-tester` has produced a Test Report with pass/fail results. **The Test Report must be produced by `tb-tester`** — orchestrator-authored reports (e.g., from running `dotnet test` directly) do NOT satisfy this gate. The orchestrator may run `dotnet build` as a pre-check, but test execution and report production must be delegated.
 
 Read the tester's **Test Report** in full. If it is missing or incomplete, the phase gate is not satisfied — re-delegate to `tb-tester`.
 
 **Reduce test scope for** Wave 0 (build only) and Final Wave (run all existing tests, no new ones).
+
+**GATE CHECK:** Phase 5 is not complete until the Test Report is saved to `{target_path}/.migration/reports/wave-{N}-test.md`. You MUST NOT proceed to Phase 7 (Wave Complete) without this artifact. A passing build check alone does NOT satisfy this gate.
 
 ---
 
@@ -139,15 +319,31 @@ Read the tester's **Test Report** in full. If it is missing or incomplete, the p
 
 1. **Visual/CSS failures** → re-delegate to **tb-stylist** with failures, screenshots, and visual goal.
 2. **Structural/logic failures** → re-delegate to **tb-migrator** with failures and API context.
-3. Re-run browser verification if the fix touched visual code.
-4. Re-validate.
-5. Repeat up to **3 iterations**. Log persistent issues and proceed.
+3. **No-equivalent component gaps** → If the migrator's wave report flagged a component as "no direct equivalent," delegate a **build** task to **tb-developer**:
+   > Build a Telerik Blazor component that replicates this behavior: [source component description from migrator report]. Use Telerik UI for Blazor primitives. Here is the API context: [relevant context from Phase 3]. Write the component to `{target_path}/[appropriate path]`.
+   Read the developer's completion report. Integrate the new component into the migrated files.
+4. Re-run browser verification if the fix touched visual code.
+5. Re-validate.
+6. Repeat up to **3 iterations**. Log persistent issues and proceed.
 
 ---
 
 ## Phase 7: Wave Complete
 
-Mark the wave as done. Proceed to the next wave in the loop.
+**PRE-CHECK:** Before marking a wave complete, print and evaluate the following checklist. For each artifact, state PASS (exists) or FAIL (missing). If any artifact is FAIL, state which phase must be re-entered and go back.
+
+```
+Wave {N} Artifact Checklist:
+- [ ] reports/wave-{N}-migration.md  → Phase 4
+- [ ] reports/wave-{N}-styling.md    → Phase 4b (required if wave had renderable components; mark N/A if non-renderable)
+- [ ] reports/wave-{N}-test.md       → Phase 5
+```
+
+If any required artifact is FAIL, this is a **WORKFLOW VIOLATION** — do not proceed. Go back to the phase that should have produced it.
+
+1. **Update component map** — In `{target_path}/.migration/component-map.md`, update the status of each component migrated in this wave. Do this BEFORE updating `state.md`.
+2. **Update state** — In `{target_path}/.migration/state.md`, mark this wave as DONE, record the timestamp, and set the current phase to the next wave.
+3. Proceed to the next wave.
 
 ---
 
@@ -160,13 +356,27 @@ After all waves complete:
 
 Read the reviewer's **Review Report** in full.
 
+**If the reviewer flags Critical or Major issues**, delegate fixes to the appropriate subagent:
+- **Logic/structural issues** → `tb-developer` or `tb-migrator`
+- **CSS/styling/accessibility issues** → `tb-stylist`
+- **Test gaps** → `tb-tester`
+After fixes are applied, re-delegate to `tb-reviewer` for a focused re-audit of the fixed areas. Do NOT fix issues yourself — this is a Prohibited Action even during the final audit. Repeat up to **2 iterations**. Log persistent Minor issues and proceed.
+
 **Reduce if** the migration was small (1-2 waves) and all phases passed cleanly. **Always required for** 3+ waves or Complex components.
+
+**GATE CHECK:** Phase 8 is not complete until `{target_path}/.migration/reports/final-review.md` exists on disk.
 
 ---
 
 ## Phase 9: Report
 
+**You MUST NOT consider the migration complete until this phase is done.** Do not end the conversation, summarize casually, or declare success before the final report is saved to disk.
+
 Compile the final summary from all prior phase artifacts. Every section below is **mandatory** — if a section cannot be filled because the corresponding phase was not run, you MUST state which phase was skipped and why. An empty section without explanation is a workflow violation.
+
+**Save the final report** to `{target_path}/.migration/reports/final-summary.md`.
+
+**GATE CHECK:** The migration is complete ONLY when `{target_path}/.migration/reports/final-summary.md` exists on disk with all mandatory sections filled.
 
 ```
 ## Migration Complete
@@ -200,6 +410,11 @@ Compile the final summary from all prior phase artifacts. Every section below is
 ### Screenshots
 [Before/after screenshots for key pages — sourced from tb-tester or tb-stylist]
 
+### Workflow Deviations
+| Phase | Deviation | Reason |
+|-------|-----------|--------|
+[List any phases that were skipped, self-executed by the orchestrator instead of delegated, or reduced. Include the reason for each deviation. If no deviations occurred, write "None — all phases followed as specified."]
+
 ### Remaining Issues (if any)
 | # | Severity | Description | Recommendation |
 ```
@@ -208,8 +423,41 @@ Compile the final summary from all prior phase artifacts. Every section below is
 
 ## Persistent Workflow
 
-When the user provides additional files or components to migrate:
-1. Treat them as additional waves.
-2. Return to **Phase 1** — reason whether re-exploration is needed.
-3. Reuse context for already-migrated components. Retrieve only new ones.
-4. Continue wave numbering from where the previous migration left off.
+When the user provides follow-up requests after a migration:
+
+**Triage first** — determine whether the request is a migration task or a development task:
+- **"Migrate more components"** / **"convert this page"** / **"finish the migration"** → migration task. Route through the wave execution loop (Phases 3–7) using `tb-migrator`.
+- **"Add a new feature"** / **"build a dashboard"** / **"improve the grid with server-side filtering"** → development task. Delegate to **tb-developer** with the relevant API context from `.migration/context-cache/`. This is net-new work, not translation.
+- **Ambiguous** → ask the user: "Is this a migration of existing source code, or a new feature to build from scratch?"
+
+For migration tasks:
+1. Read `{target_path}/.migration/state.md` to load current progress.
+2. Treat the new request as additional waves appended to the existing plan.
+3. Update `{target_path}/.migration/wave-plan.md` with the new waves.
+4. Reuse context from `.migration/context-cache/` for already-migrated components. Retrieve only new ones.
+5. Continue wave numbering from where the previous migration left off.
+6. Update `state.md` throughout execution.
+
+For development tasks:
+1. Retrieve context via `tb-context-retriever` for the components needed.
+2. Delegate to `tb-developer` with the requirement and API context.
+3. Delegate to `tb-tester` for verification.
+4. Update `state.md` to note the post-migration enhancement.
+
+---
+
+## Migration Mode
+
+### Full Migration (default)
+Migrate the entire project in waves. Source library is fully removed in the Final Wave.
+
+### Incremental Migration
+Source and target libraries coexist. Migrate page-by-page or feature-by-feature.
+
+Rules for incremental mode:
+1. **No Final Wave cleanup** — source library stays installed until the user explicitly requests removal.
+2. **Coexistence setup in Wave 0** — install Telerik alongside the source library. Register `AddTelerikBlazor()` in addition to the source service registration. Add Telerik namespaces to `_Imports.razor` while keeping source namespaces. Load both theme CSS files. Document any CSS conflicts and apply isolation strategy.
+3. **Scope per wave** — each wave targets a specific page, route, or feature boundary rather than a component type. The wave spec names the files/pages in scope.
+4. **Compliance check is per-scope** — verify source imports are removed from migrated files only, not project-wide.
+5. **Living document tracks scope** — `state.md` records which pages/features are migrated and which still use the source library.
+6. **Graduation** — when the user confirms all pages are migrated, run a Final Wave to remove the source library, clean up `_Imports.razor`, remove source service registration, and consolidate themes.
