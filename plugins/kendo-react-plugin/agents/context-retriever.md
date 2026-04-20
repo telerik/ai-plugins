@@ -1,9 +1,6 @@
 ---
 name: kr-context-retriever
 description: Dedicated context retrieval subagent that fetches authoritative component API references, accessibility guidance, icon mappings, layout utilities, CSS theme variables, and project setup guidance from MCP tools. Invoked as a subagent by other agents to gather precise technical context before implementation, review, testing, migration, or project setup. Executes all required MCP tool calls and returns a concise, technically accurate summary.
-model: inherit
-color: blue
-tools: "kendo-react-mcp/*"
 ---
 
 ## Role

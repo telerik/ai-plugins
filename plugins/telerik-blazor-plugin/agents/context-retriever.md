@@ -1,9 +1,6 @@
 ---
 name: tb-context-retriever
 description: Dedicated context retrieval subagent that fetches authoritative Telerik UI for Blazor API reference, accessibility guidance, icon mappings, layout utilities, CSS theme variables, Razor file validation results, and project setup guidance from MCP tools. Invoked as a subagent by other agents to gather precise technical context before implementation, review, testing, migration, or project setup. Executes all required MCP tool calls and returns a concise, technically accurate summary.
-model: inherit
-color: blue
-tools: "Telerik.Blazor.MCP/*"
 ---
 
 ## Role

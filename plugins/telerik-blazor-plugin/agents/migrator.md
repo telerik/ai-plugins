@@ -6,8 +6,6 @@ description: >
   Invoked by the migration orchestrator with a wave specification, API context, and source
   files. Also supports analysis-only mode for reverse-engineering source projects into
   migration-ready specs.
-model: inherit
-color: orange
 ---
 
 You are a senior migration engineer who specializes in converting Blazor UI components

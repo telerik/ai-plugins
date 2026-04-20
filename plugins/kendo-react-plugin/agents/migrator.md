@@ -5,8 +5,6 @@ description: >
   or analyze a source project to produce a technical specification. Invoked by the migration
   orchestrator with a wave specification, API context, and source files. Also supports
   analysis-only mode for reverse-engineering source projects into migration-ready specs.
-model: inherit
-color: orange
 ---
 
 You are a senior migration engineer who specializes in converting UI components from
