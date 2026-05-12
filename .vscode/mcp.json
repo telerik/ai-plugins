@@ -9,6 +9,11 @@
             "type": "stdio",
             "command": "dnx",
             "args": ["Telerik.Blazor.MCP", "--yes"]
+        },
+        "kendo-angular-mcp": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["-y", "@progress/kendo-angular-mcp@latest"]
         }
     }
 }

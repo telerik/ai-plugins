@@ -1,17 +1,17 @@
 ---
-name: kendo-react-getting-started
-description: Creates a new KendoReact project from scratch or adds KendoReact to an existing project. Use when the user wants to set up, scaffold, bootstrap, or get started with a React application using KendoReact. Trigger on "create new React project", "set up KendoReact", "add KendoReact to my app", "scaffold React with Kendo", "getting started with KendoReact", "bootstrap React project", "install kendo-react".
+name: kendo-angular-getting-started
+description: Creates a new Kendo UI for Angular project from scratch or adds Kendo UI for Angular to an existing project. Use when the user wants to set up, scaffold, bootstrap, or get started with an Angular application using Kendo UI for Angular. Trigger on "create new Angular project", "set up Kendo Angular", "add Kendo Angular to my app", "scaffold Angular with Kendo", "getting started with Kendo Angular", "bootstrap Angular project", "install kendo-angular".
 allowed-tools: Bash
 ---
 
-# KendoReact — Getting Started
+# Kendo UI for Angular — Getting Started
 
 ## Arguments
 
-Usage: `/kendo-react-getting-started [mode] [project-name] [--theme=<theme>]`
+Usage: `/kendo-angular-getting-started [mode] [project-name] [--theme=<theme>]`
 
-- `[mode]`: `new` (default) — create a brand-new project with the Kendo CLI, or `existing` — add KendoReact to an existing project
-- `[project-name]`: The name for your project (default: `kendo-react-app`). Only used in `new` mode.
+- `[mode]`: `new` (default) — create a brand-new Angular project with the Angular CLI, or `existing` — add Kendo UI for Angular to an existing project
+- `[project-name]`: The name for your project (default: `kendo-angular-app`). Only used in `new` mode.
 - `[--theme=<theme>]`: One of `default` (default), `bootstrap`, `material`, `fluent`
 
 ## Instructions
@@ -20,7 +20,7 @@ Usage: `/kendo-react-getting-started [mode] [project-name] [--theme=<theme>]`
    - If `$ARGUMENTS` contains `existing`, `add`, `existing-project`, or `add-to-existing` (case-insensitive) → read and follow [existing-project.md](existing-project.md)
    - Otherwise → read and follow [new-project.md](new-project.md) (this is the default)
 
-2. Extract the project name from `$ARGUMENTS`. If no name is provided, use `kendo-react-app`.
+2. Extract the project name from `$ARGUMENTS`. If no name is provided, use `kendo-angular-app`.
 
 3. Extract the theme from `$ARGUMENTS` (e.g., `--theme=bootstrap`). If no theme is provided, use `default`.
 

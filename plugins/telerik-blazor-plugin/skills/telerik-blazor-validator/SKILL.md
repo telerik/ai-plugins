@@ -1,102 +1,58 @@
 ---
 name: telerik-blazor-validator
-description: >
-  Use this skill when the user wants to validate Telerik UI for Blazor Razor files for
-  invalid or incorrect component properties. Trigger when the user mentions validating
-  Razor files, checking for invalid Telerik properties, finding parameter errors in
-  Blazor components, or phrases like "validate my Razor files", "check my Telerik
-  component properties", "find invalid properties in my Blazor code", "validate Telerik
-  usage", "are my Telerik component parameters correct", or "run Telerik validation".
-  Also trigger automatically after code generation or migration to catch property errors
-  before runtime.
+description: Validates a Telerik UI for Blazor Razor file for invalid component properties, incorrect parameters, and misconfigured components. Use when the user wants to validate Razor files, check for invalid Telerik properties, find parameter errors in Blazor components, or after any code generation involving Telerik components. Trigger on "validate razor file", "check Telerik properties", "find invalid properties", "validate Telerik usage".
 ---
 
-## Purpose
+## Telerik UI for Blazor — Validator
 
-This skill teaches an agent how to validate `.razor` files for invalid Telerik UI for
-Blazer component properties, catching errors at development time rather than runtime.
+### When to Run
 
-## What Razor File Validation Does
+**CRITICAL: Run the validator after every code generation step that involves Telerik components.**
 
-Razor file validation analyzes a `.razor` file and reports:
-- **Invalid properties**: Parameters that don't exist on the Telerik component
-- **Typos in parameter names**: Misspelled parameter names
-- **Deprecated parameters**: Properties that have been removed or renamed
-- **Type mismatches**: Parameters with incorrect value types
+- After generating or modifying any `.razor` file that contains Telerik components
+- After applying changes suggested by the component assistant
+- Before considering any implementation task complete
 
-This tool catches errors that the IDE might not detect until runtime, especially
-in dynamic scenarios with `@bind-*` or event callbacks.
+### Calling the Validator
 
-## Validation Workflow
+Use the `telerik_validator_assistant` MCP tool. Provide the **absolute path** to the Razor file to validate.
 
-### Step 1 — Identify files to validate
-
-Determine which Razor files contain Telerik components:
-
-```bash
-grep -rl "Telerik\|<Telerik" --include="*.razor" .
+**Tool call:**
+```
+telerik_validator_assistant({
+    filePath="<absolute path to the .razor file>"
+})
 ```
 
-Or validate specific files the user provides.
-
-### Step 2 — Run validation on each file
-
-For each `.razor` file containing Telerik components, run Razor file validation
-to detect invalid component properties.
-
-### Step 3 — Collect and classify results
-
-Organize validation results by severity:
-
-| Severity | Description |
-|----------|-------------|
-| **Error** | Invalid property that will cause a build or runtime failure |
-| **Warning** | Deprecated property or potential issue |
-| **Info** | Suggestion for improvement |
-
-### Step 4 — Produce a validation report
-
-```markdown
-## Telerik Blazor Validation Report
-
-### Summary
-| Result    | Count |
-|-----------|-------|
-| Files scanned | N |
-| Errors    | N     |
-| Warnings  | N     |
-
-### Errors
-
-#### ❌ `Pages/ProductGrid.razor`
-- **Line 12**: Invalid property `Filterable` on `<TelerikGrid>`. Did you mean `FilterMode`?
-- **Line 25**: Unknown property `OnClick` on `<GridColumn>`. GridColumn does not support this event.
-
-#### ❌ `Pages/EditForm.razor`
-- **Line 8**: Invalid property `IsRequired` on `<TelerikTextBox>`. Use validation attributes on the model instead.
-
-### Warnings
-
-#### ⚠️ `Pages/Dashboard.razor`
-- **Line 15**: Deprecated property `Height` on `<TelerikChart>`. Use CSS styling instead.
-
-### All Clear
-✅ `Pages/Home.razor` — No issues found
-✅ `Shared/MainLayout.razor` — No issues found
+**Example:**
+```
+telerik_validator_assistant({
+    filePath="C:/MyProject/Components/Pages/Dashboard.razor"
+})
 ```
 
-### Step 5 — Provide fixes
+### Interpreting Results
 
-For each error found, provide the corrected code. Retrieve the authoritative
-component API to look up the correct parameter name:
+- **No errors reported** → the file passes validation. Proceed.
+- **Errors reported** → fix ALL reported errors before proceeding.
+  - For each invalid property, use `telerik_component_assistant` to find the correct parameter name or type.
+  - Re-run the validator after fixing to confirm all issues are resolved.
 
-For the component, query: "What is the correct parameter for <intended behavior>?"
+### What the Validator Checks
 
-## When to Validate
+- Invalid or non-existent component parameters
+- Incorrect parameter types or values
+- Misconfigured component syntax
+- Icon name validity
 
-Run validation in these scenarios:
-- **After code generation**: Validate all generated component files
-- **After migration**: Validate all migrated Razor files
-- **On user request**: When the user asks to check their Telerik code
-- **Before deployment**: As a final quality gate
-- **After upgrading Telerik**: Check for renamed or removed parameters
+### Validation Loop
+
+```
+1. Generate or modify Razor code with Telerik components
+2. Call telerik_validator_assistant with the file path
+3. If errors found:
+   a. Call telerik_component_assistant to find correct members
+   b. Fix all reported errors
+   c. Return to step 2
+4. Proceed only when validator reports no errors
+```

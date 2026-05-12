@@ -1,0 +1,10 @@
+{
+  "name": "kendo-angular-mcp-plugin",
+  "version": "1.0.0",
+  "description": "The official Kendo UI for Angular agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, and accessibility assistance for Angular applications built with Kendo UI for Angular.",
+  "author": {
+    "name": "Progress"
+  },
+  "license": "MIT",
+  "keywords": ["kendo", "angular", "kendo-ui-for-angular", "kendo-angular", "mcp", "progress-design-system"]
+}

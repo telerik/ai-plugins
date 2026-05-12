@@ -1,20 +1,10 @@
 {
-  "name": "kendo-react-plugin",
-  "version": "1.0.3",
-  "description": "Enforces KendoReact and Progress Design System usage in React applications. Provides development guidance, component implementation, code analysis, accessibility auditing, theming, layout, and E2E testing workflows. Prevents third-party UI library usage.",
+  "name": "kendo-react-mcp-plugin",
+  "version": "1.0.0",
+  "description": "The official KendoReact agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, and accessibility assistance for React applications built with KendoReact.",
   "author": {
     "name": "Progress"
   },
   "license": "MIT",
-  "keywords": [
-    "kendo",
-    "react",
-    "kendoreact",
-    "telerik",
-    "progress-design-system",
-    "code-analysis",
-    "ui-components",
-    "accessibility",
-    "theming"
-  ]
+  "keywords": ["kendo", "react", "kendoreact", "kendo-ui-for-react", "mcp", "progress-design-system"]
 }

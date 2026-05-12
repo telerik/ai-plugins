@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "kendo-react-mcp": {
+    "kendo-angular-mcp": {
       "command": "npx",
       "args": [
-        "@progress/kendo-react-mcp@latest"
+        "@progress/kendo-angular-mcp@latest"
       ],
       "env": {
         "KENDO_UIA_STOP_STATIC_CONTEXT": "1"

@@ -6,15 +6,9 @@ A collection of AI coding agent plugins for [Claude Code](https://code.claude.co
 
 | Plugin | Description |
 |--------|-------------|
-| [`kendo-react-plugin`](plugins/kendo-react-plugin/) | AI-powered KendoReact development — component implementation, code analysis, accessibility, theming, testing, migration, and advanced styling |
 | [`telerik-blazor-plugin`](plugins/telerik-blazor-plugin/) | AI-powered Telerik UI for Blazor development — component implementation, code analysis, property validation, theming, testing, and migration |
-
-Draft plugins (in progress):
-
-| Plugin | Description |
-|--------|-------------|
-| [`[draft]-kendo-angular-skills`](plugins/[draft]-kendo-angular-skills/) | Skills for KendoReact Angular workflows |
-| [`[draft]-migration-helper`](plugins/[draft]-migration-helper/) | Cross-framework migration utilities |
+| [`kendo-react-plugin`](plugins/kendo-react-plugin/) | AI-powered KendoReact development — component implementation, code analysis, accessibility, theming, testing, migration, and advanced styling |
+| [`kendo-angular-plugin`](plugins/kendo-angular-plugin/) | AI-powered Kendo UI for Angular development — orchestration, component documentation, layout utilities, theming, icons, and accessibility assistance |
 
 ---
 
@@ -26,69 +20,36 @@ Every plugin follows a standard directory layout:
 plugin-name/
 ├── .claude-plugin/
 │   └── plugin.json        # Required: plugin manifest (name, version, description)
-├── commands/              # User-invokable slash commands (.md files)
-├── agents/                # Custom agent definitions (.md files)
 ├── skills/                # Agent skills — each in its own subdirectory
 │   └── skill-name/
 │       └── SKILL.md       # Skill instructions with YAML frontmatter
-├── hooks/
-│   └── hooks.json         # Lifecycle hooks (PostToolUse, PreToolUse, etc.)
 ├── .mcp.json              # MCP server definitions
 └── README.md
 ```
 
-> **Important:** `commands/`, `agents/`, `skills/`, and `hooks/` must sit at the **plugin root**, not inside `.claude-plugin/`. Only `plugin.json` goes inside `.claude-plugin/`.
-
-### Plugin manifest
-
-Create `.claude-plugin/plugin.json` to declare the plugin's identity:
-
-```json
-{
-  "name": "my-plugin",
-  "description": "What this plugin does",
-  "version": "1.0.0",
-  "author": {
-    "name": "Your Name"
-  }
-}
-```
-
-### Skills
-
-Skills live in `skills/<skill-name>/SKILL.md`. The folder name becomes the skill identifier, namespaced under the plugin name (e.g. `/my-plugin:skill-name`). Each `SKILL.md` requires a YAML frontmatter block:
-
-```markdown
----
-name: skill-name
-description: Brief description — used by the agent to decide when to invoke this skill
 ---
 
-Detailed instructions for the agent...
-```
+## How It Works
 
-### Agents
+Each plugin is a thin AI layer that wraps a **Progress MCP server** — a backend process that gives your coding agent live access to component documentation, APIs, and code generation for the respective product. The MCP server is started automatically when you register the plugin with your agent; no manual setup is required.
 
-Agents are `.md` files in the `agents/` directory. They define a persona, system prompt, tool restrictions, and can delegate to skills.
+Using the plugins to write or generate code requires a valid **Progress product license** for the underlying UI library:
 
-### Commands
+| Plugin | Product | Link |
+|--------|---------|---------|
+| `telerik-blazor-plugin` | Telerik UI for Blazor | [Telerik UI for Blazor](https://www.telerik.com/blazor-ui) |
+| `kendo-react-plugin` | KendoReact | [KendoReact](https://www.telerik.com/kendo-react-ui) |
+| `kendo-angular-plugin` | Kendo UI for Angular | [Kendo UI License]https://www.telerik.com/kendo-angular-ui) |
 
-Commands are `.md` files in the `commands/` directory. They are user-invokable via `/plugin-name:command-name` and typically hand off to a specific agent.
+---
 
-### MCP Servers
+## Prerequisites
 
-Declare MCP servers in `.mcp.json` at the plugin root. Use `${CLAUDE_PLUGIN_ROOT}` to reference paths relative to the plugin directory:
-
-```json
-{
-  "mcpServers": {
-    "my-server": {
-      "command": "${CLAUDE_PLUGIN_ROOT}/scripts/server.js",
-      "args": ["--config", "${CLAUDE_PLUGIN_ROOT}/config.json"]
-    }
-  }
-}
-```
+| Plugin | Requirement |
+|--------|-------------|
+| `telerik-blazor-plugin` | [.NET SDK](https://dotnet.microsoft.com/download) with `dnx` available |
+| `kendo-react-plugin` | [Node.js](https://nodejs.org/) (for `npx`) |
+| `kendo-angular-plugin` | [Node.js](https://nodejs.org/) (for `npx`) |
 
 ---
 

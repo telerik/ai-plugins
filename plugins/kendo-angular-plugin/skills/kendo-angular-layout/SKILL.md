@@ -1,13 +1,13 @@
 ---
-name: kendo-react-layout
-description: Retrieves Kendo Design System CSS utility classes for building layouts in KendoReact applications. Use when the user wants to build a page layout, create sections, add spacing, use flexbox/grid utilities, structure a dashboard, or needs layout-related CSS classes. Trigger on "build layout", "add spacing", "flexbox utilities", "grid layout", "Kendo CSS utils", "layout structure", "responsive layout", "page sections". Always call before writing custom CSS for layout purposes.
+name: kendo-angular-layout
+description: Retrieves Kendo Design System CSS utility classes for building layouts in Kendo UI for Angular applications. Use when the user wants to build a page layout, create sections, add spacing, use flexbox/grid utilities, structure a dashboard, or needs layout-related CSS classes. Trigger on "build layout", "add spacing", "flexbox utilities", "grid layout", "Kendo CSS utils", "layout structure", "responsive layout", "page sections". Always call before writing custom CSS for layout purposes.
 ---
 
-## KendoReact — Layout Assistant
+## Kendo UI for Angular — Layout Assistant
 
 ### Setup
 
-Before using layout utilities, read [layout-conventions.md](layout-conventions.md) for setup instructions, critical React sizing rules, and ready-to-use layout components.
+Before using layout utilities, read [layout-conventions.md](layout-conventions.md) for setup instructions, critical Angular sizing rules, and ready-to-use layout components.
 
 ### Calling the Layout Assistant
 
@@ -41,4 +41,4 @@ kendo_layout_assistant({
 - **One layout call per major section** if sections have different requirements.
 - Always call this tool **before** writing custom CSS for layout — the utility classes cover most layout scenarios.
 - For responsive adjustments, make a separate call with the responsive requirements described.
-- Check [layout-conventions.md](layout-conventions.md) for React-specific rules (e.g., `min-width: 0` on flex children, explicit `height` for DataGrid and Chart).
+- Check [layout-conventions.md](layout-conventions.md) for Angular-specific rules (e.g., `min-width: 0` on flex children, explicit `[height]` binding for Grid and Chart).
