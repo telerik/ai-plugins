@@ -6,7 +6,7 @@
         "@progress/kendo-angular-mcp@latest"
       ],
       "env": {
-        "KENDO_UIA_STOP_STATIC_CONTEXT": "1"
+        "PLUGIN_MODE": "1"
       }
     }
   }
