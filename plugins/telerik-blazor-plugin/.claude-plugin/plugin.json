@@ -1,21 +1,10 @@
 {
-  "name": "telerik-blazor-plugin",
-  "version": "1.0.1",
-  "description": "Enforces Telerik UI for Blazor and Progress Design System usage in Blazor applications. Provides development guidance, component implementation, code analysis, accessibility auditing, theming, layout, validation, and compliance enforcement. Prevents third-party UI library usage.",
+  "name": "telerik-blazor-mcp-plugin",
+  "version": "1.0.0",
+  "description": "The official Telerik UI for Blazor agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, validation, and accessibility assistance for Blazor applications.",
   "author": {
     "name": "Progress"
   },
   "license": "MIT",
-  "keywords": [
-    "telerik",
-    "blazor",
-    "telerik-ui-for-blazor",
-    "progress-design-system",
-    "code-analysis",
-    "ui-components",
-    "accessibility",
-    "theming",
-    "razor",
-    "dotnet"
-  ]
+  "keywords": ["telerik", "blazor", "telerik-ui-for-blazor", "telerik-blazor", "mcp", "progress-design-system"]
 }

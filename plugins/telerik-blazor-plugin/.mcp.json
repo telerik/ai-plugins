@@ -1,20 +1,15 @@
 {
-    "mcpServers": {
-        "Telerik.Blazor.MCP": {
-            "type": "stdio",
-            "command": "dnx",
-            "args": [
-                "Telerik.Blazor.MCP",
-                "--yes"
-            ]
-        },
-        "kendo-e2e": {
-            "command": "npx",
-            "args": [
-                "-p",
-                "@progress/kendo-e2e@latest",
-                "kendo-e2e-mcp"
-            ]
-        }
+  "mcpServers": {
+    "Telerik.Blazor.MCP": {
+      "type": "stdio",
+      "command": "dnx",
+      "args": [
+        "Telerik.Blazor.MCP",
+        "--yes"
+      ],
+      "env": {
+        "KENDO_UIA_STOP_STATIC_CONTEXT": "1"
+      }
     }
+  }
 }
