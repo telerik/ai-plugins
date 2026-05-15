@@ -17,6 +17,19 @@ $ARGUMENTS
 
 Before executing any phase, assess the user's request and decide which conditional phases apply. Use the table below as your guide, then load only the relevant supporting files.
 
+### Browser Feedback Loop Mode
+
+Also determine the validation mode from the prompt intent:
+
+| Signal in the prompt | Mode |
+|---|---|
+| User wants to **see the UI run**, **confirm it works**, **verify the result**, or **have the agent fix issues until the app behaves as expected** | **Browser feedback loop mode** — run the full implementation workflow, then load and execute `../telerik-blazor-browser-validation/SKILL.md` |
+| User is asking for **code generation only** — implementing a component, updating a layout, adding a feature | **No-browser mode** — run the existing workflow unchanged |
+| Intent is ambiguous | **No-browser mode** by default — offer to run browser validation after generation is complete |
+| User explicitly states a mode preference | Honor that preference |
+
+In browser mode, the repair loop must continue until the original prompt requirements are satisfied — not just until the first successful navigation. Re-evaluate the requirements against the current browser state after each repair pass.
+
 | Phase | Include when | Supporting file |
 |---|---|---|
 | Component Integration | API reference or component docs are needed — default yes unless purely layout/theming work | [phase-components.md](phase-components.md) |
@@ -86,6 +99,8 @@ Load and execute only the files that matched your Step 1 assessment:
 
 Read [validation-steps.md](validation-steps.md) and execute all validation steps before considering the task complete.
 
+If **browser feedback loop mode** was selected in Step 1, after all validation steps pass load and execute [../telerik-blazor-browser-validation/SKILL.md](../telerik-blazor-browser-validation/SKILL.md).
+
 ---
 
 ## ✅ Completion Checklist
@@ -98,6 +113,7 @@ Before considering the task complete, ensure:
 - [ ] Custom theme implemented and applied (if theming phase ran)
 - [ ] Icons properly integrated (if icons phase ran)
 - [ ] Responsive behavior works across all devices (if responsive phase ran)
+- [ ] Browser validation passed and repair loop completed with no unresolved blockers (if browser feedback loop mode was active)
 - [ ] All validation checks passed
 
 **Remember:** Quality over speed. Validate each step before moving forward.

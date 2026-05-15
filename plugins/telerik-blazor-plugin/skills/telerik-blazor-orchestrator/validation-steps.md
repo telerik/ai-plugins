@@ -112,3 +112,11 @@ Execute these validation steps systematically to ensure high-quality, maintainab
 - Graceful error handling for all user interactions
 - Meaningful error messages for users
 - Network error handling for API calls
+
+---
+
+## Browser Feedback Loop Validation (Conditional)
+
+Run this section **only** when browser feedback loop mode was selected by the orchestrator. Skip for code generation-only prompts — offer browser validation as a follow-up instead.
+
+Ensure `telerik_validator_assistant` has reported no errors for all changed Razor files, then load and execute `../telerik-blazor-browser-validation/SKILL.md`.
