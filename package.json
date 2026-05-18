@@ -1,0 +1,14 @@
+{
+  "name": "telerik-ai-plugins",
+  "version": "0.0.0",
+  "private": true,
+  "description": "AI coding agent plugins for Progress / Telerik UI component expertise.",
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.0.1",
+    "@commitlint/config-conventional": "^21.0.1",
+    "husky": "^9.1.7"
+  }
+}
