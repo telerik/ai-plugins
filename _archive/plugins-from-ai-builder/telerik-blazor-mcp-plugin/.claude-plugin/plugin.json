@@ -1,0 +1,10 @@
+{
+  "name": "telerik-blazor-mcp-plugin",
+  "version": "1.0.0",
+  "description": "The official Telerik UI for Blazor agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, validation, and accessibility assistance for Blazor applications.",
+  "author": {
+    "name": "Progress"
+  },
+  "license": "MIT",
+  "keywords": ["telerik", "blazor", "telerik-ui-for-blazor", "mcp", "progress-design-system"]
+}

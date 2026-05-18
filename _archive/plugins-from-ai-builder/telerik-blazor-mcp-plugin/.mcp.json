@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "Telerik.Blazor.MCP": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": [
+        "exec",
+        "/Users/topuzov/git/ai-builder/mcp-servers-dotnet/dist/packages/Telerik.Blazor.MCP/net10.0/Telerik.Blazor.MCP.dll"
+      ],
+      "env": {
+        "CONTEXTAPI_API_KEY": "",
+        "TELERIK_LICENSE": "",
+        "TELERIK_MCP_ACCESS": "agent",
+        "KENDO_UIA_STOP_STATIC_CONTEXT": "1"
+      }
+    }
+  }
+}

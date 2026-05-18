@@ -1,0 +1,45 @@
+---
+name: telerik-blazor-layout
+description: Retrieves Progress/Kendo Design System CSS utility classes for building layouts in Telerik UI for Blazor applications. Use when the user wants to build a page layout, create sections, add spacing, use flexbox/grid utilities, structure a dashboard, or needs layout-related CSS classes. Trigger on "build layout", "add spacing", "flexbox utilities", "grid layout", "Kendo CSS utils", "layout structure", "responsive layout", "page sections". Call before layout CSS decisions so utilities, Telerik layout components, and custom CSS can be chosen deliberately.
+---
+
+## Telerik UI for Blazor — Layout Assistant
+
+### Setup
+
+Before using layout utilities, read [layout-conventions.md](layout-conventions.md) for CDN setup and component priority rules.
+
+This skill owns the progressive disclosure decision for layout support files. Read [layout-conventions.md](layout-conventions.md) for every layout-focused use. Read [../telerik-blazor-orchestrator/ux-guidelines.md](../telerik-blazor-orchestrator/ux-guidelines.md) only when the current request or follow-up notes ask for a full page, section composition, dashboard/application layout, visual hierarchy, or UX polish. Do not read unrelated component, icon, theme, validation, or accessibility files from this skill.
+
+### Calling the Layout Assistant
+
+Use the `telerik_layout_assistant` MCP tool to retrieve Kendo Design System CSS utility classes relevant to your layout requirements.
+
+**Tool call:**
+```
+telerik_layout_assistant({
+    prompt="<Detailed description of the layout: sections, structure, responsive needs, component types>",
+    includeBuildingBlockExamples=true  // Set to true to include example building blocks
+})
+```
+
+**Examples:**
+```
+telerik_layout_assistant({
+    prompt="Provide Kendo Design System utility classes for a dashboard layout with a header, sidebar navigation, main content area with cards, and a footer. Needs to be responsive across mobile and desktop.",
+    includeBuildingBlockExamples=true
+})
+```
+
+```
+telerik_layout_assistant({
+    prompt="Provide Kendo Design System utility classes to make a 3-column card grid responsive — stacked on mobile, 2 columns on tablet, 3 columns on desktop."
+})
+```
+
+### Query Guidelines
+
+- **Be descriptive.** Include all sections (header, sidebar, content area, footer), the component types used, and responsive requirements.
+- **One layout call per major section** if sections have different requirements.
+- Always call this tool **before** writing custom CSS for layout. Use returned utilities where they satisfy the layout requirement; write custom CSS when utilities or Telerik layout components do not cover the needed behavior.
+- For responsive layout adjustments, make a separate call with the responsive requirements described.

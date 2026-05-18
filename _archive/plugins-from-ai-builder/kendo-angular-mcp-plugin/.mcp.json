@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "progress-angular-mcp": {
+      "tools": [
+        "*"
+      ],
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/Users/topuzov/git/ai-builder/mcp-servers/packages/angular/dist/index.js"
+      ],
+      "env": {
+        "CONTEXTAPI_API_KEY": "",
+        "KENDO_MCP_ACCESS": "agent",
+        "TELERIK_LICENSE": "",
+        "KENDO_UI_LICENSE": "",
+        "KENDO_UIA_LAYOUT_MODE": "utils",
+        "KENDO_UIA_STOP_STATIC_CONTEXT": "1"
+      }
+    }
+  }
+}
