@@ -1,0 +1,6 @@
+templates:
+  - source: ../../templates/skills/prompt-enrichment
+    destination: ./skills/prompt-enrichment
+    variables:
+      family: Telerik
+      assistantPrefix: telerik

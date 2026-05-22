@@ -4,11 +4,17 @@
   "private": true,
   "description": "AI coding agent plugins for Progress / Telerik UI component expertise.",
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "templates:build": "node ./scripts/render-templates.mjs build",
+    "templates:check": "node ./scripts/render-templates.mjs check",
+    "templates:watch": "node ./scripts/render-templates.mjs watch"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.0.1",
     "@commitlint/config-conventional": "^21.0.1",
+    "chokidar": "^4.0.3",
+    "handlebars": "^4.7.8",
     "husky": "^9.1.7"
+    ,"js-yaml": "^4.1.0"
   }
 }

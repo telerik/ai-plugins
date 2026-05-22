@@ -20,6 +20,7 @@ Every plugin follows a standard directory layout:
 plugin-name/
 ├── .claude-plugin/
 │   └── plugin.json        # Required: plugin manifest (name, version, description)
+├── templates.yaml         # Optional: plugin-local template rendering config
 ├── skills/                # Agent skills — each in its own subdirectory
 │   └── skill-name/
 │       └── SKILL.md       # Skill instructions with YAML frontmatter
@@ -106,3 +107,62 @@ Add the plugin's absolute path to your `settings.json`. Set the value to `true` 
 Open **Settings** (`Cmd+,` / `Ctrl+,`), search for `chat.pluginLocations`, and add your entries there, or edit `settings.json` directly.
 
 Typically, VSCode updates the plugins on new instance. But if you have doubts you can either restart VSCode or run `Developer: Reload Window`.
+
+---
+
+## Template Rendering
+
+Shared template folders under `templates/` can be rendered into plugin-specific output using Handlebars variables defined in each plugin's `templates.yaml` file.
+
+### Config format
+
+Paths in `templates.yaml` are resolved relative to the folder containing that file. A plugin can define multiple template jobs in the same file as long as each job writes to a distinct destination.
+
+```yaml
+templates:
+    - source: ../../templates/skills/prompt-enrichment
+        destination: ./skills/prompt-enrichment
+        variables:
+            family: Kendo
+            assistantPrefix: kendo-react
+
+    - source: ../../templates/skills/another-template
+        destination: ./skills/another-template
+        variables:
+            family: Kendo
+            assistantPrefix: kendo-react
+```
+
+### Commands
+
+Build all plugin templates once:
+
+```bash
+npm run templates:build
+```
+
+Rebuild automatically while templates or config files change:
+
+```bash
+npm run templates:watch
+```
+
+The renderer removes each destination folder before writing so the generated output mirrors the template source cleanly.
+
+### Template authoring workflow
+
+1. Edit files in `templates/...` or update a plugin's `templates.yaml`.
+2. Run `npm run templates:build` to regenerate destination folders.
+3. Stage both the source changes and the regenerated output before committing.
+
+Do not hand-edit files inside `plugins/*/skills/...` paths that are managed by a `templates.yaml` entry — the pre-commit hook will reject the commit and ask you to make the change in the template source instead.
+
+Validate template integrity at any time without building:
+
+```bash
+npm run templates:check
+```
+
+The hook runs this automatically on every `git commit`. It blocks the commit if:
+- A template source or `templates.yaml` was staged but the destination is out of sync — run `templates:build` and restage.
+- A generated destination file was edited directly without a matching template/config change — edit the template source instead.
