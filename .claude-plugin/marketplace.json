@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "plugins-test",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Local plugin marketplace for testing KendoReact plugins",
   "owner": {
     "name": "Progress"
@@ -9,8 +9,8 @@
   "plugins": [
     {
       "name": "kendo-react-plugin",
-      "description": "AI-powered KendoReact development and auditing — component implementation, code analysis, accessibility, theming, and icon selection via the official kendo-react-mcp tools.",
-      "version": "1.0.3",
+      "description": "The official KendoReact agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, and accessibility assistance for React applications built with KendoReact.",
+      "version": "1.0.2",
       "author": {
         "name": "Progress"
       },
@@ -19,12 +19,22 @@
     },
     {
       "name": "telerik-blazor-plugin",
-      "description": "AI-powered Telerik UI for Blazor development and auditing — component implementation, code analysis, accessibility, theming, and layout guidance via the official telerik-blazor-mcp tools.",
-      "version": "1.0.0",
+      "description": "The official Telerik UI for Blazor agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, validation, and accessibility assistance for Blazor applications.",
+      "version": "1.0.2",
       "author": {
         "name": "Progress"
       },
       "source": "./plugins/telerik-blazor-plugin",
+      "category": "development"
+    },
+    {
+      "name": "kendo-angular-plugin",
+      "description": "The official Kendo UI for Angular agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, and accessibility assistance for Angular applications built with Kendo UI for Angular.",
+      "version": "1.0.2",
+      "author": {
+        "name": "Progress"
+      },
+      "source": "./plugins/kendo-angular-plugin",
       "category": "development"
     }
   ]

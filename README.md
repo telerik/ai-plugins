@@ -166,3 +166,32 @@ npm run templates:check
 The hook runs this automatically on every `git commit`. It blocks the commit if:
 - A template source or `templates.yaml` was staged but the destination is out of sync — run `templates:build` and restage.
 - A generated destination file was edited directly without a matching template/config change — edit the template source instead.
+
+---
+
+## Versioning
+
+Each plugin is versioned independently via its own `.claude-plugin/plugin.json` manifest. The root `.claude-plugin/marketplace.json` acts as the registry — it mirrors every plugin's `version` and `description` and carries its own top-level version that increments alongside the plugins.
+
+### Automatic bumps (CI)
+
+Version bumps happen automatically on every merge to `main` via the [Version Bump](.github/workflows/version-bump.yml) GitHub Actions workflow. The bump type is derived from the merge commit message following the [Conventional Commits](https://www.conventionalcommits.org/) spec.
+
+Only the plugins whose files were touched by the commit get their version bumped. The marketplace top-level version is bumped by the same type on every qualifying merge.
+
+The workflow commits the updated files back to `main` with the message `chore(release): bump plugin versions [skip ci]` so it does not trigger itself again.
+
+### Manual bumps
+
+To force a bump locally without waiting for CI:
+
+```bash
+# Patch-bump a single plugin
+node ./scripts/version-bump.mjs kendo-react-plugin patch
+```
+
+### What gets updated
+
+Each bump (CI or manual) touches:
+- `plugins/<name>/.claude-plugin/plugin.json` — `version` field for affected plugins
+- `.claude-plugin/marketplace.json` — `version` and `description` synced for every plugin, plus the top-level `version` bumped
