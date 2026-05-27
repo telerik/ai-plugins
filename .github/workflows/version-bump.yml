@@ -18,7 +18,7 @@ jobs:
           # fetch-depth 2 so git diff-tree can compare HEAD against its parent.
           # PAT token so the bot push can bypass branch protection rules.
           fetch-depth: 2
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GH_TOKEN || github.token }}
 
       - uses: actions/setup-node@v4
         with:
