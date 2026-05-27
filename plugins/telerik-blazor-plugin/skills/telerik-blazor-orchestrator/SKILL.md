@@ -15,6 +15,8 @@ $ARGUMENTS
 
 ## Step 1: Assess the Request
 
+**Prompt Enrichment (do this first):** If the request is vague or minimal (under ~30 words, generic terms like "dashboard" or "page", no layout/data/component specifics), read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and produce a design brief before proceeding. Skip if the request already includes specific components, layout, and data.
+
 Before executing any phase, assess the user's request and decide which conditional phases apply. Use the table below as your guide, then load only the relevant supporting files.
 
 | Phase | Include when | Supporting file |

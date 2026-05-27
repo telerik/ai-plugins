@@ -15,6 +15,8 @@ $ARGUMENTS
 
 ## Step 1: Assess the Request
 
+**Prompt Enrichment (do this first):** If the request is vague or minimal (under ~30 words, generic terms like "dashboard" or "page", no layout/data/component specifics), read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and produce a design brief before proceeding. Skip if the request already includes specific components, layout, and data.
+
 Before executing any phase, do three things:
 
 1. **Detect Angular project setup** — read [additional-plan.md](additional-plan.md) for NgModule vs Standalone detection and theme management instructions. Apply these findings throughout all code generation.
