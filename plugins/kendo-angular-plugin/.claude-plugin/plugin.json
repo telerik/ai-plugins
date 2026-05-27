@@ -1,6 +1,6 @@
 {
   "name": "kendo-angular-mcp-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "AI coding assistant for building Angular apps with Kendo UI for Angular. Covers component usage, layout, theming, icons, and accessibility.",
   "author": {
     "name": "Progress"

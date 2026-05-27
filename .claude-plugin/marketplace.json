@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "plugins-test",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Local plugin marketplace for testing KendoReact plugins",
   "owner": {
     "name": "Progress"
@@ -9,8 +9,8 @@
   "plugins": [
     {
       "name": "kendo-react-plugin",
-      "description": "The official KendoReact agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, and accessibility assistance for React applications built with KendoReact.",
-      "version": "1.0.2",
+      "description": "AI coding assistant for building React apps with KendoReact. Covers component usage, layout, theming, icons, and accessibility.",
+      "version": "1.0.3",
       "author": {
         "name": "Progress"
       },
@@ -19,8 +19,8 @@
     },
     {
       "name": "telerik-blazor-plugin",
-      "description": "The official Telerik UI for Blazor agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, validation, and accessibility assistance for Blazor applications.",
-      "version": "1.0.2",
+      "description": "AI coding assistant for building Blazor apps with Telerik UI for Blazor. Covers component usage, layout, theming, icons, validation, and accessibility.",
+      "version": "1.0.3",
       "author": {
         "name": "Progress"
       },
@@ -29,8 +29,8 @@
     },
     {
       "name": "kendo-angular-plugin",
-      "description": "The official Kendo UI for Angular agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, and accessibility assistance for Angular applications built with Kendo UI for Angular.",
-      "version": "1.0.2",
+      "description": "AI coding assistant for building Angular apps with Kendo UI for Angular. Covers component usage, layout, theming, icons, and accessibility.",
+      "version": "1.0.3",
       "author": {
         "name": "Progress"
       },
