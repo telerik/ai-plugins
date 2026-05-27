@@ -9,16 +9,33 @@ jobs:
   version-bump:
     runs-on: ubuntu-latest
 
+    concurrency:
+      group: 'version-bump'
+      cancel-in-progress: true
+
     permissions:
+      id-token: write # Required for Akeyless authentication
       contents: write
 
     steps:
+      - name: Import Secrets
+        id: import-secrets
+        uses: LanceMcCarthy/akeyless-action@v5
+        with:
+          access-id: ${{ secrets.GH_AKEYLESS_ACCESS_ID }}
+          static-secrets: |
+            {
+              "/WebComponents/prod/tokens/GH_TOKEN": "GH_TOKEN"
+            }
+          export-secrets-to-environment: false
+          export-secrets-to-outputs: true
+
       - uses: actions/checkout@v4
         with:
           # fetch-depth 2 so git diff-tree can compare HEAD against its parent.
           # PAT token so the bot push can bypass branch protection rules.
           fetch-depth: 2
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ steps.import-secrets.outputs.GH_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:
@@ -50,4 +67,4 @@ jobs:
           git commit -m "chore(release): bump plugin versions [skip ci]"
           git pull --rebase && git push
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ steps.import-secrets.outputs.GH_TOKEN }}
