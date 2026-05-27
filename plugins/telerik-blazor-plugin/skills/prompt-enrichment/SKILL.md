@@ -53,5 +53,3 @@ Every enrichment — whether single-view or per-view within an app — produces 
 ```
 
 The brief stays internal unless the user asks to see it. Present the plan conversationally, get confirmation, then build.
-# SMOKE TEST MODIFICATION
-# SMOKE TEST MODIFICATION
