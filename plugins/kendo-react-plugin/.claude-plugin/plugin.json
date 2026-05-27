@@ -1,7 +1,7 @@
 {
   "name": "kendo-react-mcp-plugin",
   "version": "1.0.2",
-  "description": "The official KendoReact agents plugin. Provides orchestration, component documentation, layout utilities, theming, icons, and accessibility assistance for React applications built with KendoReact.",
+  "description": "AI coding assistant for building React apps with KendoReact. Covers component usage, layout, theming, icons, and accessibility.",
   "author": {
     "name": "Progress"
   },
