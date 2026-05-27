@@ -14,28 +14,16 @@ jobs:
       cancel-in-progress: true
 
     permissions:
-      id-token: write # Required for Akeyless authentication
       contents: write
+      pull-requests: write
 
     steps:
-      - name: Import Secrets
-        id: import-secrets
-        uses: LanceMcCarthy/akeyless-action@v5
-        with:
-          access-id: ${{ secrets.GH_AKEYLESS_ACCESS_ID }}
-          static-secrets: |
-            {
-              "/WebComponents/prod/tokens/GH_TOKEN": "GH_TOKEN"
-            }
-          export-secrets-to-environment: false
-          export-secrets-to-outputs: true
-
       - uses: actions/checkout@v4
         with:
           # fetch-depth 2 so git diff-tree can compare HEAD against its parent.
           # PAT token so the bot push can bypass branch protection rules.
           fetch-depth: 2
-          token: ${{ steps.import-secrets.outputs.GH_TOKEN }}
+          token: ${{ github.token }}
 
       - uses: actions/setup-node@v4
         with:
@@ -46,25 +34,16 @@ jobs:
 
       - name: Setup Git
         run: |
-          git config user.name  "kendo-bot"
-          git config user.email "kendouiteam@progress.com"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Bump versions
         run: node ./scripts/version-bump.mjs ci
 
-      - name: Commit and push version changes
+      - name: Create or update version bump PR
         run: |
-          # Stage only the version files
-          find plugins -name "plugin.json" -path "*/.claude-plugin/*" -exec git add {} +
-          git add .claude-plugin/marketplace.json
-
-          # Skip if nothing changed (e.g. commit type didn't warrant a bump)
-          if git diff --staged --quiet; then
-            echo "No version changes to commit."
-            exit 0
-          fi
-
-          git commit -m "chore(release): bump plugin versions [skip ci]"
-          git pull --rebase && git push
+          ./scripts/create-or-update-version-pr.sh \
+            "chore/version-bump" \
+            "chore(release): bump plugin versions"
         env:
-          GH_TOKEN: ${{ steps.import-secrets.outputs.GH_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
