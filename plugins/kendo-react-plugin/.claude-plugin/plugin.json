@@ -1,6 +1,6 @@
 {
   "name": "kendo-react-mcp-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "AI coding assistant for building React apps with KendoReact. Covers component usage, layout, theming, icons, and accessibility.",
   "author": {
     "name": "Progress"
