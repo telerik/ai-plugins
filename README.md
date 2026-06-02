@@ -95,6 +95,8 @@ To refresh the plugins when editing you can either exit and re-open or run
 
 ### VS Code Copilot
 
+#### Dev Setup
+
 Add the plugin's absolute path to your `settings.json`. Set the value to `true` to enable it, or `false` to register it as disabled:
 
 ```json
@@ -107,6 +109,17 @@ Add the plugin's absolute path to your `settings.json`. Set the value to `true` 
 Open **Settings** (`Cmd+,` / `Ctrl+,`), search for `chat.pluginLocations`, and add your entries there, or edit `settings.json` directly.
 
 Typically, VSCode updates the plugins on new instance. But if you have doubts you can either restart VSCode or run `Developer: Reload Window`.
+
+#### User Setup
+
+1. Open VSCode settings (`CMD/Ctrl+,`)
+2. In the input type `chat.marketplaces`
+3. Add the `telerik/telerik-ai-plugins` marketplace
+4. To install the plugin press `F1` in VSCode
+5. Select/Type `Chat: Manage Plugin Marketplaces`
+6. Select `telerik/telerik-ai-plugins` marketplace
+7. Select Show plugins
+8. In the Agent Plugins tab install the desired plugin
 
 ---
 
