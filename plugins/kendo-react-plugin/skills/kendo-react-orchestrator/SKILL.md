@@ -15,7 +15,7 @@ $ARGUMENTS
 
 ## Step 1: Assess the Request
 
-**Prompt Enrichment (do this first):** If the request is vague or minimal (under ~30 words, generic terms like "dashboard" or "page", no layout/data/component specifics), read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and produce a design brief before proceeding. Skip if the request already includes specific components, layout, and data.
+**Prompt Enrichment Gate (do this first):** Before phase selection, decide whether the user's request needs enrichment. If it does, read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and follow that skill's workflow and supporting references exactly. After the Prompt Enrichment Gate is complete, continue with the rest of this orchestrator workflow.
 
 Before executing any phase, assess the user's request and decide which conditional phases apply. Use the table below as your guide, then load only the relevant supporting files.
 
@@ -44,7 +44,7 @@ Also read [ux-guidelines.md](ux-guidelines.md) for UX/UI design defaults that ap
 
 ---
 
-## Phase 0: CRITICAL — Accessibility Foundation (ALWAYS FIRST)
+## Phase 0: CRITICAL — Accessibility Foundation (FIRST IMPLEMENTATION PHASE)
 
 **Step 1 — Load WCAG 2.2 Level AA guidelines:**
 

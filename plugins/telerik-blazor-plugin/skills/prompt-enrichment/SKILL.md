@@ -7,6 +7,16 @@ description: Expand vague or minimal UI requests into rich, specific design brie
 
 Short or generic UI prompts produce bland, generic layouts with placeholder data. This skill expands any vague Telerik UI request into a detailed design brief before code is written.
 
+## Workflow Contract
+
+After reading this skill, stop and execute the Decision Table before doing any research, tool execution or implementation work.
+
+1. Choose the matching Decision Table row.
+2. Read the reference file named by that row before producing a brief, scaffold, clarification question, or skip decision.
+3. If the selected row is Clarification triage, ask the clarification question and wait for the user's answer before returning to this workflow.
+4. Do not create a design brief from this file alone. The enrichment gate is incomplete until the selected reference workflow has been followed.
+5. Only after this workflow is complete may the orchestrator continue with accessibility, component, layout, theming, icon, validation, or project-file work.
+
 ## Decision Table
 
 This is the single source of truth for picking a pattern. Each row lists the trigger signals, the deliverable, the pattern name, and the reference to load for full instructions. Reference files do **not** repeat trigger criteria — they are loaded only after the pattern has been picked here.

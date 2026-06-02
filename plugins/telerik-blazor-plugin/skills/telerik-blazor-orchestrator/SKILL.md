@@ -15,7 +15,14 @@ $ARGUMENTS
 
 ## Step 1: Assess the Request
 
-**Prompt Enrichment (do this first):** If the request is vague or minimal (under ~30 words, generic terms like "dashboard" or "page", no layout/data/component specifics), read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and produce a design brief before proceeding. Skip if the request already includes specific components, layout, and data.
+**Prompt Enrichment Gate (BLOCKING — do this first, before anything else):**
+
+1. Decide whether the user's request needs enrichment (vague, no layout/data/component specifics, or multi-view app scope).
+2. If enrichment is needed: read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and follow that skill's workflow and supporting references exactly.
+3. **STOP. Do not read any project files, phase files, or call any tools until the enrichment skill has sent the brief to the user and the user has replied with confirmation.**
+4. Only after the user confirms the brief may you continue with the phase assessment and implementation below.
+
+If the request is already fully specified (specific components, data fields, layout, content — nothing vague), skip enrichment and proceed directly to phase assessment.
 
 Before executing any phase, assess the user's request and decide which conditional phases apply. Use the table below as your guide, then load only the relevant supporting files.
 
@@ -42,7 +49,7 @@ Also read [ux-guidelines.md](ux-guidelines.md) for UX/UI design defaults that ap
 
 ---
 
-## Phase 0: CRITICAL — Accessibility Foundation (ALWAYS FIRST)
+## Phase 0: CRITICAL — Accessibility Foundation (FIRST IMPLEMENTATION PHASE)
 
 **Step 1 — Load WCAG 2.2 Level AA guidelines:**
 
