@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "plugins-test",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Local plugin marketplace for testing KendoReact plugins",
   "owner": {
     "name": "Progress"
@@ -10,7 +10,7 @@
     {
       "name": "kendo-react-plugin",
       "description": "AI coding assistant for building React apps with KendoReact. Covers component usage, layout, theming, icons, and accessibility.",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "author": {
         "name": "Progress"
       },
@@ -30,7 +30,7 @@
     {
       "name": "kendo-angular-plugin",
       "description": "AI coding assistant for building Angular apps with Kendo UI for Angular. Covers component usage, layout, theming, icons, and accessibility.",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "author": {
         "name": "Progress"
       },
