@@ -1,5 +1,5 @@
 ---
-name: kendo-angular-orchestrator
+name: kendo-angular-ui-generator
 description: Main entry point for building or refining UI with Kendo UI for Angular. Orchestrates the full workflow including accessibility, layout, components, theming, icons, and validation. Use when the user wants to build or modify a complete page, section, or UI feature with Kendo UI for Angular components. Trigger on "build a page", "create a dashboard", "implement a UI", "generate a form", "build UI with Kendo Angular", "create an Angular page", "#kendo_ui_generator".
 ---
 

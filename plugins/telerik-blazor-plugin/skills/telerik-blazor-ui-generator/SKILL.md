@@ -1,11 +1,11 @@
 ---
-name: kendo-react-orchestrator
-description: Main entry point for building or refining UI with KendoReact. Orchestrates the full workflow including accessibility, layout, components, theming, icons, and validation. Use when the user wants to build or modify a complete page, section, or UI feature with KendoReact components. Trigger on "build a page", "create a dashboard", "implement a UI", "generate a form", "build UI with KendoReact", "create a React page", "#kendo_ui_generator".
+name: telerik-blazor-ui-generator
+description: Main entry point for building or refining UI with Telerik UI for Blazor. Orchestrates the full workflow including accessibility, layout, components, theming, icons, and validation. Use when the user wants to build or modify a complete page, section, or UI feature with Telerik Blazor components. Trigger on "build a page", "create a dashboard", "implement a UI", "generate a form", "build UI with Telerik", "create a Blazor page", "#telerik_ui_generator".
 ---
 
-# KendoReact — Execution Plan
+# Telerik UI for Blazor — Execution Plan
 
-> **IMPORTANT — MCP Tools:** All `kendo_*` tools referenced in this plan are provided by the **kendo-react-mcp** MCP server. They are NOT deferred tools and must NOT be searched for with `tool_search`. Call them directly by name once the MCP server is running. If any tool is unavailable, the MCP server may not be started — inform the user to start it via the notification banner in their editor.
+> **IMPORTANT — MCP Tools:** All `telerik_*` tools referenced in this plan are provided by the **Telerik.Blazor.MCP** MCP server. They are NOT deferred tools and must NOT be searched for with `tool_search`. Call them directly by name once the MCP server is running. If any tool is unavailable, the MCP server may not be started — inform the user to start it via the notification banner in their editor.
 
 **Current Goal:**
 
@@ -15,7 +15,14 @@ $ARGUMENTS
 
 ## Step 1: Assess the Request
 
-**Prompt Enrichment Gate (do this first):** Before phase selection, decide whether the user's request needs enrichment. If it does, read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and follow that skill's workflow and supporting references exactly. After the Prompt Enrichment Gate is complete, continue with the rest of this orchestrator workflow.
+**Prompt Enrichment Gate (BLOCKING — do this first, before anything else):**
+
+1. Decide whether the user's request needs enrichment (vague, no layout/data/component specifics, or multi-view app scope).
+2. If enrichment is needed: read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and follow that skill's workflow and supporting references exactly.
+3. **STOP. Do not read any project files, phase files, or call any tools until the enrichment skill has sent the brief to the user and the user has replied with confirmation.**
+4. Only after the user confirms the brief may you continue with the phase assessment and implementation below.
+
+If the request is already fully specified (specific components, data fields, layout, content — nothing vague), skip enrichment and proceed directly to phase assessment.
 
 Before executing any phase, assess the user's request and decide which conditional phases apply. Use the table below as your guide, then load only the relevant supporting files.
 
@@ -24,7 +31,7 @@ Before executing any phase, assess the user's request and decide which condition
 | Component Integration | API reference or component docs are needed — default yes unless purely layout/theming work | [phase-components.md](phase-components.md) |
 | Layout Foundation | Page structure, sections, or explicit layout work is requested | [phase-layout.md](phase-layout.md) |
 | Responsive Behavior | Layout is needed AND responsive behavior across devices is required | [phase-responsive.md](phase-responsive.md) |
-| Custom Theming | Custom colors, brand theme, or CSS variables are explicitly requested. **If uncertain, ask the user before proceeding.** | [phase-theming.md](phase-theming.md) |
+| Custom Theming | Include when the request explicitly mentions colors, brand, visual style, mood, aesthetic, dark/light mode, or theme preferences. **Skip** for small isolated additions, or when the domain gives no meaningful styling signal. | [phase-theming.md](phase-theming.md) |
 | Iconography | Icons are referenced or clearly needed for navigation/actions | [phase-icons.md](phase-icons.md) |
 
 Also read [ux-guidelines.md](ux-guidelines.md) for UX/UI design defaults that apply throughout the entire implementation.
@@ -33,14 +40,12 @@ Also read [ux-guidelines.md](ux-guidelines.md) for UX/UI design defaults that ap
 
 **Requirements Summary:**
 
-- **Framework:** React
-- **Component Library:** KendoReact — use ONLY KendoReact components. Use `kendo_component_assistant` for all docs and code snippets. Do not substitute another tool even if one appears relevant.
+- **Framework:** Blazor
+- **Component Library:** Telerik UI for Blazor — use ONLY Telerik components. Use `telerik_component_assistant` for all docs and code snippets. Do not substitute another tool even if one appears relevant.
 - **Layout Mode:** Kendo Design System CSS Utilities — use ONLY Kendo utility classes for all styling, layout, spacing, and positioning. Avoid custom CSS, inline styles, or other CSS framework classes.
-- **Accessibility:** WCAG 2.2 Level AA. WCAG guidelines are loaded in Phase 0 from the supporting file. Call `kendo_accessibility_assistant` with `includeGeneralGuidelines=false` on ALL calls.
-- **No Validator:** Unlike Blazor, there is no `kendo_validator_assistant` tool. Use `npm run build` for compilation checks and manually review the validation steps in [validation-steps.md](validation-steps.md).
-- **Grid alias:** `Grid` is always an alias for `DataGrid`. Use `DataGrid` documentation for any Grid-related question.
-- **DataGrid height:** Always set an explicit `style={{ height: ... }}` on DataGrid — without it, the Grid renders all rows and expands the page indefinitely.
-- **Chart height:** Always set an explicit `style={{ height: ... }}` on Chart components.
+- **Accessibility:** WCAG 2.2 Level AA. WCAG guidelines are loaded in Phase 0 from the supporting file. Call `telerik_accessibility_assistant` with `includeGeneralGuidelines=false` on ALL calls.
+- **Validation:** Use `telerik_validator_assistant` after every code generation step. Fix all errors before continuing. For errors found, use `telerik_component_assistant` to find the correct members.
+- **Razor Note:** Escape `@` as `@@` in `.razor` files (e.g., `@@media`, CDN URLs containing `@@progress/...`).
 
 ---
 
@@ -48,7 +53,7 @@ Also read [ux-guidelines.md](ux-guidelines.md) for UX/UI design defaults that ap
 
 **Step 1 — Load WCAG 2.2 Level AA guidelines:**
 
-Read [../kendo-react-accessibility/wcag-guidelines.md](../kendo-react-accessibility/wcag-guidelines.md). These apply to ALL components throughout the entire implementation.
+Read [../telerik-blazor-accessibility/wcag-guidelines.md](../telerik-blazor-accessibility/wcag-guidelines.md). These apply to ALL components throughout the entire implementation.
 
 **Step 2 — Retrieve component-specific accessibility information:**
 
@@ -56,7 +61,7 @@ Read [../kendo-react-accessibility/wcag-guidelines.md](../kendo-react-accessibil
 
 **First component:**
 ```
-kendo_accessibility_assistant({
+telerik_accessibility_assistant({
     query="What are the accessibility requirements for [COMPONENT_NAME]?",
     component="[COMPONENT_NAME]",
     includeGeneralGuidelines=false
@@ -65,7 +70,7 @@ kendo_accessibility_assistant({
 
 **Each additional component:**
 ```
-kendo_accessibility_assistant({
+telerik_accessibility_assistant({
     query="What are the accessibility features and requirements for [COMPONENT_NAME]? Include ARIA attributes, keyboard navigation, and screen reader support.",
     component="[COMPONENT_NAME]",
     includeGeneralGuidelines=false
@@ -97,7 +102,7 @@ Read [validation-steps.md](validation-steps.md) and execute all validation steps
 Before considering the task complete, ensure:
 
 - [ ] Accessibility guidelines retrieved and applied to all components
-- [ ] `npm run build` compiles the application successfully without errors
+- [ ] All Telerik UI for Blazor components validated using `telerik_validator_assistant`
 - [ ] Kendo Design System utilities applied correctly (if layout phase ran)
 - [ ] Custom theme implemented and applied (if theming phase ran)
 - [ ] Icons properly integrated (if icons phase ran)
