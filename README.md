@@ -1,210 +1,105 @@
 # Telerik AI Plugins
 
-A collection of AI coding agent plugins for [Claude Code](https://code.claude.com), [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli), and [VS Code Copilot](https://code.visualstudio.com/docs/copilot/overview) that bring Progress / Telerik UI component expertise directly into your development workflow.
+AI coding agent plugins for [Claude Code](https://code.claude.com), [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli), and [VS Code Copilot](https://code.visualstudio.com/docs/copilot/overview) that bring Progress / Telerik UI component expertise directly into your development workflow.
 
 ## Plugins
 
 | Plugin | Description |
 |--------|-------------|
-| [`telerik-blazor-plugin`](plugins/telerik-blazor-plugin/) | AI-powered Telerik UI for Blazor development — component implementation, code analysis, property validation, theming, testing, and migration |
-| [`kendo-react-plugin`](plugins/kendo-react-plugin/) | AI-powered KendoReact development — component implementation, code analysis, accessibility, theming, testing, migration, and advanced styling |
-| [`kendo-angular-plugin`](plugins/kendo-angular-plugin/) | AI-powered Kendo UI for Angular development — orchestration, component documentation, layout utilities, theming, icons, and accessibility assistance |
-
----
-
-## Plugin Structure
-
-Every plugin follows a standard directory layout:
-
-```
-plugin-name/
-├── .claude-plugin/
-│   └── plugin.json        # Required: plugin manifest (name, version, description)
-├── templates.yaml         # Optional: plugin-local template rendering config
-├── skills/                # Agent skills — each in its own subdirectory
-│   └── skill-name/
-│       └── SKILL.md       # Skill instructions with YAML frontmatter
-├── .mcp.json              # MCP server definitions
-└── README.md
-```
-
----
+| [`telerik-blazor-plugin`](plugins/telerik-blazor-plugin/) | Telerik UI for Blazor — component implementation, validation, theming, testing, and migration |
+| [`kendo-react-plugin`](plugins/kendo-react-plugin/) | KendoReact — component implementation, accessibility, theming, testing, migration, and styling |
+| [`kendo-angular-plugin`](plugins/kendo-angular-plugin/) | Kendo UI for Angular — component documentation, layout utilities, theming, icons, and accessibility |
 
 ## How It Works
 
-Each plugin is a thin AI layer that wraps a **Progress MCP server** — a backend process that gives your coding agent live access to component documentation, APIs, and code generation for the respective product. The MCP server is started automatically when you register the plugin with your agent; no manual setup is required.
+Each plugin wraps a **Progress MCP server** that gives your coding agent live access to component documentation, APIs, and code generation. The MCP server starts automatically — no manual setup required.
 
-Using the plugins to write or generate code requires a valid **Progress product license** for the underlying UI library:
+A valid **Progress product license** is required to use the plugins:
 
-| Plugin | Product | Link |
-|--------|---------|---------|
-| `telerik-blazor-plugin` | Telerik UI for Blazor | [Telerik UI for Blazor](https://www.telerik.com/blazor-ui) |
-| `kendo-react-plugin` | KendoReact | [KendoReact](https://www.telerik.com/kendo-react-ui) |
-| `kendo-angular-plugin` | Kendo UI for Angular | [Kendo UI License]https://www.telerik.com/kendo-angular-ui) |
+| Plugin | License |
+|--------|---------|
+| `telerik-blazor-plugin` | [Telerik UI for Blazor](https://www.telerik.com/blazor-ui) |
+| `kendo-react-plugin` | [KendoReact](https://www.telerik.com/kendo-react-ui) |
+| `kendo-angular-plugin` | [Kendo UI for Angular](https://www.telerik.com/kendo-angular-ui) |
 
----
+## Getting Started
 
-## Prerequisites
+Add the `telerik/ai-plugins` marketplace to your agent, then install the plugin you need.
 
-| Plugin | Requirement |
-|--------|-------------|
-| `telerik-blazor-plugin` | [.NET SDK](https://dotnet.microsoft.com/download) with `dnx` available |
-| `kendo-react-plugin` | [Node.js](https://nodejs.org/) (for `npx`) |
-| `kendo-angular-plugin` | [Node.js](https://nodejs.org/) (for `npx`) |
+**Claude Code**
+```shell
+/plugin marketplace add telerik/ai-plugins
+/plugin install kendo-react-plugin@ai-plugins
+```
 
----
-
-## Using a Plugin Locally
-
-Clone this repository and use the path to a specific plugin directory when registering it with your coding agent. No GitHub repo or marketplace required.
-
-### Claude Code
-
-Pass the plugin directory with the `--plugin-dir` flag:
-
+**GitHub Copilot CLI**
 ```bash
-claude --plugin-dir ./plugins/kendo-react-plugin
+copilot plugin marketplace add telerik/ai-plugins
+copilot plugin install kendo-react-plugin@ai-plugins
 ```
 
-Load multiple plugins in the same session:
-
-```bash
-claude --plugin-dir ./plugins/kendo-react-plugin \
-       --plugin-dir ./plugins/telerik-blazor-plugin
-```
-
-While a session is running, reload plugins after making changes:
-
-```
-/reload-plugins
-```
-
-### GitHub Copilot CLI
-
-Install directly from the local path:
-
-```bash
-copilot plugin install ./plugins/kendo-react-plugin
-```
-
-To refresh the plugins when editing you can either exit and re-open or run 
-
-```
-/restart
-```
-
-### VS Code Copilot
-
-#### Dev Setup
-
-Add the plugin's absolute path to your `settings.json`. Set the value to `true` to enable it, or `false` to register it as disabled:
-
+**VS Code Copilot** *(Agent Plugins is a preview feature — requires VS Code 1.100+ with `chat.plugins.enabled: true`)* — add to `settings.json`, then browse `@agentPlugins` in the Extensions view and click **Install**:
 ```json
-"chat.pluginLocations": {
-    "/absolute/path/to/plugins-test/plugins/kendo-react-plugin": true,
-    "/absolute/path/to/plugins-test/plugins/telerik-blazor-plugin": true
-}
+"chat.plugins.marketplaces": ["telerik/ai-plugins"]
 ```
 
-Open **Settings** (`Cmd+,` / `Ctrl+,`), search for `chat.pluginLocations`, and add your entries there, or edit `settings.json` directly.
+For full setup instructions and local dev configuration see [docs/local-installation.md](docs/local-installation.md).
 
-Typically, VSCode updates the plugins on new instance. But if you have doubts you can either restart VSCode or run `Developer: Reload Window`.
+## Using the Skills
 
-#### User Setup
+Once a plugin is installed, you interact with it by invoking its skills directly in your agent chat.
 
-1. Open VSCode settings (`CMD/Ctrl+,`)
-2. In the input type `chat.marketplaces`
-3. Add the `telerik/telerik-ai-plugins` marketplace
-4. To install the plugin press `F1` in VSCode
-5. Select/Type `Chat: Manage Plugin Marketplaces`
-6. Select `telerik/telerik-ai-plugins` marketplace
-7. Select Show plugins
-8. In the Agent Plugins tab install the desired plugin
+Skills are typically invoked automatically when the agent recognises a relevant prompt. You can also trigger them explicitly using the `/plugin-name:skill-name` hashtag (e.g. `/kendo-react-plugin:kendo-react-ui-generator`).
 
----
+### Set up a new project
 
-## Template Rendering
+Use the `getting-started` skill to scaffold a brand-new project or add the library to an existing one:
 
-Shared template folders under `templates/` can be rendered into plugin-specific output using Handlebars variables defined in each plugin's `templates.yaml` file.
+| Plugin | Skill |
+|--------|-------|
+| `kendo-react-plugin` | `kendo-react-getting-started` |
+| `kendo-angular-plugin` | `kendo-angular-getting-started` |
+| `telerik-blazor-plugin` | `telerik-blazor-getting-started` |
 
-### Config format
-
-Paths in `templates.yaml` are resolved relative to the folder containing that file. A plugin can define multiple template jobs in the same file as long as each job writes to a distinct destination.
-
-```yaml
-templates:
-    - source: ../../templates/skills/prompt-enrichment
-        destination: ./skills/prompt-enrichment
-        variables:
-            family: Kendo
-            assistantPrefix: kendo-react
-
-    - source: ../../templates/skills/another-template
-        destination: ./skills/another-template
-        variables:
-            family: Kendo
-            assistantPrefix: kendo-react
+**Example prompts:**
+```
+Create a new KendoReact project called my-app with the Material theme
+```
+```
+Add KendoReact to my existing project
+```
+```
+Set up a new Telerik Blazor project called my-blazor-app --theme=bootstrap
 ```
 
-### Commands
-
-Build all plugin templates once:
-
-```bash
-npm run templates:build
+Or forcefully run the getting-started skill workflow by using slash command: 
+```
+/kendo-react-plugin:kendo-react-getting-started Create a new KendoReact project called my-app with the Material theme
 ```
 
-Rebuild automatically while templates or config files change:
+### Build UI
 
-```bash
-npm run templates:watch
+Use the `ui-generator` skill to build or refine complete pages, sections, forms, and dashboards:
+
+| Plugin | Skill |
+|--------|-------|
+| `kendo-react-plugin` | `kendo-react-ui-generator` |
+| `kendo-angular-plugin` | `kendo-angular-ui-generator` |
+| `telerik-blazor-plugin` | `telerik-blazor-ui-generator` |
+
+To ensure that the ui-generator skill is relevant for the task it is prefered to invoke it as a slash command.
+
+**Example prompts:**
 ```
-
-The renderer removes each destination folder before writing so the generated output mirrors the template source cleanly.
-
-### Template authoring workflow
-
-1. Edit files in `templates/...` or update a plugin's `templates.yaml`.
-2. Run `npm run templates:build` to regenerate destination folders.
-3. Stage both the source changes and the regenerated output before committing.
-
-Do not hand-edit files inside `plugins/*/skills/...` paths that are managed by a `templates.yaml` entry — the pre-commit hook will reject the commit and ask you to make the change in the template source instead.
-
-Validate template integrity at any time without building:
-
-```bash
-npm run templates:check
+/kendo-react-plugin:kendo-react-ui-generator Build a KendoReact admin dashboard with a data grid, charts, and a sidebar nav
 ```
-
-The hook runs this automatically on every `git commit`. It blocks the commit if:
-- A template source or `templates.yaml` was staged but the destination is out of sync — run `templates:build` and restage.
-- A generated destination file was edited directly without a matching template/config change — edit the template source instead.
-
----
-
-## Versioning
-
-Each plugin is versioned independently via its own `.claude-plugin/plugin.json` manifest. The root `.claude-plugin/marketplace.json` acts as the registry — it mirrors every plugin's `version` and `description` and carries its own top-level version that increments alongside the plugins.
-
-### Automatic bumps (CI)
-
-Version bumps happen automatically on every merge to `main` via the [Version Bump](.github/workflows/version-bump.yml) GitHub Actions workflow. The bump type is derived from the merge commit message following the [Conventional Commits](https://www.conventionalcommits.org/) spec.
-
-Only the plugins whose files were touched by the commit get their version bumped. The marketplace top-level version is bumped by the same type on every qualifying merge.
-
-The workflow commits the updated files back to `main` with the message `chore(release): bump plugin versions [skip ci]` so it does not trigger itself again.
-
-### Manual bumps
-
-To force a bump locally without waiting for CI:
-
-```bash
-# Patch-bump a single plugin
-node ./scripts/version-bump.mjs kendo-react-plugin patch
 ```
+/telerik-blazor-plugin:telerik-blazor-ui-generator Generate a Telerik Blazor order management form with validation
+```
+```
+/kendo-angular-plugin:kendo-angular-ui-generator Create an Angular page with a filterable Kendo Grid and a date picker toolbar
+``` 
 
-### What gets updated
+## Contributing
 
-Each bump (CI or manual) touches:
-- `plugins/<name>/.claude-plugin/plugin.json` — `version` field for affected plugins
-- `.claude-plugin/marketplace.json` — `version` and `description` synced for every plugin, plus the top-level `version` bumped
+See [CONTRIBUTING.md](CONTRIBUTING.md) for plugin structure, template rendering, and versioning.
