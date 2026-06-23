@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "plugins-test",
+  "name": "telerik-ai-plugins",
   "version": "1.0.6",
   "description": "Local plugin marketplace for testing KendoReact plugins",
   "owner": {
