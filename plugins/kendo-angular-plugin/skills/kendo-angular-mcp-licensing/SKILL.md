@@ -1,3 +1,23 @@
+---
+name: kendo-angular-mcp-licensing
+description: >
+  "PERMISSION_DENIED from #kendo_ui_generator" / "MCP tools fail but server
+  starts" / "#kendo_getting_started_assistant works but premium tools don't" /
+  "perpetual license, can I use the Agentic UI Generator" / "AI Coding Assistant
+  stopped working" / "MCP server not showing tools in VS Code" / "TELERIK_LICENSE
+  env var for MCP" / "kendo-angular-mcp PERMISSION_DENIED" / "MCP tools not
+  appearing in Copilot" / "trial expired and MCP tools say permission denied" —
+  Diagnose and resolve MCP server entitlement failures for
+  @progress/kendo-angular-mcp. Use when MCP tool calls return PERMISSION_DENIED
+  despite a working server, when premium MCP tools don't appear in the IDE, when
+  the AI Coding Assistant stops working (deprecated, migrated to Agentic UI
+  Generator), or when the developer asks whether their license type supports MCP
+  AI tools. Do NOT use for watermarks, banners, or TKL activation codes — those
+  are project licensing issues, route to kendo-angular-product-licensing. Do NOT
+  use for first-time install or onboarding — route to
+  kendo-angular-getting-started. Scoped to Kendo UI for Angular.
+---
+
 # Kendo MCP Licensing — Kendo UI for Angular
 
 ## Purpose
