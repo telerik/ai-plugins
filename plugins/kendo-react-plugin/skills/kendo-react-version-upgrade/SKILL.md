@@ -1,21 +1,6 @@
 ---
 name: kendo-react-version-upgrade
-description: >
-  "Should I upgrade KendoReact?" / "Is it safe to go from v12 to v15?" / "What
-  broke in v15?" / "How do I upgrade KendoReact?" / "kendo migrate" / "breaking
-  changes between versions" / "my components broke after npm update" / "themeColor
-  dark light removed" / "ref returns Handle instead of class" / "icon names
-  changed" / "TKL102 version not covered" / "perpetual license upgrade" / "what
-  changed in the latest release" / "should I skip versions" / "upgrade path" /
-  "codemod migration" / "npm-check-updates kendo" — Use this skill when a
-  developer asks about upgrading KendoReact between versions, whether an upgrade
-  is safe, what broke in a specific version, how to approach a multi-version
-  jump, or what preparation is needed before upgrading. This skill provides
-  guidance and reasoning about upgrades — it does not execute migrations. For
-  execution, it bridges to the Kendo CLI (`kendo migrate`) and the MCP server.
-  Do NOT use for first-time install (route to kendo-react-getting-started) or
-  for licensing failures unrelated to version coverage (route to
-  kendo-react-product-licensing).
+description: Use when a developer asks about upgrading KendoReact between versions, whether an upgrade is safe, what broke in a specific version, how to approach a multi-version jump, or what preparation is needed before upgrading. This skill provides guidance and reasoning about upgrades — it does not execute migrations. For execution, it bridges to the Kendo CLI (`kendo migrate`) and the MCP server. Do NOT use for first-time install (route to kendo-react-getting-started) or for licensing failures unrelated to version coverage (route to kendo-react-product-licensing). Trigger on "Should I upgrade KendoReact?", "Is it safe to go from v12 to v15?", "What broke in v15?", "How do I upgrade KendoReact?", "kendo migrate", "breaking changes between versions", "my components broke after npm update", "themeColor dark light removed", "ref returns Handle instead of class", "icon names changed", "TKL102 version not covered", "perpetual license upgrade", "what changed in the latest release", "should I skip versions", "upgrade path", "codemod migration", "npm-check-updates kendo".
 ---
 
 # KendoReact Version Upgrade Skill

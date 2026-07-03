@@ -1,24 +1,6 @@
 ---
 name: kendo-react-product-licensing
-description: >
-  "Watermark won't go away" / "TKL101 after activation" / "TKL002 no license
-  file found" / "TKL003 license is corrupt" / "TKL102 version not covered" /
-  "TKL103 subscription expired" / "TKL105 trial expired" / "kendo-ui-license
-  activate fails" / "license key not working" / "watermark in production build"
-  / "banner after next build" / "TELERIK_LICENSE env var" / "telerik-license.txt
-  not found" / "license works locally but fails in CI" / "Docker build shows
-  watermark" / "activation in monorepo" / "pnpm hoist license" / "Next.js SSR
-  watermark" / "seat assignment issue" / "renewed but still getting TKL102" /
-  "kendo license error" — Diagnostic skill for KendoReact licensing failures
-  that persist after initial setup: watermark or banner that won't clear, TKL
-  activation error codes (TKL002, TKL003, TKL101–TKL105), license-file
-  precedence (TELERIK_LICENSE vs KENDO_UI_LICENSE), account/seat/bundle scope,
-  CI/CD, Docker, monorepo, SSR, and test-runner activation. Also handles
-  agent-assisted activation when the user provides a path to their key file.
-  Do NOT use for first-time install or onboarding — route to
-  kendo-react-getting-started. Do NOT use for MCP AI-tool PERMISSION_DENIED —
-  route to kendo-mcp-licensing. Do NOT use for WebMCP browser setup. Scoped to
-  KendoReact.
+description: Diagnostic skill for KendoReact licensing failures that persist after initial setup: watermark or banner that won't clear, TKL activation error codes (TKL002, TKL003, TKL101–TKL105), license-file precedence (TELERIK_LICENSE vs KENDO_UI_LICENSE), account/seat/bundle scope, CI/CD, Docker, monorepo, SSR, and test-runner activation. Also handles agent-assisted activation when the user provides a path to their key file. Do NOT use for first-time install or onboarding — route to kendo-react-getting-started. Do NOT use for MCP AI-tool PERMISSION_DENIED — route to kendo-mcp-licensing. Do NOT use for WebMCP browser setup. Scoped to KendoReact. Trigger on "Watermark won't go away", "TKL101 after activation", "TKL002 no license file found", "TKL003 license is corrupt", "TKL102 version not covered", "TKL103 subscription expired", "TKL105 trial expired", "kendo-ui-license activate fails", "license key not working", "watermark in production build", "banner after next build", "TELERIK_LICENSE env var", "telerik-license.txt not found", "license works locally but fails in CI", "Docker build shows watermark", "activation in monorepo", "pnpm hoist license", "Next.js SSR watermark", "seat assignment issue", "renewed but still getting TKL102", "kendo license error".
 ---
 
 # Kendo Product Licensing — KendoReact
