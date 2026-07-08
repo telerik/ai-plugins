@@ -36,7 +36,7 @@ This skill does not cover:
 
 - First-time install or onboarding — route to `kendo-react-getting-started`
 - Licensing failures unrelated to version coverage — route to `kendo-react-product-licensing`
-- MCP entitlement failures — route to `kendo-mcp-licensing`
+- MCP entitlement failures — route to `kendo-react-mcp-licensing`
 - Executing code changes — defer to `kendo migrate` or the MCP Component Assistant
 - Detailed component API changes — defer to the official breaking changes docs
 

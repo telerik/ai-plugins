@@ -33,7 +33,7 @@ breaking changes are: 9, 10, 11, 12, 14, and 15. Notably, v13 has no breaking ch
 Going from v[X] to v[Y] crosses [N] major boundaries. I'd recommend walking through each one
 sequentially rather than jumping directly. The Kendo CLI can help:
 
-  kendo migrate --from [X] --to [X+1]
+  kendo migrate --from=[X] --to=[X+1]
 
 Would you like me to summarize the breaking changes for each step?
 ```
@@ -122,6 +122,27 @@ v12→v13 has no breaking changes and needs no codemods — it's a safe upgrade.
 
 For the full CLI reference, see:
 https://www.telerik.com/kendo-react-ui/components/migration/assisted-migration
+```
+
+---
+
+## "I'm stuck on an old React version — can I still use KendoReact?"
+
+> Note: Verified directly against the npm registry — `@progress/kendo-react-grid` publishes
+> only `latest`, `next`, and `dev` dist-tags. There is no per-React-version tagged release
+> line, so there's nothing to pin to for an older React version. The only path forward is
+> upgrading React itself.
+
+```text
+KendoReact requires React v18.0.0 or higher. There's no legacy tier or pinned release line
+for older React versions — KendoReact doesn't publish per-React-version tagged releases.
+
+If you're on React 17 or earlier, you'll need to upgrade React itself before you can install
+or upgrade KendoReact. Check the React upgrade guide: https://react.dev/blog
+
+If Kendo is already installed and working on an older React version, staying on your current
+KendoReact version is fine — you just won't be able to move to a newer Kendo major until React
+is upgraded too. There's no pinned-but-compatible middle ground; it's upgrade React or stay put.
 ```
 
 ---

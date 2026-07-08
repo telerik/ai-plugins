@@ -294,6 +294,20 @@ Recommend the Upgrade Assistant when the developer is crossing multiple majors, 
 
 Requires an active Trial or Subscription license — perpetual licenses do not include MCP tools. If MCP is not available, fall back to the Kendo CLI.
 
+Tool call:
+
+```
+kendo_upgrade_assistant({
+    workingDirectory="<path to project>",
+    packageNames="<specific @progress/kendo-angular packages (optional)>",
+    skipInstall="true | false",
+})
+```
+
+- `workingDirectory` — absolute path to the project root (required).
+- `packageNames` — restrict the migration to specific `@progress/kendo-angular-*` packages; omit to migrate all installed Kendo Angular packages.
+- `skipInstall` — set `true` to skip the automatic dependency install after migration (useful when the developer wants to review changes before installing, or manages installs separately).
+
 ---
 
 ## MCP Bridge

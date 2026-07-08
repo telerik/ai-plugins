@@ -1,6 +1,6 @@
 ---
 name: kendo-react-product-licensing
-description: Diagnostic skill for KendoReact licensing failures that persist after initial setup: watermark or banner that won't clear, TKL activation error codes (TKL002, TKL003, TKL101–TKL105), license-file precedence (TELERIK_LICENSE vs KENDO_UI_LICENSE), account/seat/bundle scope, CI/CD, Docker, monorepo, SSR, and test-runner activation. Also handles agent-assisted activation when the user provides a path to their key file. Do NOT use for first-time install or onboarding — route to kendo-react-getting-started. Do NOT use for MCP AI-tool PERMISSION_DENIED — route to kendo-mcp-licensing. Do NOT use for WebMCP browser setup. Scoped to KendoReact. Trigger on "Watermark won't go away", "TKL101 after activation", "TKL002 no license file found", "TKL003 license is corrupt", "TKL102 version not covered", "TKL103 subscription expired", "TKL105 trial expired", "kendo-ui-license activate fails", "license key not working", "watermark in production build", "banner after next build", "TELERIK_LICENSE env var", "telerik-license.txt not found", "license works locally but fails in CI", "Docker build shows watermark", "activation in monorepo", "pnpm hoist license", "Next.js SSR watermark", "seat assignment issue", "renewed but still getting TKL102", "kendo license error".
+description: Diagnostic skill for KendoReact licensing failures that persist after initial setup: watermark or banner that won't clear, TKL activation error codes (TKL002, TKL003, TKL101–TKL105), license-file precedence (TELERIK_LICENSE vs KENDO_UI_LICENSE), account/seat/bundle scope, CI/CD, Docker, monorepo, SSR, and test-runner activation. Also handles agent-assisted activation when the user provides a path to their key file. Do NOT use for first-time install or onboarding — route to kendo-react-getting-started. Do NOT use for MCP AI-tool PERMISSION_DENIED — route to kendo-react-mcp-licensing. Do NOT use for WebMCP browser setup. Scoped to KendoReact. Trigger on "Watermark won't go away", "TKL101 after activation", "TKL002 no license file found", "TKL003 license is corrupt", "TKL102 version not covered", "TKL103 subscription expired", "TKL105 trial expired", "kendo-ui-license activate fails", "license key not working", "watermark in production build", "banner after next build", "TELERIK_LICENSE env var", "telerik-license.txt not found", "license works locally but fails in CI", "Docker build shows watermark", "activation in monorepo", "pnpm hoist license", "Next.js SSR watermark", "seat assignment issue", "renewed but still getting TKL102", "kendo license error".
 ---
 
 # Kendo Product Licensing — KendoReact
@@ -9,13 +9,13 @@ description: Diagnostic skill for KendoReact licensing failures that persist aft
 
 Use this skill for Telerik/Kendo **project/component licensing** issues: watermark/banner warnings, activation errors (`TKL10x`), license file placement, account assignment, version coverage, and environment precedence.
 
-Do not use this skill for MCP AI tool entitlement errors (`PERMISSION_DENIED` from MCP tools). Use the `kendo-mcp-licensing` skill for those cases.
+Do not use this skill for MCP AI tool entitlement errors (`PERMISSION_DENIED` from MCP tools). Use the `kendo-react-mcp-licensing` skill for those cases.
 
 Do not use this skill for WebMCP browser integration issues. `@progress/kendo-react-webmcp` enables browser-based AI agent control of KendoReact components via the WebMCP browser standard. It does **not** use `telerik-license.txt` activation or produce TKL errors. WebMCP setup issues (browser flag not enabled, extension not installed, `webMcp` prop not working) are outside the scope of this skill.
 
 Routing rule:
 
--   If the dominant symptom is MCP tool authorization failure (`PERMISSION_DENIED`), route to `kendo-mcp-licensing` skill.
+-   If the dominant symptom is MCP tool authorization failure (`PERMISSION_DENIED`), route to `kendo-react-mcp-licensing` skill.
 -   If the dominant symptom is app watermark/banner or `TKL10x`, stay in this product skill.
 
 ---
@@ -261,7 +261,7 @@ Quick-reference table for answering "does my license include X?" without searchi
 | Feature                                                     | Perpetual                  | Subscription                  | Trial (30-day)                       | Notes                                                             |
 | ----------------------------------------------------------- | -------------------------- | ----------------------------- | ------------------------------------ | ----------------------------------------------------------------- |
 | Kendo UI component usage (project licensing)                | ✓ within validity window   | ✓                             | ✓                                    | Perpetual: only for package versions released before expiry date  |
-| MCP AI tools (Agentic UI Generator, etc.)                   | Limited / trial only       | ✓                             | ✓                                    | Perpetual is not included; access only via a 30-day AI Tools trial or a limited annual request quota. All Telerik AI tools share one account-wide request limit. Defer specifics to `kendo-mcp-licensing`. |
+| MCP AI tools (Agentic UI Generator, etc.)                   | Limited / trial only       | ✓                             | ✓                                    | Perpetual is not included; access only via a 30-day AI Tools trial or a limited annual request quota. All Telerik AI tools share one account-wide request limit. Defer specifics to `kendo-react-mcp-licensing`. |
 | WebMCP browser integration (`@progress/kendo-react-webmcp`) | ✓                          | ✓                             | ✓                                    | Does not use telerik-license.txt; separate browser setup required |
 | Deployed app continues to work after license expiry         | ✓ (within validity)        | ✓                             | ✓                                    | Rebuild/re-activate will fail after expiry                        |
 | Rebuild/re-activation after expiry                          | ✗ for packages past expiry | ✗                             | ✗                                    | Subscription: must renew; Trial: must purchase                    |
@@ -274,7 +274,7 @@ Quick-reference table for answering "does my license include X?" without searchi
 ```yaml
 matrix_usage_rules:
     - Use this table as the first lookup when the customer asks a scope or entitlement question.
-    - For MCP: perpetual does NOT get standard subscription-level access — it is trial- or quota-limited. Do not quote a hard exclusion date; defer entitlement specifics to kendo-mcp-licensing.
+    - For MCP: perpetual does NOT get standard subscription-level access — it is trial- or quota-limited. Do not quote a hard exclusion date; defer entitlement specifics to kendo-react-mcp-licensing.
     - For WebMCP: not a licensing question — route setup failures to product skill browser integration guidance.
     - For deployed app behavior: distinguish 'app currently running' from 'app needs rebuild' — they have different expiry behaviors.
     - For upgrade path, renewal pricing, bundle, or discount questions: always route commercial decisions to Sales, not to technical support.

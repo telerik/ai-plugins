@@ -142,6 +142,30 @@ version so we can identify which change caused the issue.
 
 ---
 
+## "I have a perpetual license — can I upgrade?"
+
+```text
+Perpetual licenses cover only package versions released before the license expiry date.
+If you upgrade to a version released after that date, you'll see TKL102 at activation.
+
+Before upgrading, check your license coverage date and compare it against the target version's
+release date. If the target version is outside your coverage window, you'll need to either:
+  - Renew your license to extend coverage
+  - Stay on the last covered version
+
+For Kendo UI for Angular, this is a SEPARATE constraint from the Angular framework requirement —
+an upgrade can be blocked by either one independently, or both at once. Check both before
+committing to a target version:
+  1. Is the target version within your license coverage window?
+  2. Does the target version support your current Angular framework version?
+
+I can help you find the right version boundary that satisfies both. For anything beyond
+finding that boundary — renewal, coverage extension, TKL102 specifics — that's handled by
+license support rather than this upgrade guidance.
+```
+
+---
+
 ## "I'm stuck on Angular 18 — can I still use Kendo?"
 
 ```text
