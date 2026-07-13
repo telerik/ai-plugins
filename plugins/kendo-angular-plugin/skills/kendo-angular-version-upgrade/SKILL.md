@@ -1,6 +1,6 @@
 ---
 name: kendo-angular-version-upgrade
-description: Use when a developer asks about upgrading Kendo UI for Angular between versions, whether an upgrade is safe, what broke in a specific version, how to approach a multi-version jump, or what preparation is needed before upgrading. This skill provides guidance and reasoning about upgrades — it does not execute migrations. For execution, it bridges to the Kendo CLI (`kendo migrate`) and the Upgrade Assistant in the Kendo Angular MCP server. Do NOT use for first-time install (route to kendo-angular-getting-started) or for licensing failures unrelated to version coverage (route to kendo-angular-product-licensing). Trigger on "Should I upgrade Kendo UI for Angular?", "Is it safe to go from v20 to v24?", "What broke in v23?", "What broke in v24?", "How do I upgrade Kendo Angular?", "kendo migrate", "breaking changes between Angular Kendo versions", "my components broke after ng update", "appearance options undefined", "fillMode none removed", "themeColor dark light removed", "Angular 18 dropped", "TKL102 version not covered", "perpetual license upgrade", "what changed in the latest Kendo Angular release", "should I skip versions", "upgrade path", "codemod migration Angular", "Upgrade Assistant MCP", "ng10 distribution tag legacy Angular".
+description: Guides Kendo UI for Angular version upgrades, including breaking changes and safe migration paths. Use when a developer asks whether an upgrade is safe, what changed between versions, how to plan a multi-version upgrade path, or how to prepare before running migration tools. This skill provides guidance and reasoning about upgrades; it does not execute migrations. For execution, it bridges to the Kendo CLI (`kendo migrate`) and the Upgrade Assistant in the Kendo Angular MCP server. Do NOT use for first-time install (route to kendo-angular-getting-started) or for licensing failures unrelated to version coverage (route to kendo-angular-product-licensing). Trigger on "Should I upgrade Kendo UI for Angular?", "Is it safe to go from v20 to v24?", "What broke in v23?", "What broke in v24?", "How do I upgrade Kendo Angular?", "kendo migrate", "breaking changes between Angular Kendo versions", "my components broke after ng update", "appearance options undefined", "fillMode none removed", "themeColor dark light removed", "Angular 18 dropped", "TKL102 version not covered", "perpetual license upgrade", "what changed in the latest Kendo Angular release", "should I skip versions", "upgrade path", "codemod migration Angular", "Upgrade Assistant MCP", "ng10 distribution tag legacy Angular".
 ---
 
 # Kendo UI for Angular Version Upgrade Skill
@@ -306,7 +306,7 @@ kendo_upgrade_assistant({
 
 - `workingDirectory` — absolute path to the project root (required).
 - `packageNames` — restrict the migration to specific `@progress/kendo-angular-*` packages; omit to migrate all installed Kendo Angular packages.
-- `skipInstall` — set `true` to skip the automatic dependency install after migration (useful when the developer wants to review changes before installing, or manages installs separately).
+- `skipInstall` — set `true` to skip the automatic dependency install before migration (useful when the developer manages installs separately).
 
 ---
 
