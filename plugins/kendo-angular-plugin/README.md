@@ -18,6 +18,9 @@ AI coding assistant for building Angular applications with [Kendo UI for Angular
 | `kendo-angular-layout` | Retrieves Kendo Design System CSS utility classes for layout and spacing |
 | `kendo-angular-style` | Generates CSS variables and custom themes using the Kendo Design System |
 | `kendo-angular-icon` | Searches the Kendo UI for Angular icon library |
+| `kendo-angular-version-upgrade` | Guides Kendo UI for Angular version upgrades, including breaking changes and safe migration paths |
+| `kendo-angular-mcp-licensing` | Diagnoses and resolves MCP entitlement failures and `PERMISSION_DENIED` tool-access issues |
+| `kendo-angular-product-licensing` | Diagnoses Kendo UI for Angular license activation issues, TKL errors, and watermark/banner failures |
 
 ## Usage
 

@@ -18,6 +18,9 @@ AI coding assistant for building React applications with [KendoReact](https://ww
 | `kendo-react-layout` | Retrieves Kendo Design System CSS utility classes for layout and spacing |
 | `kendo-react-style` | Generates CSS variables and custom themes using the Kendo Design System |
 | `kendo-react-icon` | Searches the KendoReact icon library |
+| `kendo-react-version-upgrade` | Guides KendoReact version upgrades, including breaking changes and safe migration paths |
+| `kendo-react-mcp-licensing` | Diagnoses and resolves MCP entitlement failures and `PERMISSION_DENIED` tool-access issues |
+| `kendo-react-product-licensing` | Diagnoses KendoReact license activation issues, TKL errors, and watermark/banner failures |
 
 ## Usage
 
