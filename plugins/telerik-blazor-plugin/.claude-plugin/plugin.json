@@ -1,6 +1,6 @@
 {
   "name": "telerik-blazor-plugin",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "AI coding assistant for building Blazor apps with Telerik UI for Blazor. Covers component usage, layout, theming, icons, validation, and accessibility.",
   "author": {
     "name": "Progress"
