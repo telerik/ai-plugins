@@ -28,27 +28,16 @@ Upgrade Profile
 
 ```yaml
 impact: High
-
 likelihood: Medium
-
 primary_risk:
-
     API changes
-
     appearance parameter changes
-
     chart template migration
-
 affected_projects:
-
     Applications using Chart templates
-
     Applications using TabStrip state management
-
     Applications customizing ThemeColor
-
     Applications using PDFViewer callbacks
-
     Applications using Menu popup behavior
 ```
 
@@ -243,15 +232,10 @@ Upgrade Profile
 
 ```yaml
 impact: Low
-
 likelihood: Low
-
 primary_risk:
-
     Behavioral adjustments
-
 affected_projects:
-
     Projects using newly updated components
 ```
 
@@ -298,23 +282,14 @@ Upgrade Profile
 
 ```yaml
 impact: Moderate
-
 likelihood: Medium
-
 primary_risk:
-
     Parameter renames
-
     API deprecations
-
 affected_projects:
-
     Applications using Chat
-
     Filter
-
     Pager
-
     ToolBar
 ```
 
@@ -409,19 +384,12 @@ Upgrade Profile
 
 ```yaml
 impact: Moderate
-
 likelihood: Medium
-
 primary_risk:
-
     Theme updates
-
     Data binding validation
-
 affected_projects:
-
     Applications upgrading themes
-
     Applications that accidentally configure both Data and OnRead
 ```
 
@@ -523,15 +491,10 @@ Upgrade Profile
 
 ```yaml
 impact: Low
-
 likelihood: Low
-
 primary_risk:
-
     AI Prompt API changes
-
 affected_projects:
-
     Applications using AIPrompt
 ```
 
@@ -594,21 +557,13 @@ Upgrade Profile
 
 ```yaml
 impact: Moderate
-
 likelihood: High
-
 primary_risk:
-
     Framework requirements
-
     Licensing
-
     Window API
-
 affected_projects:
-
     All applications upgrading from .NET 6 or .NET 7
-
     Applications using Window positioning
 ```
 

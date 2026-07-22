@@ -29,25 +29,15 @@ Upgrade Profile
 
 ```yaml
 impact: High
-
 likelihood: High
-
 primary_risk:
-
     HTML structure updates
-
     CSS selector changes
-
     Theme rendering improvements
-
 affected_projects:
-
     Applications with custom CSS
-
     Applications using CSS isolation
-
     Applications relying on generated HTML
-
     Applications using JavaScript to inspect component DOM
 ```
 
@@ -145,15 +135,10 @@ Upgrade Profile
 
 ```yaml
 impact: Low
-
 likelihood: Low
-
 primary_risk:
-
     Minor rendering refinements
-
 affected_projects:
-
     Applications with heavily customized component styling
 ```
 
@@ -197,19 +182,12 @@ Upgrade Profile
 
 ```yaml
 impact: Moderate
-
 likelihood: Medium
-
 primary_risk:
-
     Pager rendering
-
     Toolbar rendering
-
 affected_projects:
-
     Applications with customized Pager styling
-
     Applications overriding ToolBar CSS
 ```
 
@@ -267,21 +245,13 @@ Upgrade Profile
 
 ```yaml
 impact: Moderate
-
 likelihood: Medium
-
 primary_risk:
-
     Theme rendering updates
-
     CSS customization changes
-
 affected_projects:
-
     Applications using Fluent theme
-
     Applications with custom component CSS
-
     Applications with pixel-perfect layouts
 ```
 
@@ -372,15 +342,10 @@ Upgrade Profile
 
 ```yaml
 impact: Low
-
 likelihood: Low
-
 primary_risk:
-
     Component-specific markup updates
-
 affected_projects:
-
     Applications using custom CSS
 ```
 
@@ -433,19 +398,12 @@ Upgrade Profile
 
 ```yaml
 impact: Moderate
-
 likelihood: Medium
-
 primary_risk:
-
     CSS class changes
-
     Theme updates
-
 affected_projects:
-
     Applications with custom styling
-
     Applications migrating to the unified package model
 ```
 
