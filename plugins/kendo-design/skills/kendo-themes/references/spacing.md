@@ -84,8 +84,3 @@ Change a single variable to rescale every spacing token:
 ```
 
 Each spacing token is defined as `calc(<step> * var(--kendo-spacing-base))`. The fixed tokens (`0` and `1px`) are absolute values unaffected by the base.
-
-## Further Reading
-
-- [Spacing](https://www.telerik.com/design-system/docs/foundation/spacing)
-- [Spacing Usage](https://www.telerik.com/design-system/docs/foundation/spacing/usage)
