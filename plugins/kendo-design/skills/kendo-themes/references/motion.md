@@ -52,9 +52,3 @@ Composite tokens combining duration + easing:
 `instant`, `rapid`, `snappy`, `energetic`, `bouncy`, `subtle`, `gentle`, `enter`, `exit`, `settle`, `scale-out`, `scale-in`, `fade-out`, `fade-in`, `slide-out`, `slide-in`, `emphasis`, `collapse`, `expand`, `shrink`, `grow`, `pulse`, `smooth`, `flip`, `fluid`, `deliberate`
 
 CSS: `--kendo-transition-{name}`
-
-
-## Further Reading
-
-- [Motion](https://www.telerik.com/design-system/docs/foundation/motion)
-- [Motion Usage](https://www.telerik.com/design-system/docs/foundation/motion/usage)

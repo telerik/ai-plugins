@@ -65,8 +65,3 @@ Each theme sets its own `--kendo-border-radius-base`. The multiplier ratios from
     $kendo-border-radius-full: 50%
 );
 ```
-
-## Further Reading
-
-- [Border Radius](https://www.telerik.com/design-system/docs/foundation/border-radius)
-- [Border Radius Usage](https://www.telerik.com/design-system/docs/foundation/border-radius/usage)

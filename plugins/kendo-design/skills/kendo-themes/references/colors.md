@@ -190,9 +190,3 @@ Each series (`a` through `f`) follows this pattern:
 | `series-{x}-bolder` | Darkest variant |
 | `series-{x}-subtle` | Lighter variant |
 | `series-{x}-subtler` | Lightest variant |
-
-## Further Reading
-
-- [Color System](https://www.telerik.com/design-system/docs/foundation/color)
-- [Color Usage](https://www.telerik.com/design-system/docs/foundation/color/usage)
-- [Swatches](https://www.telerik.com/design-system/docs/themes/kendo-themes/default/swatches)

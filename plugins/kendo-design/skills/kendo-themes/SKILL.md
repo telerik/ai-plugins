@@ -200,7 +200,3 @@ See [tailwind-integration.md](references/tailwind-integration.md) for the full s
 ## Further Reading
 
 - [Components](references/components.md)
-- [Introduction](https://www.telerik.com/design-system/docs/themes/get-started/introduction)
-- [Installation](https://www.telerik.com/design-system/docs/themes/get-started/installation)
-- [Design Tokens](https://www.telerik.com/design-system/docs/foundation/guides/design-tokens)
-- [Customization](https://www.telerik.com/design-system/docs/themes/kendo-themes/default/customization)

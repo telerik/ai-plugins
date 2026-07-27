@@ -56,8 +56,3 @@ Configure the `$kendo-elevation` map in the theme `@use ... with ()` clause:
     box-shadow: var(--kendo-elevation-2);
 }
 ```
-
-## Further Reading
-
-- [Elevation](https://www.telerik.com/design-system/docs/foundation/elevation)
-- [Elevation Usage](https://www.telerik.com/design-system/docs/foundation/elevation/usage)
