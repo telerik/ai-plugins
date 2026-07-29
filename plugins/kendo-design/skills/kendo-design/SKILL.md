@@ -1,27 +1,29 @@
 ---
 name: kendo-design
-description: Apply the Kendo Design System to any project — provides design tokens, visual guidelines, spacing rhythm, and accessibility guardrails for data-rich professional interfaces. Invoke as `/kendo-design [target]`.
+description: Apply the Kendo Design System when building, styling, or reviewing any user interface. Provides design tokens, color, typography, spacing, and accessibility guardrails.
 user-invocable: true
 ---
 
 # Kendo Design System
 
-Applies the Kendo Design System to UI work. No subcommands.
+Applies the Kendo Design System to UI work.
 
-- **Passive** — auto-loaded whenever you generate or review UI.
-- **Explicit** — invoked as `/kendo-design [target]`.
+## The spec: `DESIGN.md`
 
-## The spec: `./DESIGN.md`
+A full `DESIGN.md` — tokens, typography, spacing, color, elevation, accessibility — ships for every theme under `themes/<theme>/DESIGN.md`.
 
-`./DESIGN.md` is the single source of truth for a project's design tokens and rules. On every activation:
+| Theme     | Path                         | Notes                                               |
+| --------- | ---------------------------- | --------------------------------------------------- |
+| Meridian  | `themes/meridian/DESIGN.md`  | Modern, balanced identity. **Recommended default.** |
+| Default   | `themes/default/DESIGN.md`   | Original Kendo language.                            |
+| Bootstrap | `themes/bootstrap/DESIGN.md` | Bootstrap's design language.                        |
+| Material  | `themes/material/DESIGN.md`  | Material Design.                                    |
+| Fluent    | `themes/fluent/DESIGN.md`    | Microsoft Fluent.                                   |
+| Classic   | `themes/classic/DESIGN.md`   | Classic Kendo look.                                 |
 
-1. **Exists?** Use it as-is — final say, never reconciled against or overwritten by the bundled themes.
-2. **Doesn't exist?** Create it now, no asking:
-   - Pick a theme boilerplate from `themes/<theme>/DESIGN.md` — check for an installed `@progress/kendo-theme-<name>` package or an imported swatch, default to `meridian` if there's no signal.
-   - Project already has its own tokens (colors/fonts/spacing in `:root`, a Tailwind theme, etc.)? Map them onto the boilerplate so the project's real values win. Otherwise copy the boilerplate as-is.
-   - **Exception:** if the project has already committed to a different, cohesive design system throughout its UI (a pervasive third-party component suite with its own visual identity — not Tailwind, which has none) stop and ask the user which one should win before creating anything.
+Use it however the task calls for: read it for a one-off consultation, copy it into the project as a persistent source of truth, copy and adapt it to the project's own tokens, or skip it. Persisting a `DESIGN.md` at the project root is what keeps design consistent across future sessions.
 
-Installed Kendo packages never gate _whether_ Kendo applies — only _which_ theme boilerplate to copy. There's no opt-out inside a conversation; disabling the plugin is how someone declines.
+If a project already has its own `DESIGN.md`, treat it as the final say.
 
 ## Relationship to Kendo Themes
 
