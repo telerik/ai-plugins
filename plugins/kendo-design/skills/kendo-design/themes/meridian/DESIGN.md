@@ -109,6 +109,8 @@ elevation:
   3: "0 -1px 2px 0 rgba(56,66,80,.03), 0 8px 10px -4px rgba(56,66,80,.04), 0 16px 20px -4px rgba(56,66,80,.08)"
   4: "0 -1px 2px 0 rgba(56,66,80,.03), 0 12px 14px -4px rgba(56,66,80,.04), 0 18px 24px -5px rgba(56,66,80,.08)"
   5: "0 -1px 2px 0 rgba(56,66,80,.03), 0 16px 18px -6px rgba(56,66,80,.06), 0 20px 28px -6px rgba(56,66,80,.08)"
+translucency:
+  base: 0%
 motion:
   global: null
   durations:
