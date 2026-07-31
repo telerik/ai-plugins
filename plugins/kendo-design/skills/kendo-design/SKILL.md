@@ -21,7 +21,7 @@ A full `DESIGN.md` — tokens, typography, spacing, color, elevation, accessibil
 | Fluent    | `themes/fluent/DESIGN.md`    | Microsoft Fluent.                                   |
 | Classic   | `themes/classic/DESIGN.md`   | Classic Kendo look.                                 |
 
-Use it however the task calls for: read it for a one-off consultation, copy it into the project as a persistent source of truth, copy and adapt it to the project's own tokens, or skip it. Persisting a `DESIGN.md` at the project root is what keeps design consistent across future sessions.
+Use it however the task calls for: read it for a one-off consultation, copy it into the project as a persistent source of truth, copy and adapt it to the project's own needs, or skip it. Persisting a `DESIGN.md` at the project root is what keeps design consistent across future sessions.
 
 If a project already has its own `DESIGN.md`, treat it as the final say.
 

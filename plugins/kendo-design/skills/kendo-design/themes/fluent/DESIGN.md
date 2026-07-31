@@ -280,6 +280,8 @@ The type scale is intentionally compact — six steps from `font-size.xxs` to `f
 
 Spacing follows a proportional scale with a **0.25rem base unit**. Every spacing token is a multiplier of this base, so changing the spacing base token rescales the entire system proportionally.
 
+The same scale serves two roles at once: it defines a component's own internal structure — its edges, and the breathing room between those edges and its content — and it defines the external rhythm between components — how far siblings, sections, and groups sit from one another. These aren't separate systems; a component's density is expressed as much by the space inside it as by the space around it.
+
 ### Spacing
 
 The 34-step scale provides granular control:
@@ -294,8 +296,8 @@ The half-step tokens (0.5, 1.5, 2.5, etc.) exist for micro-adjustments where who
 
 ### Rhythm guidelines
 
-- Use `spacing-2` inside a component for tight grouping.
-- Use `spacing-4` between related components.
+- Use `spacing-2` for a component's own tight internal structure — compact padding, icon-to-label gaps — as much as for tight grouping between siblings.
+- Use `spacing-4` between related components, or as a component's padding in a standard-density layout.
 - Use `spacing-8` between sections or logical groups.
 - Use `spacing-12` or larger for major layout divisions.
 
@@ -305,7 +307,7 @@ Never use arbitrary pixel values. If `spacing-4` is too small and `spacing-8` is
 
 - Use a consistent spacing scale — define and reuse a limited set of spacing tokens to create rhythm and improve visual cohesion.
 - Use spacing to create hierarchy — increase spacing between unrelated groups and reduce spacing within related groups.
-- Maintain consistent padding — apply consistent internal padding within components to create predictable and balanced layouts.
+- Maintain consistent padding — a component's padding is drawn from the same spacing scale as the gaps around it; choose it deliberately to match the density of its surroundings, not as a browser default or an arbitrary value.
 - Preserve alignment — align component, text, and icon edges consistently to improve visual order and readability.
 
 ## Elevation
