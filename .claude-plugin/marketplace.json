@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "telerik-ai-plugins",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Local plugin marketplace for testing KendoReact plugins",
   "owner": {
     "name": "Progress"
@@ -10,7 +10,7 @@
     {
       "name": "kendo-react-plugin",
       "description": "AI coding assistant for building React apps with KendoReact. Covers component usage, layout, theming, icons, and accessibility.",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "author": {
         "name": "Progress"
       },
@@ -20,7 +20,7 @@
     {
       "name": "telerik-blazor-plugin",
       "description": "AI coding assistant for building Blazor apps with Telerik UI for Blazor. Covers component usage, layout, theming, icons, validation, and accessibility.",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "author": {
         "name": "Progress"
       },
@@ -30,7 +30,7 @@
     {
       "name": "kendo-angular-plugin",
       "description": "AI coding assistant for building Angular apps with Kendo UI for Angular. Covers component usage, layout, theming, icons, and accessibility.",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "author": {
         "name": "Progress"
       },
