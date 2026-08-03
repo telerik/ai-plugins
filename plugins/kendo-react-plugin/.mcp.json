@@ -6,7 +6,8 @@
         "@progress/kendo-react-mcp@latest"
       ],
       "env": {
-        "PLUGIN_MODE": "1"
+        "PLUGIN_MODE": "1",
+        "INSTALL_SOURCE": "plugin"
       }
     }
   }
