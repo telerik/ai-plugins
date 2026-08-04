@@ -146,6 +146,7 @@ Each token group below is customizable through CSS custom properties or Sass map
 | **Spacing**      | `--kendo-spacing-{step}`                           | `$kendo-spacing`                     | [spacing.md](references/spacing.md)         |
 | **Border Radii** | `--kendo-border-radius-{size}`                     | `$kendo-border-radii`                | [radii.md](references/radii.md)             |
 | **Elevation**    | `--kendo-elevation-{level}`                        | `$kendo-elevation`                   | [elevation.md](references/elevation.md)     |
+| **Translucency** | `--kendo-translucency-base`                        | `$kendo-translucency-base`           | [translucency.md](references/translucency.md) |
 | **Motion**       | `--kendo-duration-{name}`, `--kendo-easing-{name}` | `$kendo-durations`, `$kendo-easings` | [motion.md](references/motion.md)           |
 | **Typography**   | `--kendo-font-size`, `--kendo-font-family`, etc.   | Individual variables                 | [typography.md](references/typography.md)   |
 | **Iconography**  | Size classes (`.k-icon-{xs..xxxl}`)                | `$kendo-icon-size`                   | [iconography.md](references/iconography.md) |
