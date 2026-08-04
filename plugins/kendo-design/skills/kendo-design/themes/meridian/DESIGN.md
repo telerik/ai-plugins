@@ -4,37 +4,161 @@ name: Kendo Meridian
 theme: meridian
 description: The Kendo Design System — a modern, balanced visual identity for data-rich professional interfaces, built on perceptually uniform oklch color space.
 colors:
-  app-surface: "oklch(100% 0 0deg)"
-  on-app-surface: "oklch(28.36% 0.0243 261.13deg)"
-  subtle: "oklch(55.44% 0.0407 257.42deg)"
-  surface: "oklch(98.46% 0.0017 247.84deg)"
-  surface-alt: "oklch(100% 0 0deg)"
-  border: "oklch(79.5% 0.0197 255.55deg / 0.35)"
-  border-alt: "oklch(79.5% 0.0197 255.55deg / 0.5)"
-  base: { base: oklch(96.92% 0.0034 247.86deg), on-base: oklch(28.36% 0.0243 261.14deg), base-hover: oklch(92.97% 0.0092 258.34deg), base-active: oklch(90.19% 0.011 256.7deg), base-subtle: oklch(95.1% 0.0062 255.48deg), base-subtle-hover: oklch(92.97% 0.0092 258.34deg), base-subtle-active: oklch(90.19% 0.011 256.7deg), base-emphasis: oklch(87.08% 0.0128 255.51deg), base-on-subtle: oklch(28.36% 0.0243 261.14deg), base-on-surface: oklch(24.23% 0.0008 247.86deg) }
-  primary: { primary: oklch(37.17% 0.0392 257.29deg), on-primary: oklch(100% 0 257.29deg), primary-hover: oklch(27.95% 0.0369 260.03deg), primary-active: oklch(20.77% 0.0399 265.76deg), primary-subtle: oklch(96.83% 0.0069 247.9deg), primary-subtle-hover: oklch(95.01% 0.0097 252.82deg), primary-subtle-active: oklch(92.88% 0.0127 255.51deg), primary-emphasis: oklch(86.9% 0.0199 252.9deg), primary-on-subtle: oklch(12.88% 0.0406 264.7deg), primary-on-surface: oklch(13.01% 0.0137 257.29deg) }
-  secondary: { secondary: oklch(54.53% 0.2124 275.85deg), on-secondary: oklch(100% 0 275.85deg), secondary-hover: oklch(48.84% 0.195 275.43deg), secondary-active: oklch(42.2% 0.1707 275.08deg), secondary-subtle: oklch(94.8% 0.0255 283.5deg), secondary-subtle-hover: oklch(92.02% 0.0394 282.46deg), secondary-subtle-active: oklch(88.77% 0.0563 282.98deg), secondary-emphasis: oklch(79.72% 0.1046 281.35deg), secondary-on-subtle: oklch(27.48% 0.1083 275.85deg), secondary-on-surface: oklch(19.09% 0.0743 275.85deg) }
-  tertiary: { tertiary: oklch(83.18% 0.1046 310.19deg), on-tertiary: oklch(27.83% 0.097 310.19deg), tertiary-hover: oklch(77.67% 0.1388 310.19deg), tertiary-active: oklch(72.46% 0.1727 310.67deg), tertiary-subtle: oklch(96.26% 0.0253 313.97deg), tertiary-subtle-hover: oklch(94.15% 0.0381 311.15deg), tertiary-subtle-active: oklch(91.48% 0.056 311.06deg), tertiary-emphasis: oklch(72.46% 0.1727 310.67deg), tertiary-on-subtle: oklch(37.56% 0.1349 310.19deg), tertiary-on-surface: oklch(29.11% 0.0366 310.19deg) }
-  info: { info: oklch(56.43% 0.131 241.46deg), on-info: oklch(100% 0 241.46deg), info-hover: oklch(52.81% 0.1227 241.36deg), info-active: oklch(49.08% 0.1129 240.78deg), info-subtle: oklch(89.19% 0.0387 228.57deg), info-subtle-hover: oklch(83.53% 0.0587 229.39deg), info-subtle-active: oklch(78.09% 0.0775 231.94deg), info-emphasis: oklch(68.61% 0.1075 233.42deg), info-on-subtle: oklch(36.43% 0.095 240.54deg), info-on-surface: oklch(39.5% 0.0917 241.46deg) }
-  success: { success: oklch(51.46% 0.1066 163.53deg), on-success: oklch(100% 0 163.53deg), success-hover: oklch(47.77% 0.0995 163.53deg), success-active: oklch(44.02% 0.0921 163.41deg), success-subtle: oklch(89.66% 0.031 173.54deg), success-subtle-hover: oklch(84.03% 0.0556 172.91deg), success-subtle-active: oklch(78.7% 0.0766 171.01deg), success-emphasis: oklch(68.71% 0.1033 168.69deg), success-on-subtle: oklch(35.96% 0.0752 163.82deg), success-on-surface: oklch(36.02% 0.0746 163.53deg) }
-  warning: { warning: oklch(88.34% 0.1817 99.0deg), on-warning: oklch(28.36% 0.0243 261.13deg), warning-hover: oklch(85.0% 0.1748 98.84deg), warning-active: oklch(81.62% 0.1679 98.67deg), warning-subtle: oklch(96.27% 0.0733 100.96deg), warning-subtle-hover: oklch(94.71% 0.0984 100.54deg), warning-subtle-active: oklch(93.51% 0.1224 100.36deg), warning-emphasis: oklch(91.17% 0.1589 100.42deg), warning-on-subtle: oklch(28.36% 0.0243 261.13deg), warning-on-surface: oklch(53.0% 0.109 99.0deg) }
-  error: { error: oklch(51.01% 0.1951 14.31deg), on-error: oklch(100% 0 14.31deg), error-hover: oklch(46.86% 0.1797 14.7deg), error-active: oklch(42.5% 0.1627 14.12deg), error-subtle: oklch(89.69% 0.0386 359.59deg), error-subtle-hover: oklch(83.04% 0.0701 0.51deg), error-subtle-active: oklch(76.81% 0.1019 1.53deg), error-emphasis: oklch(65.8% 0.1602 5.2deg), error-on-subtle: oklch(33.01% 0.1461 14.15deg), error-on-surface: oklch(30.61% 0.1171 14.31deg) }
-  inverse: { inverse: oklch(28.36% 0.0243 261.13deg), on-inverse: oklch(100% 0 261.13deg), inverse-hover: oklch(21.47% 0.0226 268.96deg), inverse-active: oklch(13.84% 0.0249 273.24deg), inverse-subtle: oklch(87.07% 0.0128 255.51deg), inverse-subtle-hover: oklch(79.5% 0.0197 255.55deg), inverse-subtle-active: oklch(71.48% 0.0252 256.13deg), inverse-emphasis: oklch(71.48% 0.0252 256.13deg), inverse-on-subtle: oklch(13.84% 0.0249 273.24deg), inverse-on-surface: oklch(0.0% 0.0 261.13deg) }
-  series-a: { series-a: oklch(54.53% 0.2124 275.85deg), series-a-bold: oklch(42.2% 0.1707 275.08deg), series-a-bolder: oklch(35.08% 0.1411 275.33deg), series-a-subtle: oklch(66.29% 0.1816 278.49deg), series-a-subtler: oklch(79.72% 0.1046 281.35deg) }
-  series-b: { series-b: oklch(63.21% 0.2258 310.58deg), series-b-bold: oklch(46.57% 0.1717 310.58deg), series-b-bolder: oklch(37.56% 0.1349 310.21deg), series-b-subtle: oklch(72.46% 0.1727 310.58deg), series-b-subtler: oklch(83.18% 0.1046 310.19deg) }
-  series-c: { series-c: oklch(69.87% 0.2066 2.81deg), series-c-bold: oklch(56.54% 0.1639 2.24deg), series-c-bolder: oklch(42.51% 0.1189 2.24deg), series-c-subtle: oklch(75.91% 0.1579 359.24deg), series-c-subtler: oklch(83.26% 0.1031 356.99deg) }
-  series-d: { series-d: oklch(76.82% 0.1642 153.13deg), series-d-bold: oklch(62.2% 0.1308 153.13deg), series-d-bolder: oklch(46.67% 0.0951 153.51deg), series-d-subtle: oklch(82.04% 0.1288 155.45deg), series-d-subtler: oklch(87.6% 0.0867 157.46deg) }
-  series-e: { series-e: oklch(91.13% 0.1479 96.01deg), series-e-bold: oklch(73.54% 0.1174 96.32deg), series-e-bolder: oklch(54.9% 0.0858 96.01deg), series-e-subtle: oklch(93.19% 0.119 96.8deg), series-e-subtler: oklch(95.24% 0.0815 96.32deg) }
-  series-f: { series-f: oklch(69.85% 0.1922 27.19deg), series-f-bold: oklch(50.38% 0.1341 27.19deg), series-f-bolder: oklch(33.42% 0.0891 26.78deg), series-f-subtle: oklch(75.98% 0.1431 25.07deg), series-f-subtler: oklch(83.33% 0.0921 23.31deg) }
+  app-surface: "#ffffff"
+  on-app-surface: "#232a36"
+  subtle: "#64748b"
+  surface: "#f9fafb"
+  surface-alt: "#ffffff"
+  border: "#b4bdc959"
+  border-alt: "#b4bdc980"
+  base: "#f3f5f7"
+  on-base: "#232a36"
+  base-hover: "#e4e8ee"
+  base-active: "#dadfe6"
+  base-subtle: "#eceff3"
+  base-subtle-hover: "#e4e8ee"
+  base-subtle-active: "#dadfe6"
+  base-emphasis: "#cfd5dd"
+  base-on-subtle: "#232a36"
+  base-on-surface: "#1f2020"
+  primary: "#334155"
+  on-primary: "#ffffff"
+  primary-hover: "#1e293b"
+  primary-active: "#0f172a"
+  primary-subtle: "#f1f5f9"
+  primary-subtle-hover: "#eaeff5"
+  primary-subtle-active: "#e2e8f0"
+  primary-emphasis: "#cbd5e1"
+  primary-on-subtle: "#020617"
+  primary-on-surface: "#05070d"
+  secondary: "#5558e8"
+  on-secondary: "#ffffff"
+  secondary-hover: "#474acb"
+  secondary-active: "#383ba8"
+  secondary-subtle: "#ebecff"
+  secondary-subtle-hover: "#e0e2ff"
+  secondary-subtle-active: "#d4d6ff"
+  secondary-emphasis: "#b1b5ff"
+  secondary-on-subtle: "#1c1d5b"
+  secondary-on-surface: "#0d0d34"
+  tertiary: "#ddb5fb"
+  on-tertiary: "#37164b"
+  tertiary-hover: "#d29cf8"
+  tertiary-active: "#c883f5"
+  tertiary-subtle: "#f9eeff"
+  tertiary-subtle-hover: "#f4e5ff"
+  tertiary-subtle-active: "#efd9ff"
+  tertiary-emphasis: "#c883f5"
+  tertiary-on-subtle: "#572575"
+  tertiary-on-surface: "#312639"
+  info: "#067dbb"
+  on-info: "#ffffff"
+  info-hover: "#0472ab"
+  info-active: "#03679a"
+  info-subtle: "#c2e1f0"
+  info-subtle-hover: "#a2d1e8"
+  info-subtle-active: "#84c1e1"
+  info-emphasis: "#4ca5d2"
+  info-on-subtle: "#00436b"
+  info-on-surface: "#024b73"
+  success: "#0e7a56"
+  on-success: "#ffffff"
+  success-hover: "#0a6e4d"
+  success-active: "#076244"
+  success-subtle: "#c9e4db"
+  success-subtle-hover: "#a6d7c7"
+  success-subtle-active: "#86cab3"
+  success-emphasis: "#4faf8f"
+  success-on-subtle: "#034932"
+  success-on-surface: "#054932"
+  warning: "#f7d90c"
+  on-warning: "#232a36"
+  warning-hover: "#ebce0b"
+  warning-active: "#dfc308"
+  warning-subtle: "#fdf5bc"
+  warning-subtle-hover: "#fcf0a2"
+  warning-subtle-active: "#fcec88"
+  warning-emphasis: "#fae456"
+  warning-on-subtle: "#232a36"
+  warning-on-surface: "#7c6c03"
+  error: "#bb1342"
+  on-error: "#ffffff"
+  error-hover: "#a70f39"
+  error-active: "#920c32"
+  error-subtle: "#f4d3dc"
+  error-subtle-hover: "#efb5c5"
+  error-subtle-active: "#ea98af"
+  error-emphasis: "#df6184"
+  error-on-subtle: "#6d001d"
+  error-on-surface: "#5c051c"
+  inverse: "#232a36"
+  on-inverse: "#ffffff"
+  inverse-hover: "#151924"
+  inverse-active: "#060813"
+  inverse-subtle: "#cfd5dd"
+  inverse-subtle-hover: "#b4bdc9"
+  inverse-subtle-active: "#99a4b3"
+  inverse-emphasis: "#99a4b3"
+  inverse-on-subtle: "#060813"
+  inverse-on-surface: "#000000"
+  series-a: "#5558e8"
+  series-a-bold: "#383ba8"
+  series-a-bolder: "#2a2c82"
+  series-a-subtle: "#7d82ff"
+  series-a-subtler: "#b1b5ff"
+  series-b: "#b454ec"
+  series-b-bold: "#77339f"
+  series-b-bolder: "#572575"
+  series-b-subtle: "#c883f5"
+  series-b-subtler: "#ddb5fb"
+  series-c: "#ff5892"
+  series-c-bold: "#bf426e"
+  series-c-bolder: "#802c49"
+  series-c-subtle: "#ff82ae"
+  series-c-subtler: "#ffacc9"
+  series-d: "#4cd180"
+  series-d-bold: "#399d60"
+  series-d-bolder: "#266940"
+  series-d-subtle: "#79dda0"
+  series-d-subtler: "#a6e8c0"
+  series-e: "#ffe162"
+  series-e-bold: "#bfa94a"
+  series-e-bolder: "#807131"
+  series-e-subtle: "#ffe989"
+  series-e-subtler: "#fff0b1"
+  series-f: "#ff6358"
+  series-f-bold: "#a33f38"
+  series-f-bolder: "#5c201c"
+  series-f-subtle: "#ff8a82"
+  series-f-subtler: "#ffb1ac"
 typography:
   font-family:
     sans: Arial, Verdana, Tahoma, "Trebuchet MS", Helvetica, Impact, Gill Sans
     serif: '"Times New Roman", Georgia, Garamond, Palatino, Baskerville'
     sans-serif: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
     monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
-  font-size: { xxs: 0.5rem, xs: 0.75rem, sm: 0.875rem, md: 1rem, lg: 1.125rem, xl: 1.25rem }
-  font-weight: { thin: 100, extra-light: 200, light: 300, normal: 400, medium: 500, semibold: 600, bold: 700, extra-bold: 800, black: 900 }
-  line-height: { xs: 1, sm: 1.4286, md: 1.5, lg: 1.55 }
+  font-size:
+    xxs: 0.5rem
+    xs: 0.75rem
+    sm: 0.875rem
+    md: 1rem
+    lg: 1.125rem
+    xl: 1.25rem
+  font-weight:
+    thin: 100
+    extra-light: 200
+    light: 300
+    normal: 400
+    medium: 500
+    semibold: 600
+    bold: 700
+    extra-bold: 800
+    black: 900
+  line-height:
+    xs: 1
+    sm: 1.4286
+    md: 1.5
+    lg: 1.55
   letter-spacing:
     base: null
     tightest: -0.15px
@@ -45,10 +169,14 @@ typography:
     wider: 0.10px
     widest: 0.15px
   variants:
-    heading-xl: { family: sans-serif, size: xl, weight: semibold, line-height: md }
-    heading-lg: { family: sans-serif, size: lg, weight: semibold, line-height: md }
-    heading-md: { family: sans-serif, size: md, weight: semibold, line-height: md }
-    heading-sm: { family: sans-serif, size: sm, weight: semibold, line-height: sm }
+    heading-xl:
+      { family: sans-serif, size: xl, weight: semibold, line-height: md }
+    heading-lg:
+      { family: sans-serif, size: lg, weight: semibold, line-height: md }
+    heading-md:
+      { family: sans-serif, size: md, weight: semibold, line-height: md }
+    heading-sm:
+      { family: sans-serif, size: sm, weight: semibold, line-height: sm }
     body-md: { family: sans-serif, size: md, weight: normal, line-height: md }
     body-sm: { family: sans-serif, size: sm, weight: normal, line-height: sm }
     body-xs: { family: sans-serif, size: xs, weight: normal, line-height: sm }
@@ -66,7 +194,7 @@ rounded:
   xl: 0.75rem
   xxl: 1rem
   xxxl: 1.5rem
-  full: calc(0.375rem * 9999)
+  full: 9999px
 spacing:
   base: 0.25rem
   0: 0px
@@ -339,7 +467,7 @@ Higher-elevation surfaces use progressively stronger blur to reinforce hierarchy
 - Ensure contrast and legibility remain accessible.
 - Pair translucency with blur, elevation, and shadow to clarify layer hierarchy.
 
-## Roundness
+## Shapes
 
 The border-radius system derives from a single **base value of `0.375rem` (6px)**. All radius tokens are computed as multipliers of this base, so adjusting the radius base token rescales every corner consistently.
 
@@ -387,7 +515,7 @@ Presets are the **variant** layer of motion: each composes a `duration` axis tok
 Each preset's duration/easing composition is defined in `motion.transitions` in the frontmatter; the use cases below are the guidance layer on top of it.
 
 | **Preset** | **Use**                            |
-| ---------- | ----------------------------------- |
+| ---------- | ---------------------------------- |
 | instant    | Immediate, no perceptible motion   |
 | rapid      | Hover, focus changes               |
 | snappy     | Toggles, selections                |
