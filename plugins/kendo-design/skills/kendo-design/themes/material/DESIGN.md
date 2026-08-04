@@ -4,28 +4,28 @@ name: Kendo Material
 theme: material
 description: The Kendo Design System — a Material Design–based visual identity for data-rich professional interfaces, built on perceptually uniform oklch color space. Uses Roboto typography together with Material Design elevation and shape conventions.
 colors:
-  app-surface: "oklch(99.15% 0.0062 316.78deg)"
-  on-app-surface: "oklch(22.65% 0.0100 303.60deg)"
-  subtle: "oklch(39.81% 0.0174 303.61deg)"
-  surface: "oklch(96.92% 0.0102 310.65deg)"
-  surface-alt: "oklch(100% 0.0102 310.65deg)"
-  border: "oklch(22.65% 0.0100 303.60deg / 0.12)"
-  border-alt: "oklch(22.65% 0.0100 303.60deg / 0.15)"
-  base: { base: oklch(92.78% 0.0108 315.98deg), on-base: oklch(40.1% 0.0357 297.82deg), base-hover: oklch(90.38% 0.0108 315.98deg), base-active: oklch(88.88% 0.0108 315.98deg), base-subtle: oklch(88.88% 0.0108 315.98deg), base-subtle-hover: oklch(90.38% 0.0108 315.98deg), base-subtle-active: oklch(92.78% 0.0108 315.98deg), base-emphasis: oklch(52.98% 0.0318 315.98deg), base-on-subtle: oklch(40.1% 0.0357 297.82deg), base-on-surface: oklch(40.1% 0.0357 297.82deg) }
-  primary: { primary: oklch(49.06% 0.0922 295.48deg), on-primary: oklch(100% 0 295.48deg), primary-hover: oklch(51.96% 0.0922 295.48deg), primary-active: oklch(55.26% 0.0922 295.48deg), primary-subtle: oklch(91.7% 0.0475 295.48deg), primary-subtle-hover: oklch(88.7% 0.0491 295.48deg), primary-subtle-active: oklch(86.7% 0.0524 295.48deg), primary-emphasis: oklch(75.56% 0.0714 295.48deg), primary-on-subtle: oklch(40.96% 0.1324 295.48deg), primary-on-surface: oklch(49.06% 0.0922 295.48deg) }
-  secondary: { secondary: oklch(91.63% 0.0366 302.98deg), on-secondary: oklch(40.1% 0.0357 297.82deg), secondary-hover: oklch(88.53% 0.0366 302.98deg), secondary-active: oklch(86.73% 0.0366 302.98deg), secondary-subtle: oklch(48.6% 0.0366 302.98deg), secondary-subtle-hover: oklch(53.0% 0.0366 302.98deg), secondary-subtle-active: oklch(55.4% 0.0366 302.98deg), secondary-emphasis: oklch(76.53% 0.0366 302.98deg), secondary-on-subtle: oklch(100% 0 302.98deg), secondary-on-surface: oklch(40.1% 0.0357 297.82deg) }
-  tertiary: { tertiary: oklch(49.04% 0.0605 358.39deg), on-tertiary: oklch(100% 0 358.39deg), tertiary-hover: oklch(53.34% 0.0535 358.39deg), tertiary-active: oklch(55.64% 0.0515 358.39deg), tertiary-subtle: oklch(91.8% 0.046 358.39deg), tertiary-subtle-hover: oklch(88.8% 0.0463 358.39deg), tertiary-subtle-active: oklch(87.0% 0.0466 358.39deg), tertiary-emphasis: oklch(55.64% 0.0515 358.39deg), tertiary-on-subtle: oklch(40.44% 0.0605 358.39deg), tertiary-on-surface: oklch(40.44% 0.0605 358.39deg) }
-  info: { info: oklch(55.72% 0.184 260.56deg), on-info: oklch(100% 0 260.56deg), info-hover: oklch(51.02% 0.178 260.56deg), info-active: oklch(44.52% 0.154 260.56deg), info-subtle: oklch(86.8% 0.0495 260.56deg), info-subtle-hover: oklch(82.9% 0.0648 260.56deg), info-subtle-active: oklch(77.3% 0.0881 260.56deg), info-emphasis: oklch(71.72% 0.1124 260.56deg), info-on-subtle: oklch(34.55% 0.1117 260.56deg), info-on-surface: oklch(44.52% 0.154 260.56deg) }
-  success: { success: oklch(52.3% 0.1309 150.49deg), on-success: oklch(100% 0 150.49deg), success-hover: oklch(47.2% 0.1159 150.49deg), success-active: oklch(42.0% 0.1019 150.49deg), success-subtle: oklch(94.2% 0.0419 150.49deg), success-subtle-hover: oklch(90.9% 0.0673 150.49deg), success-subtle-active: oklch(87.9% 0.0929 150.49deg), success-emphasis: oklch(81.0% 0.1462 150.49deg), success-on-subtle: oklch(34.0% 0.0787 150.49deg), success-on-surface: oklch(47.2% 0.1159 150.49deg) }
-  warning: { warning: oklch(85.41% 0.1507 90.23deg), on-warning: oklch(0% 0 90.23deg), warning-hover: oklch(83.41% 0.1607 90.23deg), warning-active: oklch(81.71% 0.1657 90.23deg), warning-subtle: oklch(94.7% 0.0603 90.23deg), warning-subtle-hover: oklch(92.7% 0.0818 90.23deg), warning-subtle-active: oklch(90.8% 0.1023 90.23deg), warning-emphasis: oklch(88.11% 0.1279 90.23deg), warning-on-subtle: oklch(47.4% 0.0934 90.23deg), warning-on-surface: oklch(47.4% 0.0934 90.23deg) }
-  error: { error: oklch(50.13% 0.1783 28.7deg), on-error: oklch(100% 0 28.7deg), error-hover: oklch(44.93% 0.1619 28.7deg), error-active: oklch(38.43% 0.1453 28.7deg), error-subtle: oklch(92.2% 0.03 28.7deg), error-subtle-hover: oklch(86.7% 0.054 28.7deg), error-subtle-active: oklch(80.9% 0.0801 28.7deg), error-emphasis: oklch(67.8% 0.1444 24.5deg), error-on-subtle: oklch(38.43% 0.1453 28.7deg), error-on-surface: oklch(44.93% 0.1619 28.7deg) }
-  inverse: { inverse: oklch(31.07% 0.0114 307.91deg), on-inverse: oklch(100% 0 307.91deg), inverse-hover: oklch(33.97% 0.0144 307.91deg), inverse-active: oklch(39.77% 0.0174 307.91deg), inverse-subtle: oklch(74.9% 0.0179 307.91deg), inverse-subtle-hover: oklch(83.8% 0.0187 307.91deg), inverse-subtle-active: oklch(88.9% 0.0126 307.91deg), inverse-emphasis: oklch(56.67% 0.0164 307.91deg), inverse-on-subtle: oklch(56.67% 0.0164 307.91deg), inverse-on-surface: oklch(31.07% 0.0114 307.91deg) }
-  series-a: { series-a: oklch(51.68% 0.2152 321.22deg), series-a-bold: oklch(42.12% 0.1722 321.22deg), series-a-bolder: oklch(32.09% 0.1246 321.22deg), series-a-subtle: oklch(62.17% 0.1735 321.22deg), series-a-subtler: oklch(74.21% 0.1145 321.22deg) }
-  series-b: { series-b: oklch(65.82% 0.1691 248.83deg), series-b-bold: oklch(53.51% 0.1336 248.83deg), series-b-bolder: oklch(40.28% 0.0977 248.83deg), series-b-subtle: oklch(73.26% 0.1322 248.83deg), series-b-subtler: oklch(81.88% 0.0893 248.83deg) }
-  series-c: { series-c: oklch(60.45% 0.1074 183.43deg), series-c-bold: oklch(49.27% 0.0876 183.43deg), series-c-bolder: oklch(40.26% 0.0977 183.43deg), series-c-subtle: oklch(69.15% 0.1012 183.43deg), series-c-subtler: oklch(79.13% 0.0755 183.43deg) }
-  series-d: { series-d: oklch(92.85% 0.1802 102.52deg), series-d-bold: oklch(74.74% 0.144 102.52deg), series-d-bolder: oklch(55.9% 0.1054 102.52deg), series-d-subtle: oklch(94.24% 0.1521 102.52deg), series-d-subtler: oklch(95.91% 0.1092 102.52deg) }
-  series-e: { series-e: oklch(59.01% 0.2055 28.38deg), series-e-bold: oklch(50.1% 0.1782 28.38deg), series-e-bolder: oklch(41.25% 0.1344 28.38deg), series-e-subtle: oklch(70.04% 0.1383 28.38deg), series-e-subtler: oklch(80.9% 0.0795 28.38deg) }
-  series-f: { series-f: oklch(67.31% 0.1624 144.23deg), series-f-bold: oklch(54.59% 0.1286 144.23deg), series-f-bolder: oklch(41.33% 0.0939 144.23deg), series-f-subtle: oklch(75.05% 0.1247 144.23deg), series-f-subtler: oklch(83.26% 0.0825 144.23deg) }
+  app-surface: "#fefbff"
+  on-app-surface: "#1d1b20"
+  subtle: "#49454f"
+  surface: "#f7f3fa"
+  surface-alt: "#fffdff"
+  border: "#1d1b201f"
+  border-alt: "#1d1b2026"
+  base: { base: "#eae5ec", on-base: "#4a4459", base-hover: "#e2dde4", base-active: "#ddd8df", base-subtle: "#ddd8df", base-subtle-hover: "#e2dde4", base-subtle-active: "#eae5ec", base-emphasis: "#736678", base-on-subtle: "#4a4459", base-on-surface: "#4a4459" }
+  primary: { primary: "#65558f", on-primary: "#ffffff", primary-hover: "#6d5d98", primary-active: "#7767a2", primary-subtle: "#e6deff", primary-subtle-hover: "#dcd4f7", primary-subtle-active: "#d5cdf3", primary-emphasis: "#b3a7d9", primary-on-subtle: "#523689", primary-on-surface: "#65558f" }
+  secondary: { secondary: "#e8def8", on-secondary: "#4a4459", secondary-hover: "#ded4ee", secondary-active: "#d8cee8", secondary-subtle: "#635b71", secondary-subtle-hover: "#70677e", secondary-subtle-active: "#776e85", secondary-emphasis: "#b7aec6", secondary-on-subtle: "#ffffff", secondary-on-surface: "#4a4459" }
+  tertiary: { tertiary: "#7d5260", on-tertiary: "#ffffff", tertiary-hover: "#87606c", tertiary-active: "#8d6773", tertiary-subtle: "#ffd8e3", tertiary-subtle-hover: "#f5ceda", tertiary-subtle-active: "#efc8d4", tertiary-emphasis: "#8d6773", tertiary-on-subtle: "#633b48", tertiary-on-surface: "#633b48" }
+  info: { info: "#2c6ddd", on-info: "#ffffff", info-hover: "#215fca", info-active: "#1a4ea7", info-subtle: "#c1d5f5", info-subtle-hover: "#afc8f2", info-subtle-active: "#95b6ee", info-emphasis: "#7ba4ea", info-on-subtle: "#133672", info-on-surface: "#1a4ea7" }
+  success: { success: "#1b7e3f", on-success: "#ffffff", success-hover: "#196d37", success-active: "#155c2e", success-subtle: "#d9f4de", success-subtle-hover: "#c2eeca", success-subtle-active: "#abe9b8", success-emphasis: "#73db8e", success-on-subtle: "#114321", success-on-surface: "#196d37" }
+  warning: { warning: "#f5ca47", on-warning: "#000000", warning-hover: "#f1c32b", warning-active: "#ecbd0a", warning-subtle: "#fdedc0", warning-subtle-hover: "#fce5a8", warning-subtle-active: "#fbde90", warning-emphasis: "#f8d46e", warning-on-subtle: "#705909", warning-on-surface: "#705909" }
+  error: { error: "#b3261e", on-error: "#ffffff", error-hover: "#9b1e17", error-active: "#7f100c", error-subtle: "#f9deda", error-subtle-hover: "#f5c7bf", error-subtle-active: "#f0ada3", error-emphasis: "#e3706a", error-on-subtle: "#7f100c", error-on-surface: "#9b1e17" }
+  inverse: { inverse: "#322f35", on-inverse: "#ffffff", inverse-hover: "#3a363e", inverse-active: "#4a454e", inverse-subtle: "#b1abb7", inverse-subtle-hover: "#cdc7d4", inverse-subtle-active: "#ddd8e1", inverse-emphasis: "#79747e", inverse-on-subtle: "#79747e", inverse-on-surface: "#322f35" }
+  series-a: { series-a: "#9c27b0", series-a-bold: "#751d84", series-a-bolder: "#4e1458", series-a-subtle: "#b55dc5", series-a-subtler: "#cd93d7" }
+  series-b: { series-b: "#2196f3", series-b-bold: "#1c71b6", series-b-bolder: "#134b7a", series-b-subtle: "#60aef8", series-b-subtler: "#96c9fc" }
+  series-c: { series-c: "#009688", series-c-bold: "#007166", series-c-bolder: "#00584e", series-c-subtle: "#43b0a2", series-c-subtler: "#82cbc0" }
+  series-d: { series-d: "#ffeb3b", series-d-bold: "#bfb02c", series-d-bolder: "#80761e", series-d-subtle: "#fff06c", series-d-subtler: "#fff59d" }
+  series-e: { series-e: "#dd352c", series-e-bold: "#b3261f", series-e-bolder: "#85231c", series-e-subtle: "#e87a6c", series-e-subtler: "#f0aea4" }
+  series-f: { series-f: "#4caf50", series-f-bold: "#39833c", series-f-bolder: "#265828", series-f-subtle: "#7bc37b", series-f-subtler: "#a8d7a7" }
 typography:
   font-family:
     sans: Arial, Verdana, Tahoma, "Trebuchet MS", Helvetica, Impact, Gill Sans
@@ -322,7 +322,7 @@ Levels progress from `1` (cards, inputs, inline surfaces) through `2` (popovers,
 - Reserve the highest elevation for blocking overlays — use top depth only for interruptive modals/dialogs.
 - Keep sibling floating elements at the same elevation — change levels only for clear parent-child relationships.
 
-## Roundness
+## Shapes
 
 The border-radius system derives from a single **base value of `0.25rem` (4px)**. All radius tokens are computed as multipliers of this base, so adjusting the radius base token rescales every corner consistently.
 

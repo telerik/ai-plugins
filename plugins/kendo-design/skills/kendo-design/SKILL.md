@@ -25,6 +25,10 @@ Use it however the task calls for: read it for a one-off consultation, copy it i
 
 If a project already has its own `DESIGN.md`, treat it as the final say.
 
+**IMPORTANT: Read the entire `DESIGN.md` file!**
+
+When persisting, copy the full `DESIGN.md` content into the project — never a stub referencing this plugin's path.
+
 ## Relationship to Kendo Themes
 
 This design system stands alone. The `@progress/kendo-theme-*` npm packages are an optional CSS implementation of these tokens, not a requirement.
