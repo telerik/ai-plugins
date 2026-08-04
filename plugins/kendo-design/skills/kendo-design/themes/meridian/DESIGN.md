@@ -454,18 +454,16 @@ Levels progress from `1` (cards, inputs, inline surfaces) through `2` (popovers,
 
 ## Translucency
 
-Kendo Design System uses a **frosted-glass translucency system** for elevated and overlapping surfaces. It combines semi-transparent backgrounds with blur to create depth without jarring opacity changes.
+Kendo Design System uses a **frosted-glass translucency system** for elevated and overlapping surfaces — semi-transparent backgrounds paired with blur create depth without jarring opacity changes.
 
-Components pair translucent backgrounds with their elevation level.
-
-Higher-elevation surfaces use progressively stronger blur to reinforce hierarchy. The effect is subtle by default (`translucency-base` starts at `0%`). It activates when the CSS variable is set.
+Translucency scales with elevation and applies across the full range — from the lowest raised surface to the highest blocking overlay — not just the topmost layer. Higher surfaces blur and lighten more, reinforcing the shadow-based depth cue. The effect is subtle by default (`translucency-base` starts at `0%`) and only takes effect once the underlying CSS variable is set.
 
 ### Guidelines
 
-- Avoid strong translucency on containers that hold text or dense UI.
-- Readability should always take precedence over visual effect.
-- Ensure contrast and legibility remain accessible.
-- Pair translucency with blur, elevation, and shadow to clarify layer hierarchy.
+- Scale translucency with elevation — the higher the surface, the stronger the effect; keep resting surfaces fully opaque.
+- Apply it to both the backdrop and the floating surface together, so the layering cue stays intact.
+- Avoid strong translucency on containers holding text or dense UI — readability comes first.
+- Verify contrast and legibility remain accessible, since content behind the surface can show through.
 
 ## Shapes
 
