@@ -19,6 +19,8 @@ AI coding assistant for building Blazor applications with [Telerik UI for Blazor
 | `telerik-blazor-layout` | Retrieves Kendo Design System CSS utility classes for layout and spacing |
 | `telerik-blazor-style` | Generates CSS variables and custom themes using the Kendo Design System |
 | `telerik-blazor-icon` | Searches the Telerik UI for Blazor icon library |
+| `telerik-blazor-licensing` | Describes how the Telerik license verification works in Blazor apps, how to set up the Telerik license key, and how to troubleshoot potential issues. |
+| `telerik-blazor-version-upgrade` | Guides Telerik UI for Blazor version upgrades, including breaking changes, rendering changes, framework compatibility, and safe upgrade planning. |
 
 ## Usage
 
