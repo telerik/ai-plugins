@@ -98,12 +98,16 @@ These tasks use the shared key already verified for the MCP server.
   bring `Telerik.Licensing` transitively, so do not add an explicit package
   reference. The shared `telerik-license.txt` verified during pre-initialization
   also activates the application.
-- On direct assembly references, do not add `Telerik.Licensing` — it has no
-  purpose without the NuGet control packages. If the project already has an
+- On direct assembly references, if the project already has an
   `EvidenceAttribute` (Script Key), leave it unchanged and verify it still
-  validates for the newly referenced assemblies. If none exists yet and this
-  upgrade crosses the Q1 2025 boundary, set up a new Script Key via
-  `telerik-winforms-license-key-setup`.
+  validates for the newly referenced assemblies — do not switch an existing,
+  working Script Key to `Telerik.Licensing` as part of a version upgrade. If
+  none exists yet and this upgrade crosses the Q1 2025 boundary, set up
+  licensing via `telerik-winforms-license-key-setup`: the recommended default
+  there is the `Telerik.Licensing` NuGet package plus a resolved
+  `telerik-license.txt`, which works standalone without requiring the control
+  assemblies themselves to be NuGet-referenced; fall back to a new Script Key
+  only for that skill's documented NuGet exceptions.
 - The agent must NOT handle, store, or display license keys — instruct the user
   to download theirs from the Telerik account portal.
 - **Always run `telerik-winforms-license-verification` for this project when
