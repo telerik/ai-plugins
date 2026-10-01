@@ -35,15 +35,11 @@ watermark", "TKL002 error" (or any TKL0xx/TKL1xx code), "no license key
 found", "move my Telerik license to NuGet", "add my Telerik license to
 CI/CD", or a Telerik license dialog/banner at startup.
 
-## Scenario Selection
-
-**Not this scenario**:
-
-| Concern | Use instead |
-|---|---|
-| Changing the Telerik product version | `telerik-version-upgrade` — it calls this scenario's lazy skills for its own licensing needs rather than duplicating them |
-| Migrating Telerik *control* assembly references to NuGet, no licensing concern | `telerik-assembly-to-nuget` |
-| Converting Microsoft controls to Telerik | `telerik-control-conversion` |
+**Not this scenario**: for a Telerik version change, use `telerik-version-upgrade`
+(it calls this scenario's lazy skills for its own licensing needs rather than
+duplicating them); for reference-style changes only, use
+`telerik-assembly-to-nuget`; to convert Microsoft controls to Telerik, use
+`telerik-control-conversion`.
 
 ## MCP License Prerequisite — Handled, Not Skipped
 

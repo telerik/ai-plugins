@@ -37,20 +37,14 @@ version before asking for confirmation or creating an assessment.
 **Prerequisite**: The project already references Telerik UI for WinForms. If it
 does not, run the **telerik-control-conversion** scenario instead.
 
+**Not this scenario**: for reference-style changes only (no version change),
+use `telerik-assembly-to-nuget`; for license setup or fixes alone, use
+`telerik-licensing`.
+
 **Also triggered by**: "upgrade Telerik WinForms", "update Telerik version",
 "move to the latest Telerik UI for WinForms", "fix Telerik breaking changes",
 "set up Telerik licensing", or as a follow-up after `dotnet-version-upgrade`
 completes on a WinForms project that already references Telerik.
-
-## Scenario Selection
-
-This plugin exposes two scenarios. Pick the right one:
-
-| Scenario | Use when |
-|----------|----------|
-| **telerik-version-upgrade** *(this one)* | The project already uses Telerik and the user wants a newer Telerik version |
-| **telerik-control-conversion** | The user wants Microsoft WinForms controls replaced with Telerik equivalents |
-| **telerik-assembly-to-nuget** | The user only wants direct Telerik assembly references replaced with NuGet packages — same Telerik version, same .NET target |
 
 ## Relationship to the .NET Version Upgrade
 
