@@ -25,10 +25,10 @@ plugin, setup, samples, and instruction-authoring guidance:
 
 ## Installation
 
-Install the plugin via Copilot CLI:
+From the repository root, install the plugin via Copilot CLI:
 
 ```bash
-copilot plugin install ./telerik-winforms-upgrade-plugin
+copilot plugin install ./plugins/telerik-winforms-upgrade-plugin
 ```
 
 ## What It Does
@@ -221,42 +221,6 @@ telerik-winforms-upgrade-plugin/
         │   │   └── SKILL.md
         │   └── telerik-winforms-reference-retargeting/
         │       └── SKILL.md
-        └── extensions/
-            ├── telerik-for-dotnet-framework-upgrade/
-            │   ├── SKILL.md
-            │   └── scopes/
-            │       ├── assessment.md
-            │       ├── planning.md
-            │       └── execution.md
-            └── telerik-for-dotnet-version-upgrade/
-                ├── SKILL.md
-                └── scopes/
-                    ├── assessment.md
-                    ├── planning.md
-                    └── execution.md
-```
-
-            ├── telerik-winforms-license-diagnostics/
-            ├── telerik-winforms-license-verification/
-            │   └── SKILL.md
-            ├── telerik-winforms-conversion/
-            │   └── SKILL.md
-            ├── telerik-winforms-component-guidance/
-            │   └── SKILL.md
-            ├── telerik-winforms-feature-adoption/
-            │   └── SKILL.md
-            ├── telerik-winforms-reference-detection/
-            │   └── SKILL.md
-            ├── telerik-winforms-nuget-feed-setup/
-            │   └── SKILL.md
-            ├── telerik-winforms-assembly-mapping/
-            │   ├── SKILL.md
-            │   └── ref/
-            │       └── assembly-reference-map.md
-            ├── telerik-winforms-reference-migration/
-            │   └── SKILL.md
-            └── telerik-winforms-migration-verification/
-                └── SKILL.md
         └── extensions/
             ├── telerik-for-dotnet-framework-upgrade/
             │   ├── SKILL.md

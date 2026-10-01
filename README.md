@@ -9,10 +9,11 @@ AI coding agent plugins for [Claude Code](https://code.claude.com), [GitHub Copi
 | [`telerik-blazor-plugin`](plugins/telerik-blazor-plugin/) | Telerik UI for Blazor — component implementation, validation, theming, testing, and migration |
 | [`kendo-react-plugin`](plugins/kendo-react-plugin/) | KendoReact — component implementation, accessibility, theming, testing, migration, and styling |
 | [`kendo-angular-plugin`](plugins/kendo-angular-plugin/) | Kendo UI for Angular — component documentation, layout utilities, theming, icons, and accessibility |
+| [`telerik-winforms-upgrade-plugin`](plugins/telerik-winforms-upgrade-plugin/) | GitHub Copilot CLI Upgrade Agent for Telerik UI for WinForms — version upgrades, control conversion, assembly-to-NuGet migration, and licensing |
 
 ## How It Works
 
-Each plugin wraps a **Progress MCP server** that gives your coding agent live access to component documentation, APIs, and code generation. The MCP server starts automatically — no manual setup required.
+Most plugins wrap a **Progress MCP server** that gives your coding agent live access to component documentation, APIs, and code generation. The WinForms Upgrade plugin is different: it extends Microsoft's Upgrade Agent for GitHub Copilot CLI with Telerik WinForms modernization scenarios and uses the `Telerik.WinForms.MCP` server.
 
 A valid **Progress product license** is required to use the plugins:
 
@@ -21,6 +22,7 @@ A valid **Progress product license** is required to use the plugins:
 | `telerik-blazor-plugin` | [Telerik UI for Blazor](https://www.telerik.com/blazor-ui) |
 | `kendo-react-plugin` | [KendoReact](https://www.telerik.com/kendo-react-ui) |
 | `kendo-angular-plugin` | [Kendo UI for Angular](https://www.telerik.com/kendo-angular-ui) |
+| `telerik-winforms-upgrade-plugin` | [Telerik UI for WinForms](https://www.telerik.com/products/winforms.aspx) |
 
 ## Getting Started
 
