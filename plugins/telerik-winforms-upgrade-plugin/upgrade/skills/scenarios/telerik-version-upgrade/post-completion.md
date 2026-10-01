@@ -51,12 +51,5 @@ Present available follow-up options:
 1. **Control Conversion**: run the `telerik-control-conversion`
    scenario to replace remaining Microsoft controls with Telerik equivalents.
 
-2. **Feature Adoption** *(extension point — future)*: Explore modern Telerik
-   WinForms features such as updated themes, new controls, and enhanced
-   accessibility support.
-
-3. **Theme Customization** *(extension point — future)*: Set up or customize
-   a Telerik theme for consistent application appearance.
-
-4. **Generate Report**: Create a detailed upgrade report summarizing all changes
+3. **Generate Report**: Create a detailed upgrade report summarizing all changes
    made, files modified, and any remaining action items.
