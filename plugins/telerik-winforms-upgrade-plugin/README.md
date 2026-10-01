@@ -129,7 +129,6 @@ dotnet tool install --global Telerik.CLI
 | `telerik-winforms-license-verification` | Build and confirm a licensing setup actually activates |
 | `telerik-winforms-conversion` | Convert MS WinForms controls to Telerik equivalents, one class pair at a time |
 | `telerik-winforms-component-guidance` | Component API help via `telerik_winforms_assistant` |
-| `telerik-winforms-feature-adoption` | *(stub)* Future extension point for feature/theme work |
 | `telerik-winforms-reference-detection` | Detect a project's current Telerik version and reference style (assembly / NuGet / packages.config) |
 | `telerik-winforms-nuget-feed-setup` | Determine, validate, and set up the NuGet feed needed for a given Telerik version |
 | `telerik-winforms-assembly-mapping` | Map Telerik assembly references to their owning NuGet packages |
@@ -197,8 +196,6 @@ telerik-winforms-upgrade-plugin/
         │   │   ├── SKILL.md
         │   │   └── ref/
         │   │       └── version-compatibility.md
-        │   ├── telerik-winforms-feature-adoption/
-        │   │   └── SKILL.md
         │   ├── telerik-winforms-license-cicd-setup/
         │   │   └── SKILL.md
         │   ├── telerik-winforms-license-detection/

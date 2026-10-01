@@ -56,12 +56,5 @@ Present available follow-up options:
 1. **Telerik Version Upgrade**: run the `telerik-version-upgrade`
    scenario to move to a newer Telerik release, with breaking-changes detection.
 
-2. **Feature Adoption** *(extension point — future)*: Explore modern Telerik
-   WinForms features such as updated themes, new controls, and enhanced
-   accessibility support.
-
-3. **Theme Customization** *(extension point — future)*: Customize the applied
-   Telerik theme for a consistent application appearance.
-
-4. **Generate Report**: Create a detailed conversion report summarizing all
+3. **Generate Report**: Create a detailed conversion report summarizing all
    changes made, files modified, and any remaining action items.
