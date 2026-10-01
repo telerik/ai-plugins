@@ -34,17 +34,10 @@ currently uses standard Microsoft controls.
 Telerik", "replace Microsoft controls with Telerik controls", "add Telerik to
 my WinForms app".
 
-## Scenario Selection
-
-This plugin exposes two scenarios. Pick the right one:
-
-| Scenario | Use when |
-|----------|----------|
-| **telerik-control-conversion** *(this one)* | The user wants Microsoft WinForms controls replaced with Telerik equivalents — whether or not Telerik is already referenced |
-| **telerik-version-upgrade** | The project already uses Telerik and the user wants to move to a newer Telerik version |
-
-If the user needs both, run **telerik-version-upgrade** first so the
-conversion targets an up-to-date Telerik version.
+**Not this scenario**: if the project already uses Telerik and the user wants
+a newer Telerik version, use `telerik-version-upgrade` instead (run it first
+if the user needs both); for reference-style changes only, use
+`telerik-assembly-to-nuget`; for license setup alone, use `telerik-licensing`.
 
 ## Starting States
 

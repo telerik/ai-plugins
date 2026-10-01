@@ -46,6 +46,7 @@ my Telerik DLL references to packages", "stop using Telerik DLLs directly".
   - Changing the Telerik version → `telerik-version-upgrade` (which also migrates
     assembly references as part of that flow)
   - Adopting Telerik for the first time → `telerik-control-conversion`
+  - Setting up or fixing license activation alone → `telerik-licensing`
   - Changing the .NET target → the host's `dotnet-version-upgrade` scenario
 
 ## Workflow Stages
