@@ -48,8 +48,5 @@ Remind the user to manually verify what the agent cannot:
 
 Present available follow-up options:
 
-1. **Control Conversion**: run the `telerik-control-conversion`
-   scenario to replace remaining Microsoft controls with Telerik equivalents.
-
-3. **Generate Report**: Create a detailed upgrade report summarizing all changes
+1. **Generate Report**: Create a detailed upgrade report summarizing all changes
    made, files modified, and any remaining action items.
