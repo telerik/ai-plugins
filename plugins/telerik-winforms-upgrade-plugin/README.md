@@ -122,7 +122,8 @@ dotnet tool install --global Telerik.CLI
 | `telerik-winforms-breaking-changes` | Detect and fix breaking changes via `telerik_upgrade_assistant` |
 | `telerik-winforms-dependency-management` | NuGet package management and assembly→NuGet migration |
 | `telerik-winforms-license-detection` | Read-only detection of the current Telerik licensing mechanism, artifacts, and entry-point shape |
-| `telerik-winforms-license-key-setup` | Obtain and place a license key for the recommended NuGet-based path, or the script-key/hybrid/OpenEdge paths |
+| `telerik-winforms-license-key-setup` | Obtain and place a license key for the recommended NuGet-based path, or the script-key path |
+| `telerik-winforms-license-plugin-hosts` | Set up or fix licensing for add-in/plugin (hybrid) and OpenEdge (script-key-only) hosts with no standard entry point |
 | `telerik-winforms-license-nuget-migration` | Convert a project from script-key licensing to the NuGet-based `Telerik.Licensing` model |
 | `telerik-winforms-license-cicd-setup` | Configure license activation for build pipelines |
 | `telerik-winforms-license-diagnostics` | Map licensing symptoms and `TKL*` codes to causes and fixes |
@@ -205,6 +206,8 @@ telerik-winforms-upgrade-plugin/
         │   ├── telerik-winforms-license-key-setup/
         │   │   └── SKILL.md
         │   ├── telerik-winforms-license-nuget-migration/
+        │   │   └── SKILL.md
+        │   ├── telerik-winforms-license-plugin-hosts/
         │   │   └── SKILL.md
         │   ├── telerik-winforms-license-verification/
         │   │   └── SKILL.md

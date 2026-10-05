@@ -76,8 +76,8 @@ already had a working script key):
   that existed **solely** to work around the lack of file-based activation —
   but **keep** it if `telerik-winforms-license-detection` flagged the
   project as an add-in/plugin host (see Preconditions #2); those hosts keep
-  both mechanisms. This step never applies to OpenEdge, which is excluded
-  from migration entirely.
+  both mechanisms, set up per `telerik-winforms-license-plugin-hosts`. This
+  step never applies to OpenEdge, which is excluded from migration entirely.
 
 ## Step 3: .NET Framework Binding Redirect Check
 

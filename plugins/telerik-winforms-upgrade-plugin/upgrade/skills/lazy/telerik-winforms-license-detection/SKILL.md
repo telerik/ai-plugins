@@ -105,13 +105,15 @@ else here as a problem.
     point — e.g. an Office VSTO add-in, or a class library hosted by another
     process. Look for project types/output types that indicate this (e.g. a
     library or add-in project template) rather than guessing from the name
-    alone. This shape changes the fix in diagnostics.
+    alone. This shape changes the fix in diagnostics and routes setup to
+    `telerik-winforms-license-plugin-hosts`.
   - **OpenEdge ABL host**: the project is driven by a `.p` procedure file /
     ABL runtime rather than a standard .NET entry point. **OpenEdge does not
     support NuGet at all** — this shape always means a NuGet-based
     mechanism is not an option, regardless of anything else detected. Only
     flag it when there is explicit evidence (`.p` files, OpenEdge project
-    structure), never assume.
+    structure), never assume. Setup also routes to
+    `telerik-winforms-license-plugin-hosts`.
 
 ## Step 3: Locate License Artifacts
 
@@ -137,6 +139,12 @@ contents** (existence/structure only — never print or echo key material):
   secondary/unconfirmed locations — report them if found, but do not
   recommend placing a *new* file there; prefer the two canonical locations
   above.
+- **Not a valid location for NuGet-based activation**: the build output/bin
+  folder, an installed application's folder, or the current working
+  directory. A file placed there is a documented cause of "license not
+  found" even though a file visibly exists — only `%AppData%\Telerik\`
+  (or `~/.telerik/`) and the project root next to the `.csproj`/`.vbproj`
+  are read at build time.
 
 **Script-key activation artifacts:**
 - A `TelerikLicense.cs`/`TelerikLicense.vb` (or similarly named) file

@@ -13,7 +13,7 @@ one branch — do not run more than one for the same project:
 | `mcpLicensePresent: No`, regardless of whether any project references Telerik | Set up the shared MCP-prerequisite key | `telerik-winforms-license-key-setup` |
 | `mcpLicenseCliValidation: Reports no usable license`, or `winformsProductLicenseStatus: Not listed/Expired` | Refresh or replace the shared MCP-prerequisite key | `telerik-winforms-license-key-setup` |
 | No project references Telerik, and `mcpLicensePresent: Yes` with no CLI report of an unusable WinForms license | Nothing to do — report it, skip every row below | — |
-| `mechanism: none` and license required | Set up recommended activation | `telerik-winforms-license-key-setup` |
+| `mechanism: none` and license required | Set up recommended activation — for `entryPointShape: add-in-or-plugin` or `openedge`, use `telerik-winforms-license-plugin-hosts` instead of the default path | `telerik-winforms-license-key-setup`, or `telerik-winforms-license-plugin-hosts` |
 | A `TKL*` code, watermark, or other symptom was reported | Diagnose, then apply the matching fix | `telerik-winforms-license-diagnostics` → named fix skill |
 | `mechanism: script-key` | Offer migration (see policy below) | `telerik-winforms-license-nuget-migration` if accepted; otherwise nothing |
 | `mechanism: hybrid-manual-registration` (add-in/plugin) | Verify only — this is the documented correct state, not a defect | `telerik-winforms-license-verification` |

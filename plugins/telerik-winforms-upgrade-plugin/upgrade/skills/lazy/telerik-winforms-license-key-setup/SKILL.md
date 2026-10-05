@@ -45,11 +45,13 @@ which calls into this skill's placement steps as part of that transition.
   references for the controls.
 - **Script key (alternative)**: only when the project cannot use NuGet
   packages at all, or has a special hosting/integration constraint.
-  - **Add-in / plugin hosts** are **hybrid**, not script-key-only — see
-    Step 4.
-  - **OpenEdge ABL hosts are always script-key-only** — OpenEdge does not
-    support NuGet at all, so the NuGet-based path never applies there,
-    regardless of anything else about the project. See Step 5.
+  - **Add-in / plugin hosts** are **hybrid**, not script-key-only, and
+    **OpenEdge ABL hosts are always script-key-only** since OpenEdge does
+    not support NuGet at all. Both need an explicit
+    `TelerikLicensing.Register(...)` call because neither has a standard
+    entry point the license can evaluate against automatically — delegate
+    to `telerik-winforms-license-plugin-hosts` for the mechanics instead of
+    the steps below.
 
 ## Step 1: NuGet-Based Path (Default)
 
@@ -101,8 +103,8 @@ path; do not default to it.
 **A direct `Telerik.Licensing.Runtime.dll` assembly reference (as opposed to
 one arriving via the `Telerik.Licensing` NuGet package) always needs one of
 this path's mechanisms to activate** — an `EvidenceAttribute` script key, or
-a manual `Register(...)` call — except on OpenEdge hosts (Step 5), which
-always register manually. If the customer cannot supply or does not know the
+a manual `Register(...)` call — except on OpenEdge hosts, which always
+register manually (`telerik-winforms-license-plugin-hosts`). If the customer cannot supply or does not know the
 script key, and the project **can** use NuGet, prefer moving off the direct
 runtime reference entirely: remove it and add the `Telerik.Licensing` NuGet
 package instead (Step 1), assuming a valid `telerik-license.txt` is already
@@ -142,40 +144,14 @@ not the account used to configure the machine. For fuller CI/CD guidance
 `telerik-winforms-license-cicd-setup` rather than duplicating that guidance
 here.
 
-## Step 4: Add-in / Plugin Hosts (Hybrid — NuGet Package Plus Manual Registration)
+## Add-In/Plugin and OpenEdge Hosts
 
 When `telerik-winforms-license-detection` reported `entryPointShape` as
-add-in/plugin, **both** mechanisms are required together — this is not an
-either/or choice:
-
-1. Ensure every project library in the add-in references the
-   `Telerik.Licensing` NuGet package (from NuGet.org).
-2. Call `Telerik.Licensing.TelerikLicensing.Register()` as early as
-   possible, before any Telerik control (including `RadForm`) initializes.
-3. For the parameterless `Register()` overload to work, the project must
-   still define an `EvidenceAttribute` with the product's script key (Step
-   2 above) — or call `TelerikLicensing.Register("your-script-key")`
-   directly, or enumerate `EvidenceAttribute`s reflectively and register
-   each. Do not fabricate the script key value — the customer supplies it.
-
-## Step 5: OpenEdge ABL Hosts (Script-Key Only — No NuGet)
-
-**OpenEdge does not support NuGet at all.** Do not run Step 1 or attempt any
-NuGet-based setup for an OpenEdge project — go straight to a direct
-assembly reference plus manual registration:
-
-1. Add a direct reference to `Telerik.Licensing.Runtime.dll` — not the
-   `Telerik.Licensing` NuGet package.
-2. Direct the customer to **License Keys → View Script Keys → Progress® Telerik® UI for WinForms**
-   and copy **only the key string** inside the first
-   `Telerik.Licensing.EvidenceAttribute("key")` shown there.
-3. Register the key explicitly in code, before any Telerik control
-   initializes:
-   - In the `Form` constructor, before `InitializeComponent()`:
-     `Telerik.Licensing.TelerikLicensing:Register("Your License Key")`.
-   - Or earlier, from a procedure file (`.p`), if the very first screen is
-     itself a Telerik form — register there instead of in the form.
-4. **Warn explicitly**: never publish the script key in a public repository.
+add-in/plugin or openedge, stop here and delegate to
+`telerik-winforms-license-plugin-hosts` instead of Steps 1–2 above — neither
+host shape has a standard entry point the license can evaluate
+automatically, so both need an explicit `Register(...)` call that skill
+covers in full.
 
 ## Output
 
