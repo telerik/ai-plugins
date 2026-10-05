@@ -64,7 +64,7 @@ Check existence only — never read, print, or echo the key content.
 
 When the Telerik CLI is installed, also run its read-only license inspection:
 
-  telerik license info
+`telerik license info`
 
 Use the result to confirm the exact license file the CLI is using and whether
 `Telerik UI for WinForms` appears in the product table, including its license

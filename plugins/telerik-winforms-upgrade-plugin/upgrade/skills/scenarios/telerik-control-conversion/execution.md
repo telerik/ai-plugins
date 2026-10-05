@@ -71,8 +71,8 @@ Each task converts one class pair. Follow the playbook's `perClassWorkflow`:
 2. **Convert `{Name}.cs` immediately after** — it holds the event handlers.
 3. **Review the `itemsToReview` array** in each conversion result. These are
    properties and events the converter removed because they have no direct
-   Telerik equivalent. For each one, call `telerik_winforms_assistant` to ask
-   whether an alternative exists and how to apply it.
+   Telerik equivalent. The `telerik_winforms_assistant` can help determining
+   if an alternative exists and how to apply it.
    - **One item at a time.** Do NOT batch these calls in parallel.
    - Not every item will have an alternative; record the ones that don't.
 4. **Build** and check for errors, using the build method recorded in the plan.
@@ -101,7 +101,6 @@ dryRun=false".
 - Use the `Program.cs` code approach only if App.config cannot be modified.
 - Do not change the theme or background if the user asked to preserve the
   default appearance.
-- Build and visually verify a representative form.
 
 ## Building
 
@@ -131,8 +130,8 @@ be resolved as part of this scenario.
 ## Error Handling
 
 - **Build errors after a conversion**: read the error message and apply standard
-  C# fixes. Do **NOT** call `telerik_winforms_assistant` for build errors — it is
-  only for `itemsToReview` entries.
+  C# fixes. Do **NOT** immediately call `telerik_winforms_assistant` for build
+  errors — you can do it when unsure of the API and intended usage.
 - **A type or property mapping looks wrong**: report it rather than hand-patching
   the file. Manual edits to converter output cause drift.
 - **Designer fails to open a converted form**: check for missing Telerik

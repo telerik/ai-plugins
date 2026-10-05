@@ -171,7 +171,6 @@ follow-ups.
 
 ## Success Criteria
 
-- [ ] `Telerik.UI.for.WinForms.AllControls` is referenced by every converted project
 - [ ] Application license activation is configured when the installed version is Q1 2025 or later
 - [ ] Every in-scope class pair converted; each builds and opens in the Designer
 - [ ] `itemsToReview` entries resolved or explicitly recorded as having no alternative
