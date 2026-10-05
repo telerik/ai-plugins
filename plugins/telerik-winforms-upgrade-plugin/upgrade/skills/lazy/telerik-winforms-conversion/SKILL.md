@@ -68,7 +68,6 @@ Before **converting** files, additionally ensure:
   Telerik control NuGet package brings `Telerik.Licensing` transitively, so the
   shared license file is used without an explicit package reference
 3. The project builds successfully with current controls
-4. The project is committed to source control
 
 ## Migration Workflow
 
@@ -140,8 +139,8 @@ Call `telerik_get_theme_setup` as the final step. Prefer the App.config approach
   is the only valid basis for concluding nothing needs to change.
 - **Never batch** — don't convert all designer files then all code files. That is
   an explicit anti-pattern; it destroys context and piles up errors.
-- **Don't call `telerik_winforms_assistant` for build errors** — it's for
-  `itemsToReview` only. Read the compiler message and apply standard C# fixes.
+- **Don't immediately call `telerik_winforms_assistant` for build errors** —
+  you can do it when unsure of the API and intended usage.
 - **Don't use `dryRun`** unless the user asked. If you do, you must apply every
   returned change yourself using `lineNumber`, `originalSourceLine`, and
   `convertedSourceLine` — never report them and stop, and never tell the user to

@@ -92,19 +92,12 @@ of the `.csproj`. Honor any prerequisite the migration plan stated in Step 1.
 
 ### Telerik Package Installation
 - **Trigger**: `hasAllControlsPackage` is `false`
-- **Action**: add a task to call `telerik_add_package_reference`, followed by
-  `dotnet restore`
+- **Action**: add a task to call `telerik_add_package_reference`
 - Always the unified `Telerik.UI.for.WinForms.AllControls` package — never a
   TFM-suffixed variant (`.Net462`, `.Net48`, `.Net80`, `.Net90`), which the
   migration plan lists as an anti-pattern
 - If `hasAllControlsPackage` is `true`, **do not** plan this task — the critical
   rules forbid calling the tool when the package is already present
-
-### Assembly → NuGet Migration
-- **Trigger**: `existingTelerikReferences` contains `Telerik.WinControls*`
-  assembly references while `hasAllControlsPackage` is `false`
-- **Action**: add a task to replace the assembly references with the
-  `AllControls` package before converting
 
 ### Application License Activation
 - **Trigger**: the Telerik version being installed or already referenced is

@@ -33,19 +33,16 @@ Skip any setup task whose trigger was not flagged during assessment.
 
 | Order | Task | Condition | Skill |
 |-------|------|-----------|-------|
-| 1 | Confirm the project is committed to source control | Always | — |
-| 2 | Enable WinForms (`<UseWindowsForms>true</UseWindowsForms>`) | `windowsFormsEnabled` is false on SDK-style | telerik-winforms-dependency-management |
-| 3 | Add `Telerik.UI.for.WinForms.AllControls` via `telerik_add_package_reference`, then `dotnet restore` | `hasAllControlsPackage` is false | telerik-winforms-dependency-management |
-| 4 | Migrate assembly refs → NuGet | Telerik assembly refs present without the package | telerik-winforms-dependency-management |
-| 5 | Verify application license activation | Telerik version is Q1 2025+ | telerik-winforms-license-key-setup |
-| 6 | Build baseline — confirm the project compiles before converting | Always | — |
-| 7 | Convert class — **one task per conversion unit** (`.Designer.cs` + `.cs` pair) | Per in-scope unit | telerik-winforms-conversion |
-| … | *(repeat task 7 for each conversion unit)* | | |
+| 1 | Add `Telerik.UI.for.WinForms.AllControls` via `telerik_add_package_reference`, then `dotnet restore` | `hasAllControlsPackage` is false | telerik-winforms-dependency-management |
+| 2 | Verify application license activation | Telerik version is Q1 2025+ | telerik-winforms-license-key-setup |
+| 3 | Build baseline — confirm the project compiles before converting | Always | — |
+| 4 | Convert class — **one task per conversion unit** (`.Designer.cs` + `.cs` pair) | Per in-scope unit | telerik-winforms-conversion |
+| … | *(repeat task 4 for each conversion unit)* | | |
 | N-2 | Full build — resolve cross-form errors | Always | — |
 | N-1 | Apply Telerik theme (`telerik_get_theme_setup`) | Always | telerik-winforms-conversion |
 | N | Final verification build | Always | — |
 
-Task 5 verifies that restoring `Telerik.UI.for.WinForms.AllControls` resolves
+Task 2 verifies that restoring `Telerik.UI.for.WinForms.AllControls` resolves
 its transitive `Telerik.Licensing` dependency. Do not add an explicit
 `Telerik.Licensing` package reference.
 
