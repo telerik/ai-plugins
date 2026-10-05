@@ -17,15 +17,7 @@ If no in-scope project references Telerik, per-project mechanism detection
 plainly rather than as a blocker. The MCP-prerequisite result is still the
 assessment's main finding in that case.
 
-## Step 2: Check for a CI/CD Pipeline (Heuristic, Not Doc-Sourced)
-
-Look for common pipeline definition files in the repository root or a
-`.github/workflows`/`azure-pipelines.yml`-style location. This is a plain
-file-presence check, not a documented Telerik behavior — record only
-whether a pipeline appears to exist; do not assume its platform without
-confirming.
-
-## Step 3: Write Assessment
+## Step 2: Write Assessment
 
 ```markdown
 # Telerik WinForms Licensing Assessment
@@ -54,9 +46,6 @@ confirming.
 
 ## Solution-Level Consistency
 - **Consistent mechanism across all projects**: Yes/No — {detail if No}
-
-## CI/CD
-- **Pipeline detected**: Yes/No — {file(s) found, or "none"}
 
 ## Risks and Notes
 {blockers, unmapped/ambiguous artifacts, anything outside documented coverage}

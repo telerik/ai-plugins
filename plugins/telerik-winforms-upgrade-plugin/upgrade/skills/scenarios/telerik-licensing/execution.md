@@ -12,9 +12,9 @@ inline their logic here.
    generated file containing one) into a location that could reach a public
    repository (project root without `.gitignore` coverage, a committed
    pipeline file, etc.).
-3. Do not invoke `telerik-winforms-license-nuget-migration` or
-   `telerik-winforms-license-cicd-setup` unless the plan actually added that
-   task — skip inapplicable steps rather than running them as no-ops.
+3. Do not invoke `telerik-winforms-license-nuget-migration` unless the plan
+   actually added that task — skip inapplicable steps rather than running
+   them as no-ops.
 
 ## Task-Specific Guidance
 
@@ -36,12 +36,6 @@ Delegate to `telerik-winforms-license-nuget-migration` only for projects
 where the customer accepted the offer and the exception check passed. Run
 its full sequence (add NuGet mechanism → remove script-key artifact →
 binding-redirect check → verify) — do not stop partway.
-
-### CI/CD Tasks
-
-Delegate to `telerik-winforms-license-cicd-setup` with the detected or
-stated platform. If the platform is unknown, ask rather than guessing
-platform-specific syntax.
 
 ### Verification
 

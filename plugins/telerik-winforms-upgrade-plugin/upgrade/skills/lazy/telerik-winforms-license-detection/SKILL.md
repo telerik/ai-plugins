@@ -236,8 +236,7 @@ Solution-level:
 - Never read, print, log, or otherwise echo the contents of a license key,
   script key, or environment variable value. Report only existence, location,
   and non-secret CLI metadata such as the WinForms product status and expiry.
-- This skill only reports. Setup, migration, CI/CD configuration, and fixes
-  are separate skills (`telerik-winforms-license-key-setup`,
-  `telerik-winforms-license-nuget-migration`,
-  `telerik-winforms-license-cicd-setup`, `telerik-winforms-license-diagnostics`).
+- This skill only reports. Setup, migration, and fixes are separate skills
+  (`telerik-winforms-license-key-setup`, `telerik-winforms-license-nuget-migration`,
+  `telerik-winforms-license-diagnostics`).
 

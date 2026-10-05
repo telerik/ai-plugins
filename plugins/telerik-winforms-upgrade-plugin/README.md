@@ -41,7 +41,7 @@ that matches the user's intent:
 | **telerik-version-upgrade** | The project already uses Telerik and the user wants a newer Telerik version | Upgrades the Telerik package version, migrates assembly refs to NuGet, sets up licensing, and fixes breaking changes |
 | **telerik-control-conversion** | The user wants standard Microsoft WinForms controls replaced with Telerik equivalents | Installs Telerik, sets up licensing, converts forms one at a time, and applies a Telerik theme |
 | **telerik-assembly-to-nuget** | The user only wants direct Telerik assembly references replaced with NuGet packages, with no version or .NET target change | Detects the current Telerik version and reference style, sets up the right NuGet feed, maps assemblies to packages, and migrates the project |
-| **telerik-licensing** | The user wants Telerik license activation set up, fixed, migrated, or configured for CI/CD | Detects the licensing mechanism, repairs activation, and verifies builds |
+| **telerik-licensing** | The user wants Telerik license activation set up, fixed, or migrated | Detects the licensing mechanism, repairs activation, and verifies builds |
 
 `telerik-version-upgrade` and `telerik-control-conversion` chain: after an upgrade completes,
 the plugin offers control conversion; after a conversion completes, it offers
@@ -113,7 +113,7 @@ dotnet tool install --global Telerik.CLI
 | `telerik-version-upgrade` | Upgrade the Telerik UI for WinForms version with breaking-changes detection |
 | `telerik-control-conversion` | Convert Microsoft WinForms controls to Telerik equivalents |
 | `telerik-assembly-to-nuget` | Migrate direct Telerik assembly references to NuGet packages, with no version or .NET target change |
-| `telerik-licensing` | Set up, fix, or migrate Telerik license activation and CI/CD configuration |
+| `telerik-licensing` | Set up, fix, or migrate Telerik license activation |
 
 ### Lazy (loaded on demand)
 
@@ -125,7 +125,6 @@ dotnet tool install --global Telerik.CLI
 | `telerik-winforms-license-key-setup` | Obtain and place a license key for the recommended NuGet-based path, or the script-key path |
 | `telerik-winforms-license-plugin-hosts` | Set up or fix licensing for add-in/plugin (hybrid) and OpenEdge (script-key-only) hosts with no standard entry point |
 | `telerik-winforms-license-nuget-migration` | Convert a project from script-key licensing to the NuGet-based `Telerik.Licensing` model |
-| `telerik-winforms-license-cicd-setup` | Configure license activation for build pipelines |
 | `telerik-winforms-license-diagnostics` | Map licensing symptoms and `TKL*` codes to causes and fixes |
 | `telerik-winforms-license-verification` | Build and confirm a licensing setup actually activates |
 | `telerik-winforms-conversion` | Convert MS WinForms controls to Telerik equivalents, one class pair at a time |
@@ -197,8 +196,6 @@ telerik-winforms-upgrade-plugin/
         │   │   ├── SKILL.md
         │   │   └── ref/
         │   │       └── version-compatibility.md
-        │   ├── telerik-winforms-license-cicd-setup/
-        │   │   └── SKILL.md
         │   ├── telerik-winforms-license-detection/
         │   │   └── SKILL.md
         │   ├── telerik-winforms-license-diagnostics/
