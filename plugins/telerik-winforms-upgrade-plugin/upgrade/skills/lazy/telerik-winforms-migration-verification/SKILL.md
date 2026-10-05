@@ -50,14 +50,27 @@ unrelated warning is expensive and out of scope for these tasks. This
 policy is the canonical definition; every other Telerik skill and scenario
 that validates a build points back here rather than restating it.
 
+**Assembly-to-NuGet missing-license exception**: only when the caller is
+`telerik-assembly-to-nuget`, the unchanged Telerik version is Q1 2025 or
+later, and a missing application license has been confirmed and explicitly
+reported to the user, `TKL*` **warnings caused by that missing license**
+(e.g. `TKL002`) are non-blocking. Account for environment-based license
+inputs before concluding a license is missing. Record the warnings and
+activation as deferred to `telerik-licensing`; do not start setup
+automatically. This exception includes missing-license warnings introduced
+by adding the control packages, but does not apply to any other scenario,
+corrupted/expired licenses, product-mismatch warnings, or licensing errors.
+Warnings promoted to errors still block verification; never suppress
+diagnostics or change warning severity to make a build pass.
+
 **Always fix, never leave:**
 - Any compiler **error**.
-- `TKL*` licensing codes — error or warning, always resolve
-  (`telerik-winforms-license-diagnostics`).
+- `TKL*` licensing codes, except the missing-license warnings covered by
+  the exception above (`telerik-winforms-license-diagnostics`).
 - A warning that is a **new regression introduced by this task's own
-  edits** (e.g. a stale `HintPath` left after a reference migration, or a
-  breaking-change fix that compiles but warns because the wrong overload
-  was picked).
+  edits**, except the missing-license warnings covered above (e.g. a stale
+  `HintPath` left after a reference migration, or a breaking-change fix
+  that compiles but warns because the wrong overload was picked).
 - A warning `telerik_upgrade_assistant` or `telerik_winforms_assistant`
   explicitly flags as signaling an imminent breaking change at the version
   being moved to.
@@ -79,9 +92,12 @@ output in the report, whether or not it was fixed.
 - Packages added (id + version) and references removed, per project
 - Feed used
 - Restore result and build result
+- For Q1 2025+ projects: application activation verified / deferred
+  (confirmed missing license) / blocked, with warning codes and follow-up
 - Any assembly that stayed unmapped, and how it was resolved
 
 ## Idempotency
 
-Re-running after a successful migration should restore cleanly and build
-cleanly with no further edits needed.
+Re-running after a successful reference migration should restore and build
+successfully with no further reference edits needed. Continue to report any
+deferred missing-license warnings until application activation is resolved.
