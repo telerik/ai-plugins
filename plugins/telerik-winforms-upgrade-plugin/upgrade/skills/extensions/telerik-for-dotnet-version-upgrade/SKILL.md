@@ -4,11 +4,12 @@ description: >
   Telerik UI for WinForms rules for a .NET version upgrade to newer modern
   .NET — covers both modern-.NET-to-newer-modern-.NET (B1) and .NET
   Framework-to-modern-.NET (B2) sources. Determines which situation applies,
-  verifies the Telerik version against the new target TFM, and on B2
-  mandatorily migrates direct assembly references to NuGet packages — the
-  Visual Studio designer only supports Telerik controls via NuGet on modern
-  .NET — transitioning licensing accordingly. On B1 the same migration is
-  offered as a recommendation, never forced.
+  verifies the Telerik version against the new target TFM, and mandatorily
+  migrates Telerik direct assembly references to NuGet packages whenever found on a
+  modern .NET target — the Visual Studio designer only supports Telerik
+  controls via NuGet there, regardless of whether the project just arrived
+  on modern .NET (B2) or was already on it (B1) — transitioning licensing
+  accordingly.
 metadata:
   discovery: scenarioExtension
   extends-scenario: [dotnet-version-upgrade]
@@ -29,32 +30,29 @@ never assume from the target alone.
 
 - **B1 — Modern → newer modern** (e.g. net8.0 → net10.0): usually
   light-touch. Reference style is normally already NuGet, so the reference
-  migration is typically a no-op — verify, don't force it. If direct
-  assembly references are unexpectedly found, migrating to NuGet is
-  **offered**, not forced — the customer can decline and stay on assembly
-  references.
+  migration is typically a no-op — verify, don't assume. **Direct assembly
+  references are not a legitimate end state here**: a project already on
+  modern .NET has no excuse for missing NuGet, for the same designer-support
+  reason that makes it mandatory on B2. If found, migrate unconditionally —
+  do not offer it as a choice.
 - **B2 — .NET Framework → modern .NET** (e.g. net472 → net10.0-windows):
   the heaviest path, and the one this update changes. Migrating direct
   Telerik assembly references to NuGet is **mandatory** — there is no
   assembly-reference outcome on this path. See *Why NuGet Is Mandatory on
-  B2* below.
+  Modern .NET* below.
 
-**Asymmetry is deliberate — state it explicitly so it isn't re-merged**: the
-consent gate ("migrate to NuGet, or keep assembly references?") and the
-`telerik-winforms-reference-retargeting` fallback apply to **B1 only**. On
-B2, neither exists: there is no question to ask and no assembly-reference
-path to retarget into instead.
-
-## Why NuGet Is Mandatory on B2
+## Why NuGet Is Mandatory on Modern .NET (Both B1 and B2)
 
 In modern .NET WinForms projects, the Visual Studio designer only supports
 Telerik controls consumed via NuGet package references — direct assembly
-references are not supported by the designer there. A B2 project that kept
+references are not supported by the designer there. A project that kept
 assembly references would compile and run but lose Telerik design-time
 support in Visual Studio, which is a broken development experience, not a
-style preference. This is why migration is required on B2 and only
-recommended on B1 (see `planning.md` for the exact user-facing wording,
-stated once at plan time).
+style preference. This holds regardless of how the project reached modern
+.NET, so migration is required unconditionally whenever assembly references
+are found on either path — not just on B2, and not as a recommendation on
+B1 (see `planning.md` for the exact user-facing wording, stated once at
+plan time).
 
 This reasoning applies to modern .NET WinForms projects specifically; it
 does not apply to, and must not be cited for, .NET Framework projects.
@@ -77,19 +75,16 @@ This body is what the `IntegrityReview` scope receives. When reviewing the
 resulting change, confirm that:
 - the Telerik version referenced supports the new target TFM, and the feed
   serving it was resolved before the version was finalized;
-- **on B2**: every Telerik `<Reference>`/`HintPath` and `packages.config`
-  entry is gone — migration to NuGet is unconditional here, so no such entry
-  should survive under any circumstance, including customer preference;
-  licensing uses transitive `Telerik.Licensing`, and any prior
-  `EvidenceAttribute` was removed, not left in place;
-- **on B1**: assembly references may legitimately remain if the customer
-  declined the offered migration — in that case licensing uses Script Key,
-  not `Telerik.Licensing`, and no `<Reference>`/`HintPath` was touched except
-  a version retarget;
+- every Telerik `<Reference>`/`HintPath` and `packages.config` entry is
+  gone, on **either** path — migration to NuGet is unconditional whenever
+  assembly references are found, so no such entry should survive under any
+  circumstance, including customer preference; licensing uses transitive
+  `Telerik.Licensing`, and any prior `EvidenceAttribute` was removed, not
+  left in place;
 - every added Telerik package shares one version;
 - this extension's work landed inside the host's own stages — not as a
   separate, competing flow;
-- a blocked B2 migration was reported clearly (with the designer-support
+- a blocked migration was reported clearly (with the designer-support
   consequence) rather than silently left on assembly references or
   partially migrated.
 
@@ -99,7 +94,6 @@ paths), `telerik-winforms-dependency-management` (both paths),
 `telerik-winforms-nuget-feed-setup` (both paths, when NuGet applies),
 `telerik-winforms-assembly-mapping` (both paths, when migrating),
 `telerik-winforms-reference-migration` (both paths, when migrating),
-`telerik-winforms-reference-retargeting` (**B1 only**),
 `telerik-winforms-license-detection`, `telerik-winforms-license-key-setup`,
 `telerik-winforms-license-nuget-migration` (both paths),
 `telerik-winforms-breaking-changes` (both paths), and

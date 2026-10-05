@@ -4,10 +4,13 @@ If Assessment recorded `Telerik UI for WinForms: not present`, contribute
 nothing here — stop immediately. Do not re-inspect the project; rely on the
 Assessment record.
 
-Otherwise, contribute Telerik-specific tasks and, on B1 only, an upgrade
-option. Read the recorded situation (B1/B2) from assessment first — the two
-branches share every underlying skill and differ in applicability and, on
-B2, in whether NuGet migration is even a decision point (it isn't).
+Otherwise, contribute Telerik-specific tasks. Read the recorded situation
+(B1/B2) from assessment first — the two branches share every underlying
+skill and differ only in how often each one actually needs the NuGet
+migration: B2 always does; B1 normally doesn't, because the project should
+already be NuGet-based. Neither branch has an upgrade option for Telerik's
+delivery method — whenever assembly references are found, migration is
+mandatory on both.
 
 ## Version Decision (Both Paths)
 
@@ -32,56 +35,29 @@ a late surprise during execution.
   impact, `telerik-winforms-reference-migration` for the version string).
   No package-id changes are needed; the project is already on the right
   packages.
-- **Unexpected direct assembly references found**: offer the migration as a
-  choice via the *Upgrade Option* below — this is the only path where that
-  option exists.
+- **Unexpected direct assembly references found**: not a legitimate end
+  state on modern .NET — add the same mandatory migration tasks described
+  under *Mandatory NuGet Migration* below. There is no upgrade option and no
+  consent gate here either; this is the rare case where B1 needs the exact
+  work B2 always needs.
 
-### Upgrade Option — B1 Only
+## Mandatory NuGet Migration (B2 Always; B1 When Assembly References Are Found)
 
-**Telerik UI for WinForms migration** — choose `Migrate to NuGet packages`
-(recommended) or `Keep direct assembly references` (a supported outcome on
-B1). This consent gate — and the `telerik-winforms-reference-retargeting`
-fallback it leads to when declined — applies **only to B1**; see the
-asymmetry note in `SKILL.md`.
-
-Recommended-path wording (state once if assembly references are found; do
-not repeat):
-
-> Moving to NuGet is recommended here: in modern .NET WinForms projects, the
-> Visual Studio designer only supports Telerik controls consumed via NuGet,
-> so keeping assembly references means no design-time support for them. You
-> can keep assembly references if you prefer — this stays optional on this
-> path.
-
-**Plan impact**:
-- `Migrate to NuGet packages` adds: feed setup (already resolved in
-  assessment; execute if not yet configured), assembly → package mapping,
-  `PackageReference` edits with `packages.config` removal, and the
-  `Telerik.Licensing` transition — via `telerik-winforms-nuget-feed-setup`,
-  `telerik-winforms-assembly-mapping`, `telerik-winforms-reference-migration`,
-  `telerik-winforms-license-key-setup` (or `telerik-winforms-license-nuget-migration`
-  if a Script Key already existed).
-- `Keep direct assembly references` still needs the version bump when
-  required: retarget the assembly references to the new version via
-  `telerik-winforms-reference-retargeting`, and set up Script Key licensing
-  if the bump crosses Q1 2025 — see Execution.
-
-## B2 — Framework → Modern: Mandatory Migration, No Upgrade Option
-
-There is **no upgrade option** here — do not present a choice, do not add a
-consent-gate task, and do not invoke `telerik-winforms-reference-retargeting`
-on this path. Migrating to NuGet is a required part of reaching a working
-modern .NET project, exactly like any other mandatory step the host
-scenario performs — not a recommendation, not a question, not opt-in.
+There is **no upgrade option** on either path when assembly references are
+present — do not present a choice, do not add a consent-gate task, and do
+not invoke `telerik-winforms-reference-retargeting` — that skill's "stay on
+assembly references" outcome has no home in this extension. Migrating to
+NuGet is a required part of reaching a working modern .NET project, exactly
+like any other mandatory step the host scenario performs — not a
+recommendation, not a question, not opt-in.
 
 State the reason exactly once, in the plan, before any project edits are
 made:
 
 > Migrating your direct Telerik assembly references to NuGet packages is
-> required as part of this upgrade, not optional: in modern .NET WinForms
-> projects, the Visual Studio designer only supports Telerik controls
-> consumed via NuGet, so this migration is what keeps Telerik controls
-> usable in the designer after the .NET upgrade.
+> required, not optional: in modern .NET WinForms projects, the Visual
+> Studio designer only supports Telerik controls consumed via NuGet, so this
+> migration is what keeps Telerik controls usable in the designer.
 
 Do not repeat this at every later task or in execution reporting — say it
 once, here.
@@ -116,7 +92,7 @@ another way, **stop and report** — include the designer-support consequence
 of not completing it. Do not fall back to leaving assembly references in
 place, and do not partially migrate (e.g. converting some packages but not
 others, or switching delivery method without transitioning licensing). A
-blocked B2 migration is a reportable failure for the user to resolve (e.g.
+blocked migration is a reportable failure for the user to resolve (e.g.
 supply Telerik NuGet server credentials, or confirm how to handle an
 unmapped assembly) — it is not a reason to downgrade the outcome to "kept
 assembly references."
