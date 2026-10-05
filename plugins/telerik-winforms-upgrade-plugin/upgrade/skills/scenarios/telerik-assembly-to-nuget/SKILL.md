@@ -54,8 +54,8 @@ my Telerik DLL references to packages", "stop using Telerik DLLs directly".
 This file only orchestrates. Each stage delegates the actual procedure to
 lazy skills that are independently callable outside this scenario too.
 
-0. **Pre-Initialization** — Verify the Telerik license, identify in-scope
-   projects, apply the early-exit check above, confirm parameters.
+0. **Pre-Initialization** — Identify in-scope projects, apply the early-exit
+  check above, confirm parameters.
 1. **Assessment** — Load [assessment.md](assessment.md).
 2. **Planning** — Load [planning.md](planning.md).
 3. **Execution** — Load [execution.md](execution.md).
@@ -63,25 +63,11 @@ lazy skills that are independently callable outside this scenario too.
 
 ## Pre-Initialization
 
-### Step 0: Check the Telerik License (non-blocking)
-
-Unlike the plugin's other scenarios, this migration works through direct
-project-file edits and the .NET/NuGet CLI — the reference detection, feed
-setup, package mapping, project editing, and restore/build steps described in
-this scenario's lazy skills need no `telerik_*` MCP tool call. A missing
-Telerik license does **not** block this scenario.
-
-Still load `telerik-winforms-license-detection` and run its **Step 0** (MCP
-server prerequisite check) — do not re-implement the path/existence check
-here; it resolves the environment variable correctly per shell and avoids
-the false negatives a naive literal `%AppData%` check produces in
-PowerShell.
-
-Check existence only — never read, print, or echo the key. If it's missing,
-tell the user once that no Telerik license was found — `telerik_add_package_reference`
-and every other Telerik MCP tool stay unavailable until one is activated
-(offer `telerik-winforms-license-key-setup` if they want it set up now) —
-then continue with the migration regardless.
+This workflow uses project-file edits and the .NET/NuGet CLI, not
+`telerik_*` MCP tools. Do not run an MCP-server license prerequisite check
+or block project discovery on a license file. For Q1 2025+ packages,
+application activation is checked during migration builds as described in
+[execution.md](execution.md).
 
 ### Tools to Call
 
@@ -101,7 +87,8 @@ then continue with the migration regardless.
       `PackageReference` for the same feature set
 - [ ] No `<Reference>` entries or `HintPath`s pointing at Telerik DLLs remain
 - [ ] All Telerik packages added to a project share the same version
-- [ ] The solution restores and builds cleanly
+- [ ] The solution restores and builds successfully; any deferred
+  missing-license warnings are explicitly reported
 - [ ] Any assembly with no known package mapping was reported to the user,
       not guessed
 
@@ -110,8 +97,5 @@ then continue with the migration regardless.
 - This scenario does not change the Telerik version or the .NET target — see
   `telerik-version-upgrade` and the host's `dotnet-version-upgrade` scenario for
   those.
-- Tool names are the bare names exposed by the `telerik-winforms-upgrade-plugin`
-  MCP; every host resolves them. `telerik_add_package_reference` only
-  documents install instructions for `Telerik.UI.for.WinForms.AllControls` —
-  see `telerik-winforms-reference-migration` for how the other packages this
-  scenario needs are added.
+- Add the resolved packages via project-file edits or the .NET/NuGet CLI;
+  follow `telerik-winforms-reference-migration` for the exact steps.

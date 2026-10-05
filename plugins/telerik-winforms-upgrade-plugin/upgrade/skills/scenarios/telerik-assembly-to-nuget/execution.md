@@ -29,21 +29,42 @@ only reference-migration mistakes — a missing package, wrong version, or a
 leftover `<Reference>`. Do not fix unrelated API breaking changes here; that
 is out of scope (see `telerik-version-upgrade`).
 
-## License Note
+Pass the active scenario id (`telerik-assembly-to-nuget`), the recorded
+Telerik version, and any already-reported missing-license finding to
+verification so its scenario-specific warning exception can apply.
 
-Adding Telerik NuGet packages brings `Telerik.Licensing` in transitively when
-the target version is Q1 2025 or later. If the shared license file was found
-during pre-initialization, that already covers application activation — no
-separate licensing task is needed here. If it was missing, the migration
-still proceeds; note in the summary that the application will need the
-license file activated before it can run without warnings (see
-`telerik-winforms-license-key-setup` for background).
+## Application License Verification
+
+Use the Telerik version already recorded in the assessment:
+
+- **Before Q1 2025**: no application license is required; do not add a
+  license check or setup task.
+- **Q1 2025 or later**: restored control packages bring `Telerik.Licensing`
+  transitively. Use the build's licensing diagnostics to verify activation;
+  finding a license file alone is not proof that activation succeeds.
+- If the build reports a missing-license warning (e.g. `TKL002`), check
+  whether an application license input is configured: a per-user or
+  project-root `telerik-license.txt`, `TELERIK_LICENSE`, or
+  `TELERIK_LICENSE_PATH`. Check existence and path resolution only; never
+  read, print, or log key contents or secret environment-variable values.
+  When the missing license is confirmed, notify the user once and record
+  the affected project and warning codes in the task results as deferred.
+  Apply the assembly-to-NuGet exception in
+  `telerik-winforms-migration-verification`'s **Warning Policy**.
+- Do not automatically start license setup, switch an existing activation
+  mechanism, or invoke Telerik MCP tools. Deferred activation belongs to
+  the `telerik-licensing` follow-up scenario. Licensing errors and other
+  `TKL*` warnings remain subject to the shared policy.
 
 ## Final Verification
 
 After every project's task is done, run
 **telerik-winforms-migration-verification** once more for the whole solution
-to confirm a clean restore and build, following that skill's **Warning
+to confirm a successful restore and build, following that skill's **Warning
 Policy** rather than the common `building-projects` skill's "fix every
 warning" default — pre-existing or unrelated warnings don't need to be
 resolved as part of this migration.
+
+Carry the per-project deferred licensing findings into this verification
+and the final summary. Do not describe a build with deferred warnings as
+warning-free, or application activation as verified while it is deferred.

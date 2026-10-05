@@ -10,15 +10,20 @@ Summarize results and suggest follow-ups.
 - **Packages added per project**: {package id + version list}
 - **Assembly references removed**: {count} across {project count} projects
 - **Unmapped assemblies**: list with how each was resolved, or "none"
-- **Restore/build result**: clean / outstanding issues
+- **Restore/build result**: clean / succeeded with deferred missing-license
+  warnings / outstanding issues
+- **Application activation**: not required (before Q1 2025) / verified /
+  deferred (confirmed missing license) / blocked
+- **Deferred licensing warnings**: affected projects and codes, or "none"
 
 ## Step 2: Verification Reminders
 
 - Open each migrated project in Visual Studio and confirm it loads without
   reference warnings
 - Run the application and exercise screens that used the migrated controls
-- Confirm the build is clean on a machine that hasn't previously restored
-  these packages, to catch feed-configuration gaps
+- Confirm restore/build succeeds on a machine that hasn't previously
+  restored these packages, to catch feed-configuration gaps; report known
+  missing-license warnings separately
 
 ## Step 3: Suggest Future Enhancements
 
@@ -30,3 +35,7 @@ Summarize results and suggest follow-ups.
    replace them with Telerik equivalents.
 3. **Generate Report**: create a detailed report of packages added,
    references removed, and any assemblies that needed a manual decision.
+
+If application activation was deferred, also suggest the `telerik-licensing`
+scenario to supply the missing license and resolve the reported warnings.
+Do not start it automatically.
