@@ -19,7 +19,6 @@ one branch — do not run more than one for the same project:
 | `mechanism: hybrid-manual-registration` (add-in/plugin) | Verify only — this is the documented correct state, not a defect | `telerik-winforms-license-verification` |
 | `mechanism: openedge-manual-registration` (OpenEdge) | Verify only — OpenEdge cannot use NuGet, so this is the permanent, correct state, not a defect | `telerik-winforms-license-verification` |
 | Solution-level `consistent: No` | Converge every eligible project onto the NuGet-based model; leave only documented-exception projects on script-key | `telerik-winforms-license-nuget-migration` per eligible project |
-| CI/CD pipeline detected, or customer asked | Configure CI/CD activation | `telerik-winforms-license-cicd-setup` |
 | Always | Final verification | `telerik-winforms-license-verification` |
 
 ## Migration Offer (State Once)
@@ -45,19 +44,12 @@ plugin hosts are **not** exempt; they take the hybrid path (NuGet package +
 kept `EvidenceAttribute`), which is a `telerik-winforms-license-key-setup`
 task, not a "leave alone" outcome.
 
-## CI/CD Task
-
-Only add a CI/CD configuration task if assessment recorded a detected
-pipeline, or the customer explicitly asked for it. Do not add it
-speculatively.
-
 ## Ordering
 
 1. Fix anything broken first (diagnostics → fix skill) — a broken mechanism
    should not be migrated on top of.
 2. Set up anything missing.
 3. Offer/perform migration.
-4. Configure CI/CD, if applicable.
 5. Verify — always last.
 
 ## Out of Scope

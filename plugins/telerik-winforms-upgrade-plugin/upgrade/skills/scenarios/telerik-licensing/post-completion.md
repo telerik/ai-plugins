@@ -4,7 +4,6 @@
 
 - **Mechanism per project**: before → after
 - **Migration performed**: Yes/No (and for which projects)
-- **CI/CD configured**: Yes/No/not applicable
 - **Verification result**: clean / issues remaining (list)
 
 ## Step 2: Runtime Reminder

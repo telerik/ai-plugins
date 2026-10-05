@@ -139,10 +139,8 @@ the key.
 ## Step 3: Windows CI/CD Placement (When Setting Up a Build Agent Directly)
 
 The license file must exist for the **Windows account that runs the build**,
-not the account used to configure the machine. For fuller CI/CD guidance
-(secrets, environment variables, platform-specific setup), delegate to
-`telerik-winforms-license-cicd-setup` rather than duplicating that guidance
-here.
+not the account used to configure the machine. This is the most common
+cause of a build that activates locally but fails on a build server.
 
 ## Add-In/Plugin and OpenEdge Hosts
 

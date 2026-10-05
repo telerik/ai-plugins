@@ -4,9 +4,9 @@ description: >
   Set up, fix, or migrate Telerik UI for WinForms license activation,
   independent of any version change. Detects the current mechanism (NuGet-based
   or script-key), diagnoses TKL* errors and watermarks, sets up the recommended
-  activation path, migrates to the NuGet-based model when feasible, and
-  configures CI/CD. Not for version or reference-style changes — those
-  scenarios call this one's lazy skills directly.
+  activation path, and migrates to the NuGet-based model when feasible. Not
+  for version or reference-style changes — those scenarios call this one's
+  lazy skills directly.
 requires-extension: telerik-winforms-upgrade-plugin
 metadata:
   discovery: scenario
@@ -32,8 +32,8 @@ license activation, using the mechanism that is actually right for it.
 
 **Also triggered by**: "set up my Telerik license", "I'm getting a Telerik
 watermark", "TKL002 error" (or any TKL0xx/TKL1xx code), "no license key
-found", "move my Telerik license to NuGet", "add my Telerik license to
-CI/CD", or a Telerik license dialog/banner at startup.
+found", "move my Telerik license to NuGet", or a Telerik license
+dialog/banner at startup.
 
 **Not this scenario**: for a Telerik version change, use `telerik-version-upgrade`
 (it calls this scenario's lazy skills for its own licensing needs rather than
@@ -55,7 +55,7 @@ customer asks for it, or when detection finds it missing.
 
 Do not tell the customer "there is nothing to license" just because no
 project references Telerik. Only the **per-project application license**
-portion of this scenario (mechanism detection, migration, CI/CD) requires a
+portion of this scenario (mechanism detection and migration) requires a
 Telerik reference to mean anything — the shared MCP key does not.
 
 ## Scenario Flow
@@ -90,9 +90,7 @@ Telerik reference to mean anything — the shared MCP key does not.
      model rather than leaving both — prefer the NuGet-based model for
      every project that can use it, keep script-key only where a project's
      own exception applies.
-4. **Offer CI/CD configuration** only if a pipeline is detected in the
-   repository or the customer asks — never assume one exists.
-5. **Always finish** with `telerik-winforms-license-verification`.
+4. **Always finish** with `telerik-winforms-license-verification`.
 
 ## Script Key → NuGet Migration Policy
 
@@ -143,8 +141,6 @@ Telerik reference to mean anything — the shared MCP key does not.
       of script-key and NuGet-based within the same solution unless a
       documented exception applies to specific projects
 - [ ] The NuGet migration offer, if made, was stated once and not repeated
-- [ ] CI/CD configuration was only touched if a pipeline was detected or
-      requested
 - [ ] The solution builds with no `TKL*` warnings or errors
 - [ ] No license key, script key, or credential was fabricated, read, or
       echoed by the agent
