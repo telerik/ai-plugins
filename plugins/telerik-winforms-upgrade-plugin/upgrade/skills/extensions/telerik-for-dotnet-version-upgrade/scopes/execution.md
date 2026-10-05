@@ -11,34 +11,11 @@ doesn't apply to the resolved situation rather than running it as a no-op.
 
 Use `telerik-winforms-breaking-changes` (`telerik_upgrade_assistant`) to
 detect and fix API-level breaking changes for the new Telerik version. This
-applies whether the project stays on assembly references (B1, declined) or
-moves to NuGet (B1 accepted, or B2 always).
+applies regardless of whether this is B1 (typically already NuGet, so this
+is often the only work needed) or B2 (always migrating) — fix breaking
+changes once the final NuGet-based version is in place.
 
-## B1 — NuGet Path (Only If Offered and Accepted)
-
-Run, in order: `telerik-winforms-nuget-feed-setup` →
-`telerik-winforms-assembly-mapping` → `telerik-winforms-reference-migration`
-(handles `packages.config` → `PackageReference` too) →
-`telerik-winforms-license-key-setup` (or `telerik-winforms-license-nuget-migration`
-if a Script Key already existed) for the transitive `Telerik.Licensing`,
-Q1 2025+ → `telerik-winforms-migration-verification`.
-
-## B1 — Declined-NuGet Path (Explicit Customer Choice, B1 Only)
-
-Delegate to `telerik-winforms-reference-retargeting` with the confirmed
-target version. It asks the customer where the new version's DLLs are
-located (never guessing the path), validates the supplied path (DLLs exist,
-expected Telerik version, correct framework-specific build), and repoints
-every Telerik `<Reference>`/`HintPath` entry to it. Afterward, set up Script
-Key licensing via `telerik-winforms-license-key-setup` if the bump crosses
-the Q1 2025 boundary — `Telerik.Licensing` has no transitive path without
-the NuGet package.
-
-**This path does not exist on B2.** Never invoke
-`telerik-winforms-reference-retargeting` when the resolved situation is B2 —
-there is no assembly-reference outcome to retarget into.
-
-## B2 — Mandatory NuGet Migration (No Consent Gate)
+## Mandatory NuGet Migration (B2 Always; B1 When Assembly References Are Found)
 
 Run, in order, unconditionally — do not ask, and do not branch on customer
 preference:
@@ -51,6 +28,10 @@ version chosen in assessment) → `telerik-winforms-assembly-mapping`
 `telerik-winforms-license-nuget-migration` (transitions to `Telerik.Licensing`;
 removes any existing Script Key / `EvidenceAttribute` rather than leaving it
 alongside the new mechanism) → `telerik-winforms-migration-verification`.
+
+**Never invoke `telerik-winforms-reference-retargeting` from this
+extension** — on either path, there is no assembly-reference outcome to
+retarget into; that skill's fallback has no home here.
 
 If any step reports it cannot complete — no obtainable version, an assembly
 with no mapping, a feed that won't resolve — **stop and report**, including

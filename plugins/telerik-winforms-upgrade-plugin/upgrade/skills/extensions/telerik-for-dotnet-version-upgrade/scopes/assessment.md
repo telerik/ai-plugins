@@ -40,8 +40,10 @@ record:
 - Reference style: assembly, NuGet, packages.config, or mixed
 - Current Telerik version (or "unknown")
 
-**B1 expectation**: usually already NuGet. A project can still legally carry
-direct assembly references via `HintPath` — check anyway, don't assume.
+**B1 expectation**: should already be NuGet — check anyway, don't assume.
+Direct assembly references found here are not a legitimate end state; record
+them the same way B2 does, since they trigger the identical mandatory
+migration (see Planning).
 
 **B2 expectation**: direct assembly references and/or `packages.config` are
 the common case.
@@ -98,9 +100,10 @@ that now rather than letting it appear only during execution.
 - **Chosen version**: {current, unchanged / lowest obtainable version that supports the target TFM}
 - **Feed required for chosen version**: NuGet.org / Telerik NuGet server — resolved: {Yes/No}
 - **Assembly references present**: {list, or "none"}
-- **On B2, migration to NuGet**: mandatory — not a decision point
+- **Migration to NuGet**: mandatory if assembly references are present — on
+  either B1 or B2 — not a decision point
 ```
 
-Do not decide the NuGet question here on B1 — Planning contributes it as an
-upgrade option there. On B2 there is no question to defer; Planning turns
-this record directly into mandatory tasks.
+Planning turns this record directly into mandatory tasks on either path —
+there is no upgrade option to contribute for Telerik's delivery method on
+B1 or B2.
