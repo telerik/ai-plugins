@@ -39,10 +39,8 @@ For each package (id + version) resolved by
   its `Version` to match instead of adding a duplicate entry
 - Otherwise add `<PackageReference Include="{id}" Version="{version}" />`
 
-`telerik_add_package_reference` only documents install instructions for
-`Telerik.UI.for.WinForms.AllControls`. For every other package id in the
-resolved set, edit the `.csproj`/`.vbproj` directly, or use
-`dotnet add package {id} --version {version}`.
+Edit the `.csproj`/`.vbproj` directly for each package id in the resolved
+set, or use `dotnet add package {id} --version {version}`.
 
 The `Version` value is always the plain Telerik release version, e.g.
 `2026.3.812` — never a target-framework-suffixed value like

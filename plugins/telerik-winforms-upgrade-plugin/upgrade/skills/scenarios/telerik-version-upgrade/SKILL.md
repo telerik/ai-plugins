@@ -94,7 +94,6 @@ This scenario uses the **Telerik.WinForms.MCP** NuGet package which provides:
 | Tool | Arguments | What it actually does |
 |------|-----------|----------------------|
 | `telerik_upgrade_assistant` | `projectPath`, `targetVersion?`, `fromVersion?` | Runs the Telerik CLI (`telerik migrate analyze`) and reports every breaking API change with file, line, and old/new signature |
-| `telerik_add_package_reference` | `csprojPath`, `targetFramework`, `projectStyle` | Returns install instructions for `Telerik.UI.for.WinForms.AllControls` |
 | `telerik_winforms_assistant` | — | Component API questions when a replacement API is unclear |
 | `telerik_get_theme_setup` | none | Theme configuration — only if a breaking change forces it |
 
