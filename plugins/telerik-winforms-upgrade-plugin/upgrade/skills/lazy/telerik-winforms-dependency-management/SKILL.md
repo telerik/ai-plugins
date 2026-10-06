@@ -107,9 +107,7 @@ may still be required — see `telerik-winforms-nuget-feed-setup`.
 
 ## Installing Telerik via NuGet
 
-`telerik_add_package_reference` only documents install instructions for
-`Telerik.UI.for.WinForms.AllControls`. For any other package the mapping
-resolves to, edit the `.csproj` directly or use:
+For any package the mapping resolves to, edit the `.csproj` directly or use:
 ```
 dotnet add package {packageId} --version {targetVersion}
 ```

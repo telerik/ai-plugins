@@ -89,7 +89,6 @@ NuGet package, which exposes:
 |------|--------------|
 | `telerik_get_migration_plan` | Returns a static migration playbook — workflow, critical rules, anti-patterns |
 | `telerik_analyze_project` | Analyzes the **`.csproj`** — target framework, project style, Telerik references. Does *not* enumerate controls. |
-| `telerik_add_package_reference` | Install instructions for `Telerik.UI.for.WinForms.AllControls` |
 | `telerik_convert_file` | Roslyn conversion of one file — **this is where control mapping happens** |
 | `telerik_upgrade_assistant` | Breaking-change detection between Telerik versions (via Telerik CLI) |
 | `telerik_get_theme_setup` | Telerik theme configuration |
