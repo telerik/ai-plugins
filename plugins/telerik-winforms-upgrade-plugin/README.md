@@ -25,10 +25,12 @@ plugin, setup, samples, and instruction-authoring guidance:
 
 ## Installation
 
-From the repository root, install the plugin via Copilot CLI:
+Add the `telerik/ai-plugins` marketplace, then install the plugin.
 
+**GitHub Copilot CLI**
 ```bash
-copilot plugin install ./plugins/telerik-winforms-upgrade-plugin
+copilot plugin marketplace add telerik/ai-plugins
+copilot plugin install telerik-winforms-upgrade-plugin@telerik-ai-plugins
 ```
 
 ## What It Does
@@ -150,7 +152,8 @@ same lazy skills above rather than duplicating the migration mechanics.
 
 ```
 telerik-winforms-upgrade-plugin/
-├── plugin.json
+├── .claude-plugin/
+│   └── plugin.json
 ├── upgrade-extension.json
 ├── README.md
 └── upgrade/
