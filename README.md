@@ -31,13 +31,13 @@ Add the `telerik/ai-plugins` marketplace to your agent, then install the plugin 
 **Claude Code**
 ```shell
 /plugin marketplace add telerik/ai-plugins
-/plugin install kendo-react-plugin@ai-plugins
+/plugin install kendo-react-plugin@telerik-ai-plugins
 ```
 
 **GitHub Copilot CLI**
 ```bash
 copilot plugin marketplace add telerik/ai-plugins
-copilot plugin install kendo-react-plugin@ai-plugins
+copilot plugin install kendo-react-plugin@telerik-ai-plugins
 ```
 
 **VS Code Copilot** *(Agent Plugins is a preview feature — requires VS Code 1.100+ with `chat.plugins.enabled: true`)* — add to `settings.json`, then browse `@agentPlugins` in the Extensions view and click **Install**:
