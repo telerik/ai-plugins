@@ -2,6 +2,17 @@
   "name": "telerik-winforms-upgrade-plugin",
   "version": "1.0.0",
   "description": "Telerik WinForms upgrade plugin with scenarios for version upgrades, control conversion, assembly-to-NuGet migration, and licensing.",
-  "author": { "name": "Progress Telerik" },
-  "keywords": ["modernization", "upgrade", "migration", "dotnet", "winforms", "telerik", "windowsforms"]
+  "author": {
+    "name": "Progress Telerik"
+  },
+  "license": "MIT",
+  "keywords": [
+    "modernization",
+    "upgrade",
+    "migration",
+    "dotnet",
+    "winforms",
+    "telerik",
+    "windowsforms"
+  ]
 }
