@@ -46,6 +46,16 @@
       },
       "source": "./plugins/kendo-design",
       "category": "development"
+    },
+    {
+      "name": "telerik-winforms-upgrade-plugin",
+      "description": "Telerik WinForms upgrade plugin with scenarios for version upgrades, control conversion, assembly-to-NuGet migration, and licensing.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Progress Telerik"
+      },
+      "source": "./plugins/telerik-winforms-upgrade-plugin",
+      "category": "development"
     }
   ]
 }
