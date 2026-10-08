@@ -35,6 +35,10 @@ sequentially rather than jumping directly. The Kendo CLI can help:
 
   kendo migrate --from=[X] --to=[X+1]
 
+Or, if you have an active Trial or Subscription license, the Upgrade Assistant in the
+KendoReact MCP server can drive each consecutive-major migration end-to-end with AI
+assistance. Review and test each boundary before continuing to the next.
+
 Would you like me to summarize the breaking changes for each step?
 ```
 
@@ -122,6 +126,43 @@ v12→v13 has no breaking changes and needs no codemods — it's a safe upgrade.
 
 For the full CLI reference, see:
 https://www.telerik.com/kendo-react-ui/components/migration/assisted-migration
+```
+
+---
+
+## "How do I use the Upgrade Assistant?"
+
+```text
+The Upgrade Assistant is an AI-powered tool in the KendoReact MCP server that combines Kendo
+CLI codemods with AI code analysis. It invokes the Kendo CLI to update your packages and run
+all codemods for the migration path, then reviews the results and either applies further fixes
+automatically or guides you through any remaining manual steps.
+
+Requirements:
+- An MCP-compatible client (VS Code, Cursor, etc.) with the KendoReact MCP server configured
+- An active Trial or Subscription license (perpetual licenses don't include MCP tools)
+
+To use it, open a chat session in your IDE and invoke the assistant with a prompt describing
+your upgrade:
+
+  #kendo_upgrade_assistant Upgrade my project from KendoReact v10 to v11
+
+To target a specific package instead of the whole project:
+
+  #kendo_upgrade_assistant Upgrade @progress/kendo-react-grid from v10 to v11
+
+For a multi-major upgrade, invoke the assistant separately for each consecutive major
+boundary and test the project before continuing to the next.
+
+After it runs, review the applied changes, re-run your build to confirm errors are resolved,
+and do a test run of the project.
+
+If you don't have an eligible license, the alternative is the Kendo CLI directly:
+
+  kendo migrate @progress/kendo-react-grid --from 10 --to 11
+
+Both approaches use the same underlying codemods. The Upgrade Assistant adds AI-driven
+error resolution on top of the automated transformations.
 ```
 
 ---
