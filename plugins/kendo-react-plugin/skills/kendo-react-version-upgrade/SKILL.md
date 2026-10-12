@@ -1,6 +1,6 @@
 ---
 name: kendo-react-version-upgrade
-description: Guides KendoReact version upgrades, including breaking changes and safe migration paths. Use when a developer asks whether an upgrade is safe, what changed between versions, how to plan a multi-version upgrade path, or how to prepare before running migration tools. This skill provides guidance and reasoning about upgrades; it does not execute migrations. For execution, it bridges to the Kendo CLI (`kendo migrate`) and the MCP server. Do NOT use for first-time install (route to kendo-react-getting-started) or for licensing failures unrelated to version coverage (route to kendo-react-product-licensing). Trigger on "Should I upgrade KendoReact?", "Is it safe to go from v12 to v15?", "What broke in v15?", "How do I upgrade KendoReact?", "kendo migrate", "breaking changes between versions", "my components broke after npm update", "themeColor dark light removed", "ref returns Handle instead of class", "icon names changed", "TKL102 version not covered", "perpetual license upgrade", "what changed in the latest release", "should I skip versions", "upgrade path", "codemod migration", "npm-check-updates kendo".
+description: Guides KendoReact version upgrades, including breaking changes and safe migration paths. Use when a developer asks whether an upgrade is safe, what changed between versions, how to plan a multi-version upgrade path, or how to prepare before running migration tools. This skill provides guidance and reasoning about upgrades; it does not execute migrations. For execution, it bridges to the Kendo CLI (`kendo migrate`) and the Upgrade Assistant in the KendoReact MCP server. Do NOT use for first-time install (route to kendo-react-getting-started) or for licensing failures unrelated to version coverage (route to kendo-react-product-licensing). Trigger on "Should I upgrade KendoReact?", "Is it safe to go from v12 to v15?", "What broke in v15?", "How do I upgrade KendoReact?", "kendo migrate", "breaking changes between versions", "my components broke after npm update", "themeColor dark light removed", "ref returns Handle instead of class", "icon names changed", "TKL102 version not covered", "perpetual license upgrade", "what changed in the latest release", "should I skip versions", "upgrade path", "codemod migration", "npm-check-updates kendo", "Upgrade Assistant", "kendo_upgrade_assistant", "AI-assisted migration", "AI migration KendoReact".
 ---
 
 # KendoReact Version Upgrade Skill
@@ -9,7 +9,7 @@ description: Guides KendoReact version upgrades, including breaking changes and 
 
 This skill teaches agents how to **reason about KendoReact version upgrades** — what changed, what to watch out for, and how to approach upgrades safely.
 
-It helps agents explain why an upgrade might be risky or beneficial and what preparation is needed, rather than executing migrations directly. The skill provides guidance, not execution: actual code changes are handled by the Kendo CLI (`kendo migrate`) and the MCP server's Component Assistant.
+It helps agents explain why an upgrade might be risky or beneficial and what preparation is needed, rather than executing migrations directly. The skill provides guidance, not execution: actual code changes are handled by the Kendo CLI (`kendo migrate`) and the **Upgrade Assistant** in the KendoReact MCP server, which combines codemods with AI-powered code analysis for end-to-end migration guidance.
 
 This skill does not replace release notes, migration guides, or the official breaking changes documentation. It teaches agents how to interpret and apply that information in context.
 
@@ -30,14 +30,14 @@ This skill covers:
 - Recommending safe upgrade paths (consecutive majors vs. version skipping)
 - Flagging common upgrade pitfalls that lead to support tickets
 - Explaining license implications of upgrading (perpetual coverage windows, TKL102)
-- Bridging to the Kendo CLI and MCP for execution once the decision is made
+- Bridging to the Kendo CLI and the Upgrade Assistant MCP tool for execution once the decision is made
 
 This skill does not cover:
 
 - First-time install or onboarding — route to `kendo-react-getting-started`
 - Licensing failures unrelated to version coverage — route to `kendo-react-product-licensing`
 - MCP entitlement failures — route to `kendo-react-mcp-licensing`
-- Executing code changes — defer to `kendo migrate` or the MCP Component Assistant
+- Executing code changes — defer to `kendo migrate` or the Upgrade Assistant MCP tool
 - Detailed component API changes — defer to the official breaking changes docs
 
 ---
@@ -250,7 +250,9 @@ upgrade_decision:
             (a) Stay on current version — the risk/effort isn't justified.
             (b) Upgrade within current major (minor/patch) — zero breaking changes.
             (c) Upgrade one major at a time using 'kendo migrate'.
-            (d) Upgrade directly to latest — only if current version is one major behind.
+            (d) Use the Upgrade Assistant MCP tool for AI-driven, end-to-end
+                migration at each consecutive major boundary.
+            (e) Upgrade directly to latest — only if current version is one major behind.
 ```
 
 ---
@@ -278,12 +280,15 @@ upgrade_path_rules:
         risk: high
         action: >
             Do NOT jump directly. Walk through each major boundary one at a time.
-            For example, v10 → v11 → v12 → v13 → v14 → v15.
-            At each step, run 'kendo migrate' and resolve breaking changes before
-            proceeding to the next.
+            For example, v10 → v11 → v12 → v13 → v14 → v15. At each step, use
+            'kendo migrate' or the Upgrade Assistant, resolve breaking changes,
+            and test before proceeding to the next.
         notes: >
             The Kendo CLI's 'kendo migrate --from X --to Y' handles this
             sequentially, but the developer should review and test at each step.
+            If the developer has an active Trial or Subscription license, the
+            Upgrade Assistant MCP tool can drive each boundary end-to-end with
+            AI resolution of any residual issues.
 
     skipping_versions:
         risk: very high
@@ -334,12 +339,50 @@ kendo_migrate:
 
 ---
 
+## Upgrade Assistant (MCP)
+
+KendoReact has two assisted migration paths: the Kendo CLI for direct codemods, and the Upgrade Assistant in the MCP server for AI-driven end-to-end migration.
+
+Available via the KendoReact MCP server (`@progress/kendo-react-mcp`), the Upgrade Assistant is a two-phase hybrid tool: it invokes the Kendo CLI to update packages and run all codemods for the migration path, then reviews the results with AI and either applies further fixes automatically or guides the developer through any remaining manual steps (interface changes, project-specific edge cases).
+
+Recommend the Upgrade Assistant when the developer is upgrading between major versions and wants end-to-end guidance, when codemods alone leave residual compilation errors, or when the developer wants to reduce manual effort across a large codebase. For a multi-major upgrade, invoke it separately for each consecutive major boundary and test before continuing. If the developer only wants the automated codemods without AI assistance, point them to the Kendo CLI directly.
+
+Prerequisites:
+- An MCP-compatible client with MCP server support (VS Code, Cursor, etc.)
+- An active Trial or Subscription license — perpetual licenses do not include MCP tools
+- The KendoReact MCP server (`@progress/kendo-react-mcp`) installed and configured
+
+Invoke it with a natural-language prompt describing the migration path:
+
+```
+#kendo_upgrade_assistant Upgrade my project from KendoReact v10 to v11
+```
+
+To target a specific package instead of the entire project:
+
+```
+#kendo_upgrade_assistant Upgrade @progress/kendo-react-grid from v10 to v11
+```
+
+After the assistant runs:
+1. Review the changes applied to the codebase.
+2. Accept the suggested fixes and re-run the build to confirm all errors are resolved.
+3. Do a test run of the project to verify everything works as expected.
+
+Docs: https://www.telerik.com/kendo-react-ui/components/migration/ai-migration
+
+---
+
 ## MCP Bridge
 
 Once the developer has decided to upgrade and understands the scope, the MCP server can assist with execution.
 
 ```yaml
 mcp_upgrade_assistance:
+    upgrade_assistant:
+        use_for: End-to-end automated migration with AI-powered error resolution.
+        handle: '#kendo_upgrade_assistant'
+        license: Trial or Subscription only.
     kendo_component_assistant:
         use_for: >
             Help updating specific component usage after a major version upgrade.
@@ -412,7 +455,7 @@ pitfalls:
     skipped_version_compound_errors:
         symptom: Multiple unrelated errors after a multi-major jump.
         cause: Developer upgraded from v10 to v15 directly, compounding 5 majors of breaking changes.
-        resolution: Roll back and upgrade one major at a time using 'kendo migrate'.
+        resolution: Roll back and upgrade one major at a time, using 'kendo migrate' or the Upgrade Assistant at each boundary.
 
     npm_update_surprise:
         symptom: App breaks after routine 'npm install' on a fresh clone.
@@ -433,15 +476,15 @@ route_to_kendo_react_product_licensing_when:
     - TKL102 appears (version not covered by perpetual license)
     - Any licensing issue unrelated to version coverage
 
-route_to_kendo_mcp_licensing_when:
-    - MCP tools return PERMISSION_DENIED (entitlement, not version)
+route_to_kendo_react_mcp_licensing_when:
+    - MCP tools (including the Upgrade Assistant) return PERMISSION_DENIED (entitlement, not version)
 
 stay_in_this_skill_when:
     - Developer asks "should I upgrade?"
     - Developer asks what broke in a specific version
     - Developer asks how to approach a multi-version jump
     - Developer reports errors after an upgrade and needs to understand what changed
-    - Developer asks about the Kendo CLI migrate command
+    - Developer asks about the Kendo CLI migrate command or the Upgrade Assistant MCP tool
     - Developer asks about safe upgrade paths
 ```
 
@@ -449,7 +492,7 @@ stay_in_this_skill_when:
 
 ## Security
 
-This skill is a static, read-only knowledge layer. It does not execute commands, modify code, or access the developer's file system. All migration execution is deferred to the Kendo CLI and the developer's own terminal.
+This skill is a static, read-only knowledge layer. It does not execute commands, modify code, or access the developer's file system. All migration execution is deferred to the Kendo CLI, the Upgrade Assistant MCP tool, and the developer's own terminal.
 
 ```yaml
 security_model:
@@ -475,5 +518,6 @@ avoid:
     - Treating TKL102 as a setup bug — it is a license coverage boundary.
     - Suggesting the developer suppress TypeScript errors caused by API changes rather than fixing them.
     - Providing upgrade guidance without confirming the developer's current version first.
+    - Recommending the Upgrade Assistant MCP tool to a perpetual license holder (it's entitlement-gated).
     - Mixing upgrade guidance with first-time onboarding or licensing troubleshooting.
 ```
