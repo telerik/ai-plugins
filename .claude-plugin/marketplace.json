@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "telerik-ai-plugins",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Local plugin marketplace for testing KendoReact plugins",
   "owner": {
     "name": "Progress"
@@ -50,7 +50,7 @@
     {
       "name": "telerik-winforms-upgrade-plugin",
       "description": "Telerik WinForms upgrade plugin with scenarios for version upgrades, control conversion, assembly-to-NuGet migration, and licensing.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "Progress Telerik"
       },
