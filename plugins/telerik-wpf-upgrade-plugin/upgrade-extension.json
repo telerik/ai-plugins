@@ -1,0 +1,16 @@
+{
+  "id": "telerik-wpf-upgrade-plugin",
+  "displayName": "Telerik WPF Upgrade Plugin",
+  "traits": ".NET|CSharp|VisualBasic|DotNetCore|WPF",
+  "mcp": {
+    "command": "dnx",
+    "args": [
+      "Telerik.WPF.MCP", "--yes", "--ignore-failed-sources",
+      "--", "--plugin-mode", "--install-source", "upgrade-plugin"
+    ],
+    "env": {
+      "PLUGIN_MODE": "1",
+      "INSTALL_SOURCE": "upgrade-plugin"
+    }
+  }
+}

@@ -56,6 +56,16 @@
       },
       "source": "./plugins/telerik-winforms-upgrade-plugin",
       "category": "development"
+    },
+    {
+      "name": "telerik-wpf-upgrade-plugin",
+      "description": "Telerik WPF upgrade plugin with scenarios for version upgrades, assembly-to-NuGet migration, and licensing.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Progress Telerik"
+      },
+      "source": "./plugins/telerik-wpf-upgrade-plugin",
+      "category": "development"
     }
   ]
 }
