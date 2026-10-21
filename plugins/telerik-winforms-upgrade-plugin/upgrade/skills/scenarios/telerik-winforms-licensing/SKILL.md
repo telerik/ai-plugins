@@ -1,5 +1,5 @@
 ---
-name: telerik-licensing
+name: telerik-winforms-licensing
 description: >
   Set up, fix, or migrate Telerik UI for WinForms license activation,
   independent of any version change. Detects the current mechanism (NuGet-based
@@ -16,7 +16,7 @@ metadata:
   scenarioTraitsSet: [.NET, WinForms, WindowsForms, Telerik]
   post-completion:
     suggest-scenarios:
-      - telerik-assembly-to-nuget
+      - telerik-winforms-assembly-to-nuget
     suggest-actions:
       - generate-report
 ---
@@ -35,11 +35,11 @@ watermark", "TKL002 error" (or any TKL0xx/TKL1xx code), "no license key
 found", "move my Telerik license to NuGet", or a Telerik license
 dialog/banner at startup.
 
-**Not this scenario**: for a Telerik version change, use `telerik-version-upgrade`
+**Not this scenario**: for a Telerik version change, use `telerik-winforms-version-upgrade`
 (it calls this scenario's lazy skills for its own licensing needs rather than
 duplicating them); for reference-style changes only, use
-`telerik-assembly-to-nuget`; to convert Microsoft controls to Telerik, use
-`telerik-control-conversion`.
+`telerik-winforms-assembly-to-nuget`; to convert Microsoft controls to Telerik, use
+`telerik-winforms-control-conversion`.
 
 ## MCP License Prerequisite — Handled, Not Skipped
 
@@ -49,7 +49,7 @@ setting that key up in the first place. But it does not ignore it either:
 `telerik-winforms-license-detection`'s Step 0 always checks the shared
 MCP-prerequisite key, **independent of whether any project references
 Telerik yet**. A greenfield project with no Telerik reference still needs
-that key present before `telerik-control-conversion` (or any other scenario) can use
+that key present before `telerik-winforms-control-conversion` (or any other scenario) can use
 `telerik_*` tools — this scenario is exactly where that gets fixed when the
 customer asks for it, or when detection finds it missing.
 

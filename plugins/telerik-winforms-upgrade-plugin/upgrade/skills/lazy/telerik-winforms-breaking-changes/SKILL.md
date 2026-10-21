@@ -38,13 +38,13 @@ Call `telerik_upgrade_assistant` with:
   tool asks the user.
 - `targetVersion` *(optional)* — target Telerik version. Defaults to the latest
   available when this lazy skill is invoked independently. When called from
-  the `telerik-version-upgrade` scenario, the caller must first resolve and record a
+  the `telerik-winforms-version-upgrade` scenario, the caller must first resolve and record a
   concrete target, then pass it explicitly; do not use the project's current
   version as a substitute for an unresolved "latest" request. If no target 
   version can be determined, the tool will use the latest embedded manifest 
   available version.
   
-For a `telerik-version-upgrade` scenario, if the resolved target equals
+For a `telerik-winforms-version-upgrade` scenario, if the resolved target equals
 `fromVersion`, report that the analysis is a no-op and return control to the
 scenario for user clarification. Do not present it as a successful upgrade
 target or continue to fix findings against the same version.

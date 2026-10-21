@@ -21,9 +21,9 @@ for WinForms equivalents using the MCP migration tools.
 
 ## When to Use
 
-- During the **telerik-control-conversion** scenario — this skill backs
+- During the **telerik-winforms-control-conversion** scenario — this skill backs
   its planning and execution stages
-- After the **telerik-version-upgrade** scenario completes, when the
+- After the **telerik-winforms-version-upgrade** scenario completes, when the
   user accepts the offer to convert remaining MS controls
 - Any WinForms project where the user wants to adopt Telerik controls
 
@@ -71,7 +71,7 @@ Before **converting** files, additionally ensure:
 
 ## Migration Workflow
 
-> Inside the **telerik-control-conversion** scenario, Steps 1 and 2 run
+> Inside the **telerik-winforms-control-conversion** scenario, Steps 1 and 2 run
 > during the assessment stage and their output is recorded in `assessment.md`.
 > Read it from there instead of re-running them — the playbook's critical rules
 > state both run **once per session**.

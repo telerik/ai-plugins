@@ -27,15 +27,15 @@ Summarize results and suggest follow-ups.
 
 ## Step 3: Suggest Future Enhancements
 
-1. **Telerik Version Upgrade**: run the `telerik-version-upgrade` scenario — now that
+1. **Telerik Version Upgrade**: run the `telerik-winforms-version-upgrade` scenario — now that
    the project is NuGet-based, upgrading is a version bump plus
    breaking-change fixes, with no reference-style migration needed.
 2. **Control Conversion**: if the application also contains standard
-   Microsoft WinForms controls, run the `telerik-control-conversion` scenario to
+   Microsoft WinForms controls, run the `telerik-winforms-control-conversion` scenario to
    replace them with Telerik equivalents.
 3. **Generate Report**: create a detailed report of packages added,
    references removed, and any assemblies that needed a manual decision.
 
-If application activation was deferred, also suggest the `telerik-licensing`
+If application activation was deferred, also suggest the `telerik-winforms-licensing`
 scenario to supply the missing license and resolve the reported warnings.
 Do not start it automatically.

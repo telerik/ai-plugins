@@ -130,7 +130,7 @@ the resulting .NET target determines the minimum Telerik version. Record it in
 
 Do **not** add control conversion tasks to this plan, even when the assessment
 detected standard Microsoft controls. Conversion is handled by the separate
-`telerik-control-conversion` scenario, offered in post-completion.
+`telerik-winforms-control-conversion` scenario, offered in post-completion.
 
 ## Plan Format
 

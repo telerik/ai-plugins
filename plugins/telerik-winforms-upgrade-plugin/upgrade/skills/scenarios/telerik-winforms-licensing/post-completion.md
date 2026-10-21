@@ -15,7 +15,7 @@ this.
 ## Step 3: Suggest Follow-Ups (Once, Not Pushy)
 
 - If any project still has direct Telerik *control* assembly references and
-  the customer might want those on NuGet too, mention the `telerik-assembly-to-nuget`
+  the customer might want those on NuGet too, mention the `telerik-winforms-assembly-to-nuget`
   scenario once — this scenario only touched licensing, not the control
   references themselves.
 - **Generate Report**: offer a detailed summary of every file changed.
