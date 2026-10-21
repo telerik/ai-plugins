@@ -1,6 +1,7 @@
 {
   "id": "telerik-wpf-upgrade-plugin",
   "displayName": "Telerik WPF Upgrade Plugin",
+  "version": "1.0.0",
   "traits": ".NET|CSharp|VisualBasic|DotNetCore|WPF",
   "mcp": {
     "command": "dnx",
