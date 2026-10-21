@@ -1,11 +1,11 @@
 ---
-name: telerik-version-upgrade
+name: telerik-winforms-version-upgrade
 description: >
   Upgrade the Telerik UI for WinForms version used by a WinForms application —
   detect and fix breaking changes, and set up license activation when crossing
   the Q1 2025 boundary. Works whether Telerik is referenced via NuGet or direct
   assembly references; moving to NuGet is offered, never required. Not for a
-  reference-style change alone — use telerik-assembly-to-nuget for that.
+  reference-style change alone — use telerik-winforms-assembly-to-nuget for that.
 requires-extension: telerik-winforms-upgrade-plugin
 metadata:
   discovery: scenario
@@ -15,7 +15,7 @@ metadata:
   scenarioTraitsSet: [.NET, WinForms, WindowsForms, Telerik]
   post-completion:
     suggest-scenarios:
-      - telerik-control-conversion
+      - telerik-winforms-control-conversion
     suggest-actions:
       - generate-report
 ---
@@ -35,11 +35,11 @@ concrete version and resolution source, and compare it with the current
 version before asking for confirmation or creating an assessment.
 
 **Prerequisite**: The project already references Telerik UI for WinForms. If it
-does not, run the **telerik-control-conversion** scenario instead.
+does not, run the **telerik-winforms-control-conversion** scenario instead.
 
 **Not this scenario**: for reference-style changes only (no version change),
-use `telerik-assembly-to-nuget`; for license setup or fixes alone, use
-`telerik-licensing`.
+use `telerik-winforms-assembly-to-nuget`; for license setup or fixes alone, use
+`telerik-winforms-licensing`.
 
 **Also triggered by**: "upgrade Telerik WinForms", "update Telerik version",
 "move to the latest Telerik UI for WinForms", "fix Telerik breaking changes",
@@ -67,7 +67,7 @@ within this scenario.
 |---------|---------|--------|
 | **Delivery method** | Telerik referenced via direct assembly references | Upgrade in place by default (retarget `HintPath` to the new version); NuGet migration is mentioned once as an optional improvement, never required — see *Delivery Method Branch* below |
 | **Application License Activation** | Source version pre-Q1 2025, target version Q1 2025 or later | On NuGet: `Telerik.Licensing` arrives transitively, nothing explicit to add. On assembly references: leave any existing Script Key / `EvidenceAttribute` in place and verify it still validates against the new version; only set one up via `telerik-winforms-license-key-setup` if none exists yet and the boundary is crossed |
-| **MS Control Conversion** | A single standard Microsoft WinForms control found alongside Telerik — stop scanning at the first match, never a full inventory | Offered in post-completion as the `telerik-control-conversion` scenario |
+| **MS Control Conversion** | A single standard Microsoft WinForms control found alongside Telerik — stop scanning at the first match, never a full inventory | Offered in post-completion as the `telerik-winforms-control-conversion` scenario |
 
 ## Delivery Method Branch (Assembly References vs. NuGet)
 
@@ -169,7 +169,7 @@ dotnet tool install --global Telerik.CLI
 - Detect the current Telerik version from package references or assembly
   versions — or leave it to `telerik_upgrade_assistant`, which auto-detects it
 - If no Telerik reference is found, stop and redirect the user to the
-  **telerik-control-conversion** scenario
+  **telerik-winforms-control-conversion** scenario
 - Ask whether a .NET version change is also wanted — if yes, direct the user to
   run `dotnet-version-upgrade` first (see *Relationship to the .NET Version
   Upgrade* above)
@@ -193,7 +193,7 @@ dotnet tool install --global Telerik.CLI
   - If the independently resolved target equals the current version, stop the
     upgrade flow and ask the user to choose an explicit newer version or
     confirm that there is no version upgrade to perform. Offer
-    `telerik-control-conversion` only as a separate follow-up when applicable.
+    `telerik-winforms-control-conversion` only as a separate follow-up when applicable.
 
 **Step 3**: Assemble `confirmFields` for the combined confirmation:
 - **Target Telerik Version**: suggested or user-specified
@@ -239,7 +239,7 @@ Microsoft controls.
 - [ ] The target version is a concrete version resolved independently from the
   current version when the user asked for "latest" or "newest"
 - [ ] Every project references the target Telerik version, and target > current
-  for a telerik-version-upgrade run
+  for a telerik-winforms-version-upgrade run
 - [ ] Delivery method is consistent per project: every reference is NuGet, or
       every reference is a direct assembly path retargeted to the new
       version — never a mix of old and new, and never a mix of styles

@@ -39,7 +39,7 @@ send the user back to feed setup rather than editing the project further.
 If the build fails, fix only reference-migration mistakes: a missing
 package, a wrong version, or a leftover `<Reference>`. Do not fix unrelated
 API breaking changes here — that is out of scope for this scenario (see
-`telerik-version-upgrade` and `telerik-winforms-breaking-changes` for that work).
+`telerik-winforms-version-upgrade` and `telerik-winforms-breaking-changes` for that work).
 
 ## Warning Policy (Narrows the Shared Build Skill's Default for Telerik Tasks)
 
@@ -51,12 +51,12 @@ policy is the canonical definition; every other Telerik skill and scenario
 that validates a build points back here rather than restating it.
 
 **Assembly-to-NuGet missing-license exception**: only when the caller is
-`telerik-assembly-to-nuget`, the unchanged Telerik version is Q1 2025 or
+`telerik-winforms-assembly-to-nuget`, the unchanged Telerik version is Q1 2025 or
 later, and a missing application license has been confirmed and explicitly
 reported to the user, `TKL*` **warnings caused by that missing license**
 (e.g. `TKL002`) are non-blocking. Account for environment-based license
 inputs before concluding a license is missing. Record the warnings and
-activation as deferred to `telerik-licensing`; do not start setup
+activation as deferred to `telerik-winforms-licensing`; do not start setup
 automatically. This exception includes missing-license warnings introduced
 by adding the control packages, but does not apply to any other scenario,
 corrupted/expired licenses, product-mismatch warnings, or licensing errors.

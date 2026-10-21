@@ -40,14 +40,14 @@ that matches the user's intent:
 
 | Scenario | When | What happens |
 |----------|------|--------------|
-| **telerik-version-upgrade** | The project already uses Telerik and the user wants a newer Telerik version | Upgrades the Telerik package version, migrates assembly refs to NuGet, sets up licensing, and fixes breaking changes |
-| **telerik-control-conversion** | The user wants standard Microsoft WinForms controls replaced with Telerik equivalents | Installs Telerik, sets up licensing, converts forms one at a time, and applies a Telerik theme |
-| **telerik-assembly-to-nuget** | The user only wants direct Telerik assembly references replaced with NuGet packages, with no version or .NET target change | Detects the current Telerik version and reference style, sets up the right NuGet feed, maps assemblies to packages, and migrates the project |
-| **telerik-licensing** | The user wants Telerik license activation set up, fixed, or migrated | Detects the licensing mechanism, repairs activation, and verifies builds |
+| **telerik-winforms-version-upgrade** | The project already uses Telerik and the user wants a newer Telerik version | Upgrades the Telerik package version, migrates assembly refs to NuGet, sets up licensing, and fixes breaking changes |
+| **telerik-winforms-control-conversion** | The user wants standard Microsoft WinForms controls replaced with Telerik equivalents | Installs Telerik, sets up licensing, converts forms one at a time, and applies a Telerik theme |
+| **telerik-winforms-assembly-to-nuget** | The user only wants direct Telerik assembly references replaced with NuGet packages, with no version or .NET target change | Detects the current Telerik version and reference style, sets up the right NuGet feed, maps assemblies to packages, and migrates the project |
+| **telerik-winforms-licensing** | The user wants Telerik license activation set up, fixed, or migrated | Detects the licensing mechanism, repairs activation, and verifies builds |
 
-`telerik-version-upgrade` and `telerik-control-conversion` chain: after an upgrade completes,
+`telerik-winforms-version-upgrade` and `telerik-winforms-control-conversion` chain: after an upgrade completes,
 the plugin offers control conversion; after a conversion completes, it offers
-a version upgrade. `telerik-assembly-to-nuget` is a standalone, narrower scenario for
+a version upgrade. `telerik-winforms-assembly-to-nuget` is a standalone, narrower scenario for
 when only the reference style needs to change.
 
 ### .NET version upgrades
@@ -56,7 +56,7 @@ Neither scenario changes the project's `<TargetFramework>`. When the user also
 wants a different .NET version (.NET Framework → .NET, or .NET 8 → .NET 10), run
 the Microsoft `dotnet-version-upgrade` scenario **first** — the resulting .NET
 target determines which Telerik versions are available — then run
-`telerik-version-upgrade`.
+`telerik-winforms-version-upgrade`.
 
 ### Additive concerns
 
@@ -69,8 +69,8 @@ Both scenarios detect and handle:
 ### Licensing
 
 The Telerik license key is shared between the MCP server and NuGet-based
-application activation. `telerik-control-conversion` and `telerik-version-upgrade` block on
-it because their MCP tool calls need it; `telerik-assembly-to-nuget` checks for it but
+application activation. `telerik-winforms-control-conversion` and `telerik-winforms-version-upgrade` block on
+it because their MCP tool calls need it; `telerik-winforms-assembly-to-nuget` checks for it but
 continues without blocking, since its work doesn't call `telerik_*` tools. For
 Q1 2025+ projects that use Telerik NuGet packages, `Telerik.Licensing` is a
 transitive dependency, so the same key activates the application build
@@ -111,10 +111,10 @@ dotnet tool install --global Telerik.CLI
 
 | Skill | Purpose |
 |-------|---------|
-| `telerik-version-upgrade` | Upgrade the Telerik UI for WinForms version with breaking-changes detection |
-| `telerik-control-conversion` | Convert Microsoft WinForms controls to Telerik equivalents |
-| `telerik-assembly-to-nuget` | Migrate direct Telerik assembly references to NuGet packages, with no version or .NET target change |
-| `telerik-licensing` | Set up, fix, or migrate Telerik license activation |
+| `telerik-winforms-version-upgrade` | Upgrade the Telerik UI for WinForms version with breaking-changes detection |
+| `telerik-winforms-control-conversion` | Convert Microsoft WinForms controls to Telerik equivalents |
+| `telerik-winforms-assembly-to-nuget` | Migrate direct Telerik assembly references to NuGet packages, with no version or .NET target change |
+| `telerik-winforms-licensing` | Set up, fix, or migrate Telerik license activation |
 
 ### Lazy (loaded on demand)
 
@@ -159,25 +159,25 @@ telerik-winforms-upgrade-plugin/
 └── upgrade/
     └── skills/
         ├── scenarios/
-        │   ├── telerik-version-upgrade/
+        │   ├── telerik-winforms-version-upgrade/
         │   │   ├── SKILL.md
         │   │   ├── assessment.md
         │   │   ├── planning.md
         │   │   ├── execution.md
         │   │   └── post-completion.md
-        │   ├── telerik-control-conversion/
+        │   ├── telerik-winforms-control-conversion/
         │   │   ├── SKILL.md
         │   │   ├── assessment.md
         │   │   ├── planning.md
         │   │   ├── execution.md
         │   │   └── post-completion.md
-        │   ├── telerik-assembly-to-nuget/
+        │   ├── telerik-winforms-assembly-to-nuget/
         │   │   ├── SKILL.md
         │   │   ├── assessment.md
         │   │   ├── planning.md
         │   │   ├── execution.md
         │   │   └── post-completion.md
-        │   └── telerik-licensing/
+        │   └── telerik-winforms-licensing/
         │       ├── SKILL.md
         │       ├── assessment.md
         │       ├── planning.md

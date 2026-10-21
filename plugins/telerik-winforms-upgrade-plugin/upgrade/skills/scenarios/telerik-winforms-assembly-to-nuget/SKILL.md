@@ -1,5 +1,5 @@
 ---
-name: telerik-assembly-to-nuget
+name: telerik-winforms-assembly-to-nuget
 description: >
   Migrate a WinForms project's direct Telerik UI for WinForms assembly
   references to the equivalent NuGet packages, keeping the Telerik version and
@@ -15,8 +15,8 @@ metadata:
   scenarioTraitsSet: [.NET, WinForms, WindowsForms, Telerik]
   post-completion:
     suggest-scenarios:
-      - telerik-version-upgrade
-      - telerik-control-conversion
+      - telerik-winforms-version-upgrade
+      - telerik-winforms-control-conversion
     suggest-actions:
       - generate-report
 ---
@@ -43,10 +43,10 @@ my Telerik DLL references to packages", "stop using Telerik DLLs directly".
   analysis work. If a modern-.NET project unexpectedly still has assembly
   references, migrate it the same as any other project.
 - **Not this scenario**:
-  - Changing the Telerik version → `telerik-version-upgrade` (which also migrates
+  - Changing the Telerik version → `telerik-winforms-version-upgrade` (which also migrates
     assembly references as part of that flow)
-  - Adopting Telerik for the first time → `telerik-control-conversion`
-  - Setting up or fixing license activation alone → `telerik-licensing`
+  - Adopting Telerik for the first time → `telerik-winforms-control-conversion`
+  - Setting up or fixing license activation alone → `telerik-winforms-licensing`
   - Changing the .NET target → the host's `dotnet-version-upgrade` scenario
 
 ## Workflow Stages
@@ -95,7 +95,7 @@ application activation is checked during migration builds as described in
 ## Notes
 
 - This scenario does not change the Telerik version or the .NET target — see
-  `telerik-version-upgrade` and the host's `dotnet-version-upgrade` scenario for
+  `telerik-winforms-version-upgrade` and the host's `dotnet-version-upgrade` scenario for
   those.
 - Add the resolved packages via project-file edits or the .NET/NuGet CLI;
   follow `telerik-winforms-reference-migration` for the exact steps.

@@ -27,9 +27,9 @@ restore, build (using Visual Studio MSBuild instead of `dotnet build` for
 Classic-style .NET Framework projects built outside Visual Studio), and fix
 only reference-migration mistakes — a missing package, wrong version, or a
 leftover `<Reference>`. Do not fix unrelated API breaking changes here; that
-is out of scope (see `telerik-version-upgrade`).
+is out of scope (see `telerik-winforms-version-upgrade`).
 
-Pass the active scenario id (`telerik-assembly-to-nuget`), the recorded
+Pass the active scenario id (`telerik-winforms-assembly-to-nuget`), the recorded
 Telerik version, and any already-reported missing-license finding to
 verification so its scenario-specific warning exception can apply.
 
@@ -53,7 +53,7 @@ Use the Telerik version already recorded in the assessment:
   `telerik-winforms-migration-verification`'s **Warning Policy**.
 - Do not automatically start license setup, switch an existing activation
   mechanism, or invoke Telerik MCP tools. Deferred activation belongs to
-  the `telerik-licensing` follow-up scenario. Licensing errors and other
+  the `telerik-winforms-licensing` follow-up scenario. Licensing errors and other
   `TKL*` warnings remain subject to the shared policy.
 
 ## Final Verification

@@ -4,7 +4,7 @@ description: >
   Manage Telerik UI for WinForms NuGet packages and assembly references.
   Resolves the package set to install or migrate to from the assembly
   reference map by default; recommends the unified AllControls package only
-  for greenfield/telerik-control-conversion adoption, a broad or unreliable reference
+  for greenfield/telerik-winforms-control-conversion adoption, a broad or unreliable reference
   set, or explicit customer preference. Also covers packages.config cleanup,
   removing retired framework-specific packages, and checking version
   compatibility with the target .NET runtime.
@@ -40,8 +40,8 @@ mapped result versus `AllControls`, not *how* the mapping is computed.
 Recommend `Telerik.UI.for.WinForms.AllControls` instead of the mapped set —
 state plainly that it's a recommendation and why, never apply it silently —
 when:
-- **Greenfield / telerik-control-conversion adoption**: no existing Telerik reference
-  to map from (e.g. the `telerik-control-conversion` scenario installing Telerik for
+- **Greenfield / telerik-winforms-control-conversion adoption**: no existing Telerik reference
+  to map from (e.g. the `telerik-winforms-control-conversion` scenario installing Telerik for
   the first time).
 - **Broad existing usage**: the mapped set covers a large enough share of the
   suite that individual packages add management overhead with no real benefit.

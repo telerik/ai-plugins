@@ -37,7 +37,7 @@ project. Record, per project:
    scanning further files once one match is found.
 
 **If no project references Telerik**, stop the assessment and redirect the user
-to the **telerik-control-conversion** scenario. This scenario has
+to the **telerik-winforms-control-conversion** scenario. This scenario has
 nothing to upgrade.
 
 ## Step 2: Resolve and Validate the Upgrade Path
@@ -62,7 +62,7 @@ Confirm the target Telerik version is reachable from the current one:
   newer target, upgrade the .NET target first if that is the compatibility
   constraint, or confirm that no Telerik version change is needed. Do not
   silently continue because the user said "latest". Offer the
-  `telerik-control-conversion` scenario only as a separate follow-up when applicable.
+  `telerik-winforms-control-conversion` scenario only as a separate follow-up when applicable.
 - If the target equals current but the target was not independently resolved,
   treat the target as **unresolved**, not as a valid no-op, and resolve it
   before asking the user to confirm.
@@ -151,7 +151,7 @@ from Step 1 and let planning present the branch:
   alongside Telerik (Step 1's first-match check)
 - **Action**: record a plain yes/no per project for post-completion — not a
   count and not a list of every control found. The
-  `telerik-control-conversion` scenario handles the actual work. Do NOT
+  `telerik-winforms-control-conversion` scenario handles the actual work. Do NOT
   add conversion tasks to this scenario's plan.
 
 ## Step 5: Preview Breaking Changes

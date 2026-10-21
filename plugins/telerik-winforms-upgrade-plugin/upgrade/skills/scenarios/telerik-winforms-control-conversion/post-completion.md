@@ -53,7 +53,7 @@ file can be deleted.
 
 Present available follow-up options:
 
-1. **Telerik Version Upgrade**: run the `telerik-version-upgrade`
+1. **Telerik Version Upgrade**: run the `telerik-winforms-version-upgrade`
    scenario to move to a newer Telerik release, with breaking-changes detection.
 
 3. **Generate Report**: Create a detailed conversion report summarizing all
