@@ -110,9 +110,29 @@ async function bumpPluginVersion(pluginName, bumpType) {
     throw new Error(`plugin.json for "${pluginName}" is missing a "version" field`);
   }
 
+  const extensionPath = path.join(PLUGINS_DIR, pluginName, 'upgrade-extension.json');
+  let extensionJson;
+  try {
+    extensionJson = await readJson(extensionPath);
+    if (extensionJson === null || typeof extensionJson !== 'object' || Array.isArray(extensionJson)) {
+      throw new Error('Expected a JSON object');
+    }
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      throw new Error(`Could not read upgrade-extension.json for "${pluginName}" at ${extensionPath}`, {
+        cause: error,
+      });
+    }
+  }
+
   const newVersion = bumpVersion(oldVersion, bumpType);
   pluginJson.version = newVersion;
   await writeJson(jsonPath, pluginJson);
+
+  if (extensionJson !== undefined) {
+    extensionJson.version = newVersion;
+    await writeJson(extensionPath, extensionJson);
+  }
 
   return { pluginName, oldVersion, newVersion };
 }

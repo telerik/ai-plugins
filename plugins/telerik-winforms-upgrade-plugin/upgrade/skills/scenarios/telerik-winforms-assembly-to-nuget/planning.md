@@ -35,5 +35,5 @@ it via `AllControls`) before task 4 touches that project.
 - **Never bundle the feed setup with a project migration task** — the feed
   must resolve before any package is added, or restore will fail for reasons
   unrelated to the edits just made.
-- **Do not add telerik-version-upgrade or breaking-change tasks** — this scenario
-  keeps the Telerik version fixed; that work belongs to `telerik-version-upgrade`.
+- **Do not add telerik-winforms-version-upgrade or breaking-change tasks** — this scenario
+  keeps the Telerik version fixed; that work belongs to `telerik-winforms-version-upgrade`.

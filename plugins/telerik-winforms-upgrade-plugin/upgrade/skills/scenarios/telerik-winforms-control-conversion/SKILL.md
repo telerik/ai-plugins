@@ -1,11 +1,11 @@
 ---
-name: telerik-control-conversion
+name: telerik-winforms-control-conversion
 description: >
   Convert standard Microsoft WinForms controls (Button, DataGridView, TreeView,
   ListView, ComboBox, and others) to Telerik UI for WinForms equivalents —
   install the AllControls NuGet package, set up licensing, convert forms with
   the Telerik MCP migration tools, and apply a theme. Use to adopt Telerik UI
-  for WinForms, or as a follow-up after telerik-version-upgrade or
+  for WinForms, or as a follow-up after telerik-winforms-version-upgrade or
   dotnet-version-upgrade.
 requires-extension: telerik-winforms-upgrade-plugin
 metadata:
@@ -16,7 +16,7 @@ metadata:
   scenarioTraitsSet: [.NET, WinForms, WindowsForms, Telerik]
   post-completion:
     suggest-scenarios:
-      - telerik-version-upgrade
+      - telerik-winforms-version-upgrade
     suggest-actions:
       - generate-report
 ---
@@ -35,9 +35,9 @@ Telerik", "replace Microsoft controls with Telerik controls", "add Telerik to
 my WinForms app".
 
 **Not this scenario**: if the project already uses Telerik and the user wants
-a newer Telerik version, use `telerik-version-upgrade` instead (run it first
+a newer Telerik version, use `telerik-winforms-version-upgrade` instead (run it first
 if the user needs both); for reference-style changes only, use
-`telerik-assembly-to-nuget`; for license setup alone, use `telerik-licensing`.
+`telerik-winforms-assembly-to-nuget`; for license setup alone, use `telerik-winforms-licensing`.
 
 ## Starting States
 
@@ -193,4 +193,4 @@ follow-ups.
   NuGet package — never a TFM-suffixed variant, never direct assembly
   references.
 - If the project already uses Telerik and the user wants a newer Telerik
-  version, this is the wrong scenario — use `telerik-version-upgrade`.
+  version, this is the wrong scenario — use `telerik-winforms-version-upgrade`.

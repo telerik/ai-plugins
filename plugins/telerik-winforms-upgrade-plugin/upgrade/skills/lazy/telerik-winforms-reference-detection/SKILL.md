@@ -14,7 +14,7 @@ metadata:
 # Telerik WinForms Reference Detection
 
 Read-only detection of a project's Telerik reference style and version. Safe
-to call standalone, from the `telerik-assembly-to-nuget` scenario, or from any other
+to call standalone, from the `telerik-winforms-assembly-to-nuget` scenario, or from any other
 scenario that needs these facts (for example, Telerik guidance inside a
 .NET Framework → .NET upgrade flow).
 

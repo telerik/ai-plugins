@@ -121,7 +121,7 @@ These tasks use the shared key already verified for the MCP server.
 
 Do not run the conversion tools (`telerik_get_migration_plan`,
 `telerik_convert_file`) in this scenario. Converting Microsoft controls to
-Telerik belongs to the `telerik-control-conversion` scenario.
+Telerik belongs to the `telerik-winforms-control-conversion` scenario.
 
 `telerik_get_theme_setup` may be called only when a breaking change requires a
 theme reconfiguration — not to introduce a new theme.

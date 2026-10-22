@@ -1,12 +1,18 @@
 {
   "id": "telerik-winforms-upgrade-plugin",
   "displayName": "Telerik WinForms Upgrade Plugin",
+  "version": "1.0.2",
   "traits": ".NET|CSharp|VisualBasic|DotNetCore|WinForms|WindowsForms",
   "mcp": {
     "command": "dnx",
     "args": [
-      "Telerik.WinForms.MCP", "--yes", "--ignore-failed-sources",
-      "--", "--plugin-mode", "--install-source", "upgrade-plugin"
+      "Telerik.WinForms.MCP",
+      "--yes",
+      "--ignore-failed-sources",
+      "--",
+      "--plugin-mode",
+      "--install-source",
+      "upgrade-plugin"
     ],
     "env": {
       "PLUGIN_MODE": "1",

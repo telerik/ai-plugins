@@ -15,7 +15,7 @@ metadata:
 # Telerik WinForms License Detection
 
 Read-only detection of a project's current Telerik licensing state. Every
-other licensing lazy skill and the `telerik-licensing` scenario depend on this
+other licensing lazy skill and the `telerik-winforms-licensing` scenario depend on this
 skill's output — never assume the mechanism in use; always run this first.
 
 ## Inputs
@@ -27,7 +27,7 @@ skill's output — never assume the mechanism in use; always run this first.
 
 ## Preconditions
 
-None. Safe to call standalone, from the `telerik-licensing` scenario, or from any
+None. Safe to call standalone, from the `telerik-winforms-licensing` scenario, or from any
 other scenario/extension that needs these facts before deciding on a
 licensing action.
 
@@ -35,7 +35,7 @@ licensing action.
 
 The `Telerik.WinForms.MCP` server requires a valid Telerik license to
 operate, regardless of whether any in-scope project references Telerik at
-all — a greenfield `telerik-control-conversion` run needs this key just as much as
+all — a greenfield `telerik-winforms-control-conversion` run needs this key just as much as
 an existing Telerik project does. Check this **first**, before Step 1, and
 never gate it on Telerik presence or skip it because "there's nothing to
 license yet."
@@ -188,7 +188,7 @@ Per project, classify as one of:
 Across all in-scope projects, record whether every project uses the **same**
 mechanism. Flag a mismatch (e.g. some projects `nuget-file`, others
 `script-key`) as `mixed` — do not silently pick one; the caller decides how
-to resolve it (see the `telerik-licensing` scenario's planning stage). Do not flag
+to resolve it (see the `telerik-winforms-licensing` scenario's planning stage). Do not flag
 `openedge-manual-registration` alongside other mechanisms as a defect on its
 own — an OpenEdge project is never eligible for convergence onto NuGet.
 

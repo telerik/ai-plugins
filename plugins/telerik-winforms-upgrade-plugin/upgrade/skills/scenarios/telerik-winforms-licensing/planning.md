@@ -55,8 +55,8 @@ task, not a "leave alone" outcome.
 ## Out of Scope
 
 Do not add tasks for changing the Telerik product version or migrating
-control assembly references to NuGet — those belong to `telerik-version-upgrade` and
-`telerik-assembly-to-nuget` respectively.
+control assembly references to NuGet — those belong to `telerik-winforms-version-upgrade` and
+`telerik-winforms-assembly-to-nuget` respectively.
 
 ## Plan Format
 

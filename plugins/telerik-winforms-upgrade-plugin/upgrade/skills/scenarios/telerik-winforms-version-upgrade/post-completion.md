@@ -30,7 +30,7 @@ If it was recorded `Yes`:
 > visualization, and extended configuration options. Would you like to convert
 > them?
 >
-> This runs the **telerik-control-conversion** scenario, which uses the
+> This runs the **telerik-winforms-control-conversion** scenario, which uses the
 > Telerik MCP migration tools to analyze your forms and convert controls while
 > preserving your application logic.
 
