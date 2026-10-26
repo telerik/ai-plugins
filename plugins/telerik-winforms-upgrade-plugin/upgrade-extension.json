@@ -1,6 +1,6 @@
 {
   "id": "telerik-winforms-upgrade-plugin",
   "displayName": "Telerik WinForms Upgrade Plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "traits": ".NET|CSharp|VisualBasic|DotNetCore|WinForms|WindowsForms"
 }
