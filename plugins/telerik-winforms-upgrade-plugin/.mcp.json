@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "Telerik.WinForms.MCP": {
+      "type": "stdio",
+      "command": "dnx",
+      "args": [
+        "Telerik.WinForms.MCP",
+        "--yes",
+        "--ignore-failed-sources"
+      ],
+      "env": {
+        "PLUGIN_MODE": "1",
+        "INSTALL_SOURCE": "upgrade-plugin"
+      }
+    }
+  }
+}
