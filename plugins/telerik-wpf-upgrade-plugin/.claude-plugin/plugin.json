@@ -1,6 +1,6 @@
 {
   "name": "telerik-wpf-upgrade-plugin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Telerik WPF upgrade plugin with scenarios for version upgrades, assembly-to-NuGet migration, and licensing.",
   "author": {
     "name": "Progress Telerik"
