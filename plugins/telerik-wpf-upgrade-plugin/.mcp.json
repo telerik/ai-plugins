@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "Telerik.WPF.MCP": {
+      "type": "stdio",
+      "command": "dnx",
+      "args": [
+        "Telerik.WPF.MCP",
+        "--yes",
+        "--ignore-failed-sources"
+      ],
+      "env": {
+        "PLUGIN_MODE": "1",
+        "INSTALL_SOURCE": "upgrade-plugin"
+      }
+    }
+  }
+}

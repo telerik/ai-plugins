@@ -10,10 +10,11 @@ AI coding agent plugins for [Claude Code](https://code.claude.com), [GitHub Copi
 | [`kendo-react-plugin`](plugins/kendo-react-plugin/) | KendoReact — component implementation, accessibility, theming, testing, migration, and styling |
 | [`kendo-angular-plugin`](plugins/kendo-angular-plugin/) | Kendo UI for Angular — component documentation, layout utilities, theming, icons, and accessibility |
 | [`telerik-winforms-upgrade-plugin`](plugins/telerik-winforms-upgrade-plugin/) | GitHub Copilot CLI Upgrade Agent for Telerik UI for WinForms — version upgrades, control conversion, assembly-to-NuGet migration, and licensing |
+| [`telerik-wpf-upgrade-plugin`](plugins/telerik-wpf-upgrade-plugin/) | GitHub Copilot CLI Upgrade Agent for Telerik UI for WPF — version upgrades, assembly-to-NuGet migration (Xaml and NoXaml), and licensing |
 
 ## How It Works
 
-Most plugins wrap a **Progress MCP server** that gives your coding agent live access to component documentation, APIs, and code generation. The WinForms Upgrade plugin is different: it extends Microsoft's Upgrade Agent for GitHub Copilot CLI with Telerik WinForms modernization scenarios and uses the `Telerik.WinForms.MCP` server.
+Most plugins wrap a **Progress MCP server** that gives your coding agent live access to component documentation, APIs, and code generation. The WinForms and WPF Upgrade plugins are different: they extend Microsoft's Upgrade Agent for GitHub Copilot CLI with Telerik WinForms and WPF modernization scenarios and use the `Telerik.WinForms.MCP` and `Telerik.WPF.MCP` servers.
 
 A valid **Progress product license** is required to use the plugins:
 
@@ -23,6 +24,7 @@ A valid **Progress product license** is required to use the plugins:
 | `kendo-react-plugin` | [KendoReact](https://www.telerik.com/kendo-react-ui) |
 | `kendo-angular-plugin` | [Kendo UI for Angular](https://www.telerik.com/kendo-angular-ui) |
 | `telerik-winforms-upgrade-plugin` | [Telerik UI for WinForms](https://www.telerik.com/products/winforms.aspx) |
+| `telerik-wpf-upgrade-plugin` | [Telerik UI for WPF](https://www.telerik.com/products/wpf/overview.aspx) |
 
 ## Getting Started
 
