@@ -128,7 +128,7 @@ When Telerik must be installed, verify the chosen version supports the
 | .NET Target | Minimum Telerik Version |
 |-------------|------------------------|
 | .NET 8 | 2024 Q2 (2024.2.x) |
-| .NET 9 / .NET 10 | 2024 Q4 (2024.4.x) |
+| .NET 9 / .NET 10 / .NET 11 | 2024 Q4 (2024.4.x) |
 | .NET Framework 4.6.2+ | 2024 Q2 (2024.2.x) |
 | .NET Framework 4.8+ | R3 2022 (2022.3.x) |
 | .NET Framework 4.0 | up to R1 2024 (distribution ended) |
