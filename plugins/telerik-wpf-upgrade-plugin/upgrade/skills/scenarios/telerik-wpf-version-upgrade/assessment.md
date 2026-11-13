@@ -84,7 +84,7 @@ based on the project's .NET target:
 
 | .NET Target | Minimum Telerik Version |
 |-------------|------------------------|
-| .NET 8 / .NET 9 / .NET 10 (`-windows`) | 2024 Q4 (2024.4.x) — .NET 8 distribution |
+| .NET 8 / .NET 9 / .NET 10 / .NET 11 (`-windows`) | 2024 Q4 (2024.4.x) — .NET 8 distribution |
 | .NET Framework 4.6.2 – 4.8.1 | 2024 Q2 (2024.2.x) — .NET Framework 4.6.2 distribution; older releases ship .NET Framework 4.0/4.5 DLLs that also run here |
 | .NET Framework 4.0 / 4.5 | up to 2024 Q1 (distribution ended) |
 

@@ -29,7 +29,8 @@ DLLs, so the last release with them is 2024 Q1.
 
 | .NET Target | Distribution used by current releases | Minimum Telerik Version | Notes |
 |-------------|---------------------------------------|-------------------------|-------|
-| .NET 10 (`net10.0-windows`) | .NET 8 | 2024 Q4 (2024.4.x) | .NET 8 DLLs run on .NET 8 and later |
+| .NET 11 (`net11.0-windows`) | .NET 8 | 2024 Q4 (2024.4.x) | .NET 8 DLLs run on .NET 8 and later |
+| .NET 10 (`net10.0-windows`) | .NET 8 | 2024 Q4 (2024.4.x) | Same |
 | .NET 9 (`net9.0-windows`) | .NET 8 | 2024 Q4 (2024.4.x) | Same |
 | .NET 8 (`net8.0-windows`) | .NET 8 | 2024 Q4 (2024.4.x) | Same |
 | .NET Framework 4.8.1 / 4.8 / 4.7.x / 4.6.2 | .NET Framework 4.6.2 | 2024 Q2 (2024.2.x) | Older releases ship .NET Framework 4.0/4.5 DLLs, which also run on these runtimes |
