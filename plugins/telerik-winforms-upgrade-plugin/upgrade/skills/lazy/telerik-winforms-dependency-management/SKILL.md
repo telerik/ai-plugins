@@ -140,9 +140,12 @@ choosing a Telerik version. Key constraints:
 | .NET Target | Minimum Telerik Version |
 |-------------|------------------------|
 | .NET 8 | 2024 Q2 (2024.2.x) |
-| .NET 9 / .NET 10 | 2024 Q4 (2024.4.x) |
+| .NET 9 / .NET 10 / .NET 11 | 2024 Q4 (2024.4.x) |
 | .NET Framework 4.6.2+ | 2024 Q2 (2024.2.x) |
 | .NET Framework 4.8+ | R3 2022 (2022.3.x) |
 
 If the desired Telerik version does not support the project's .NET target,
 suggest the nearest compatible version.
+
+If a newer modern .NET version is not listed, assume the latest available
+Telerik UI for WinForms release supports it.
