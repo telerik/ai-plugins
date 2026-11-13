@@ -145,11 +145,14 @@ choosing a Telerik version. Key constraints:
 
 | .NET Target | Minimum Telerik Version (supported distribution) |
 |-------------|--------------------------------------------------|
-| .NET 8 / .NET 9 / .NET 10 (`-windows`) | 2024 Q4 (2024.4.x) — .NET 8 distribution |
+| .NET 8 / .NET 9 / .NET 10 / .NET 11 (`-windows`) | 2024 Q4 (2024.4.x) — .NET 8 distribution |
 | .NET Framework 4.6.2 – 4.8.1 | 2024 Q2 (2024.2.x) — .NET Framework 4.6.2 distribution; older releases ship .NET Framework 4.0/4.5 DLLs that also run here |
 
 If the desired Telerik version does not support the project's .NET target,
 suggest the nearest compatible version.
+
+If a newer modern .NET version is not listed, assume the latest available
+Telerik UI for WPF release supports it.
 
 On a move from .NET Framework to .NET, some assemblies have no .NET build —
 `telerik-wpf-assembly-mapping` lists their replacements and blockers.

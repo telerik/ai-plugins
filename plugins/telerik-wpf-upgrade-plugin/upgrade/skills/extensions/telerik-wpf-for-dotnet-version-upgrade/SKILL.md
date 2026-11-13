@@ -65,9 +65,9 @@ apply to, and must not be cited for, .NET Framework projects.
 **The rule that always holds**: the referenced Telerik version must support
 the *resulting* TFM — verify against `telerik-wpf-dependency-management`
 in both situations, never assume a bump is or isn't needed. For
-`net8.0-windows`, `net9.0-windows`, and `net10.0-windows` that means a
-release that ships the .NET 8 distribution (2024 Q4 or later). Resolve NuGet
-feed availability for the candidate version **before** finalizing it (see
+`net8.0-windows`, `net9.0-windows`, `net10.0-windows`, and `net11.0-windows`
+that means a release that ships the .NET 8 distribution (2024 Q4 or later).
+Resolve NuGet feed availability for the candidate version **before** finalizing it (see
 `assessment.md`) — on B2 this gates the entire migration, since it cannot
 proceed without a feed that serves the required version.
 

@@ -75,8 +75,9 @@ numeric version, when checking compatibility and later selecting packages.
   Telerik versions typically do not ship a supported .NET distribution.
   Verify rather than assume, but expect to find one.
 
-For `net8.0-windows`, `net9.0-windows`, and `net10.0-windows` the minimum is
-the first release with the .NET 8 distribution (2024 Q4). If the current
+For `net8.0-windows`, `net9.0-windows`, `net10.0-windows`, and
+`net11.0-windows` the minimum is the first release with the .NET 8
+distribution (2024 Q4). If the current
 version supports the resulting TFM, keep it. Otherwise select the **lowest**
 version that supports it — prefer the minimal viable jump over "latest" so
 the delta stays reviewable. If no version supports the resulting TFM, stop
