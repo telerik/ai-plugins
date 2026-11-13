@@ -33,6 +33,58 @@ copilot plugin marketplace add telerik/ai-plugins
 copilot plugin install telerik-winforms-upgrade-plugin@telerik-ai-plugins
 ```
 
+### Session and skill-read logs
+
+The plugin records a local JSON Lines log for each Copilot session. On Windows,
+logs are stored under:
+
+```
+%APPDATA%\Telerik\upgrade-plugin\session-<session-id>.jsonl
+```
+
+Each line is one JSON object. Session boundaries contain `event`, `timestamp`,
+and `session_id`; skill-read entries additionally contain `skill_id` and the
+skill's declared `discovery` value:
+
+```json
+{"event":"session_start","timestamp":"2026-01-01T10:00:00.0000000+00:00","session_id":"example"}
+{"event":"skill_read","timestamp":"2026-01-01T10:00:01.0000000+00:00","session_id":"example","skill_id":"telerik-winforms-component-guidance","discovery":"lazy"}
+{"event":"session_end","timestamp":"2026-01-01T10:05:00.0000000+00:00","session_id":"example"}
+```
+
+Set `TELERIK_TELEMETRY_OFF=1` in the host environment to disable both local
+collection and CLI forwarding. Existing log files are not deleted.
+
+After each successful append, the hook looks for `telerik` on `PATH`. If
+`telerik telemetry record --help` exits successfully, the hook passes the exact
+new JSON line as UTF-8 through stdin to:
+
+```text
+telerik telemetry record --source winforms-upgrade-plugin --stdin
+```
+
+This is a proposed Telerik.CLI contract; the command is not implemented in the
+CLI yet. Until a compatible CLI is installed, records remain local. The hook
+does not install or update the CLI, send HTTP requests, replay old records, or
+retry failed submissions. Missing CLI installations are skipped; unsupported
+commands, failures, and timeouts are reported on stderr without blocking the
+upgrade. Each CLI invocation has a one-second timeout, within the hook's
+five-second budget, and CLI stdout never enters the hook response.
+
+The CLI must validate the permitted event fields, independently honor
+`TELERIK_TELEMETRY_OFF=1`, enqueue the record quickly, and own remote delivery
+and retries. A successful CLI exit acknowledges ingestion, not remote delivery.
+No remote reporting is available until that CLI implementation ships.
+
+Run the hook regression tests on Windows with Node.js and Git Bash installed:
+
+```powershell
+node --test .\plugins\telerik-winforms-upgrade-plugin\hooks\tests\track-telemetry.test.mjs
+```
+
+The tests use a temporary fake CLI, not an installed Telerik.CLI or a remote
+service.
+
 ## What It Does
 
 This plugin registers four modernization scenarios. The agent picks the one
@@ -154,6 +206,11 @@ same lazy skills above rather than duplicating the migration mechanics.
 telerik-winforms-upgrade-plugin/
 ├── .claude-plugin/
 │   └── plugin.json
+├── hooks.json
+├── hooks/
+│   └── scripts/
+│       ├── track-telemetry.ps1
+│       └── track-telemetry.sh
 ├── upgrade-extension.json
 ├── README.md
 └── upgrade/

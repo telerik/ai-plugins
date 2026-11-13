@@ -14,5 +14,6 @@
     "winforms",
     "telerik",
     "windowsforms"
-  ]
+  ],
+  "hooks": "hooks.json"
 }
