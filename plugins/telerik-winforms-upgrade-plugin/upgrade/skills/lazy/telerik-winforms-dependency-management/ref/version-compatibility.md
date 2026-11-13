@@ -21,7 +21,7 @@ Source: https://www.telerik.com/products/winforms/documentation/installation-and
 | .NET 6 | R3 2021 SP1 – 2025 Q1 | .NET 6 and later |
 | .NET 7 | R3 2022 SP2 – 2024 Q3 | .NET 7 and later |
 | .NET 8 | 2024 Q2 – present | .NET 8 and later |
-| .NET 9 | 2024 Q4 – present | .NET 9 / .NET 10 and later |
+| .NET 9 | 2024 Q4 – present | .NET 9 / .NET 10 / .NET 11 and later |
 
 > .NET 6 distribution is discontinued in 2025 Q2.
 
@@ -29,6 +29,7 @@ Source: https://www.telerik.com/products/winforms/documentation/installation-and
 
 | .NET Target | Minimum Telerik Version | Notes |
 |-------------|------------------------|-------|
+| .NET 11 | 2024 Q4 (2024.4.x) | Via the .NET 9 distribution |
 | .NET 10 | 2024 Q4 (2024.4.x) | Via the .NET 9 distribution |
 | .NET 9 | 2024 Q4 (2024.4.x) | |
 | .NET 8 | 2024 Q2 (2024.2.x) | |
