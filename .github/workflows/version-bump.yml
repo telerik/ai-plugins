@@ -20,9 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # fetch-depth 2 so git diff-tree can compare HEAD against its parent.
+          # Fetch the full history so the push range can include multiple
+          # commits, such as a PR merged with several commits.
+          fetch-depth: 0
           # PAT token so the bot push can bypass branch protection rules.
-          fetch-depth: 2
           token: ${{ github.token }}
 
       - uses: actions/setup-node@v4
@@ -39,6 +40,9 @@ jobs:
 
       - name: Bump versions
         run: node ./scripts/version-bump.mjs ci
+        env:
+          VERSION_BUMP_BASE_SHA: ${{ github.event.before }}
+          VERSION_BUMP_HEAD_SHA: ${{ github.sha }}
 
       - name: Create or update version bump PR
         run: |
