@@ -1,11 +1,27 @@
 # KendoReact Plugin
 
-AI coding assistant for building React applications with [KendoReact](https://www.telerik.com/kendo-react-ui). Provides component documentation, code generation, accessibility guidance, theming, and layout utilities — powered by the KendoReact MCP server.
+AI coding assistant and [MCP server](https://modelcontextprotocol.io) for building React applications with [KendoReact](https://www.telerik.com/kendo-react-ui). Provides component documentation, API reference, code generation, accessibility guidance, theming, and layout utilities — powered by the KendoReact MCP server.
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) (for `npx`)
 - A valid [KendoReact license](https://www.telerik.com/kendo-react-ui)
+
+## MCP Server
+
+The plugin registers the KendoReact MCP server, distributed as [`@progress/kendo-react-mcp`](https://www.npmjs.com/package/@progress/kendo-react-mcp) on npm.
+
+| Property | Value |
+|----------|-------|
+| npm package | `@progress/kendo-react-mcp` |
+| Transport | stdio |
+| Launch command | `npx @progress/kendo-react-mcp@latest` |
+
+The plugin declares the server in [.mcp.json](.mcp.json) and starts it automatically, so no manual MCP configuration is needed. It requires an active Telerik license.
+
+### Other setup options
+
+The MCP server can also be set up individually with the Kendo CLI or manually in any [MCP-compatible client](https://modelcontextprotocol.io/clients). See [Agentic UI Generator Getting Started](https://www.telerik.com/kendo-react-ui/components/ai-tools/agentic-ui-generator/getting-started) and the [AI Tools overview](https://www.telerik.com/kendo-react-ui/components/ai-tools/agentic-ui-generator). Do not run the plugin and a separately configured MCP server together, as this can cause conflicts and increased token usage.
 
 ## Skills
 
