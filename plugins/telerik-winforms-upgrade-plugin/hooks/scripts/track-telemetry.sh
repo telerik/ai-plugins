@@ -197,9 +197,9 @@ write_entry() {
 
     if has_python3; then
         if [ "$event" = "skill_read" ]; then
-            line=$(EVENT="$event" TIMESTAMP="$timestamp" SESSION_ID="$session_id" SKILL_ID="$skill_id" DISCOVERY="$discovery" python3 -c 'import json, os; print(json.dumps({"event": os.environ["EVENT"], "timestamp": os.environ["TIMESTAMP"], "session_id": os.environ["SESSION_ID"], "skill_id": os.environ["SKILL_ID"], "discovery": os.environ["DISCOVERY"]}, separators=(",", ":")))')
+            line=$(EVENT="$event" TIMESTAMP="$timestamp" SESSION_ID="$session_id" SKILL_ID="$skill_id" DISCOVERY="$discovery" python3 -c 'import json, os; print(json.dumps({"event": os.environ["EVENT"], "timestamp": os.environ["TIMESTAMP"], "session_id": os.environ["SESSION_ID"], "skill_id": os.environ["SKILL_ID"], "discovery": os.environ["DISCOVERY"], "source": "telerik-winforms-upgrade-plugin"}, separators=(",", ":")))')
         else
-            line=$(EVENT="$event" TIMESTAMP="$timestamp" SESSION_ID="$session_id" python3 -c 'import json, os; print(json.dumps({"event": os.environ["EVENT"], "timestamp": os.environ["TIMESTAMP"], "session_id": os.environ["SESSION_ID"]}, separators=(",", ":")))')
+            line=$(EVENT="$event" TIMESTAMP="$timestamp" SESSION_ID="$session_id" python3 -c 'import json, os; print(json.dumps({"event": os.environ["EVENT"], "timestamp": os.environ["TIMESTAMP"], "session_id": os.environ["SESSION_ID"], "source": "telerik-winforms-upgrade-plugin"}, separators=(",", ":")))')
         fi
     else
         local escaped_event
@@ -209,9 +209,9 @@ write_entry() {
         escaped_timestamp=$(json_escape "$timestamp")
         escaped_session_id=$(json_escape "$session_id")
         if [ "$event" = "skill_read" ]; then
-            line="{\"event\":$escaped_event,\"timestamp\":$escaped_timestamp,\"session_id\":$escaped_session_id,\"skill_id\":$(json_escape "$skill_id"),\"discovery\":$(json_escape "$discovery")}"
+            line="{\"event\":$escaped_event,\"timestamp\":$escaped_timestamp,\"session_id\":$escaped_session_id,\"skill_id\":$(json_escape "$skill_id"),\"discovery\":$(json_escape "$discovery"),\"source\":\"telerik-winforms-upgrade-plugin\"}"
         else
-            line="{\"event\":$escaped_event,\"timestamp\":$escaped_timestamp,\"session_id\":$escaped_session_id}"
+            line="{\"event\":$escaped_event,\"timestamp\":$escaped_timestamp,\"session_id\":$escaped_session_id,\"source\":\"telerik-winforms-upgrade-plugin\"}"
         fi
     fi
 
@@ -242,6 +242,28 @@ LOG_FILE="$LOG_DIR/session-$(safe_session_id "$SESSION_ID").jsonl"
 
 if [ "$EVENT" = "skill_read" ]; then
     TOOL_NAME=$(extract_field "$INPUT" tool_name toolName)
+    if [[ "$TOOL_NAME" =~ [Uu][Pp][Gg][Rr][Aa][Dd][Ee].*[/_.:-]get_instructions$ ]]; then
+        MCP_PYTHON=""
+        for candidate in python3 python; do
+            if command -v "$candidate" >/dev/null 2>&1 && "$candidate" -c 'import sys' >/dev/null 2>&1; then
+                MCP_PYTHON="$candidate"
+                break
+            fi
+        done
+        if [ -z "$MCP_PYTHON" ]; then
+            printf 'Telerik MCP skill detection requires Python 3; no skill entries were recorded.\n' >&2
+            write_success
+        fi
+        SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+        if MCP_SKILLS=$(printf '%s' "$INPUT" | "$MCP_PYTHON" "$SCRIPT_DIR/mcp-skill-reads.py"); then
+            while IFS=$'\t' read -r SKILL_ID DISCOVERY; do
+                [ -n "$SKILL_ID" ] || continue
+                DISCOVERY="${DISCOVERY%$'\r'}"
+                write_entry "$LOG_FILE" skill_read "$TIMESTAMP" "$SESSION_ID" "$SKILL_ID" "$DISCOVERY"
+            done <<< "$MCP_SKILLS"
+        fi
+        write_success
+    fi
     case "$TOOL_NAME" in
         read_file|view|Read) ;;
         *) write_success ;;

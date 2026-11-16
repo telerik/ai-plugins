@@ -43,13 +43,29 @@ logs are stored under:
 ```
 
 Each line is one JSON object. Session boundaries contain `event`, `timestamp`,
-and `session_id`; skill-read entries additionally contain `skill_id` and the
+`session_id`, and `source`; skill-read entries additionally contain `skill_id` and the
 skill's declared `discovery` value:
 
+`source` identifies the emitting plugin: `telerik-winforms-upgrade-plugin`.
+The corresponding value for future WPF hook events is
+`telerik-wpf-upgrade-plugin`. This field is included in both the local record
+and the exact JSON line forwarded to the CLI. Existing records are not rewritten.
+The CLI's existing `--source winforms-upgrade-plugin` argument remains unchanged;
+`source` in the event payload is the full plugin identifier.
+
+Both direct `SKILL.md` reads (`read_file`, `view`, `Read`) and Upgrade MCP
+`get_instructions` responses are detected. MCP detection examines returned
+`<skill name="...">...</skill>` blocks and matches them against this plugin's
+installed skill metadata; it never infers a successful load from the query alone.
+Multiple returned Telerik skills are recorded individually (duplicates within
+one response are recorded once). Microsoft and other plugins' skills are ignored.
+The Bash MCP response parser requires Python 3 (`python3` or `python`); if absent,
+it emits a diagnostic while existing direct-file-read detection remains available.
+
 ```json
-{"event":"session_start","timestamp":"2026-01-01T10:00:00.0000000+00:00","session_id":"example"}
-{"event":"skill_read","timestamp":"2026-01-01T10:00:01.0000000+00:00","session_id":"example","skill_id":"telerik-winforms-component-guidance","discovery":"lazy"}
-{"event":"session_end","timestamp":"2026-01-01T10:05:00.0000000+00:00","session_id":"example"}
+{"event":"session_start","timestamp":"2026-01-01T10:00:00.0000000+00:00","session_id":"example","source":"telerik-winforms-upgrade-plugin"}
+{"event":"skill_read","timestamp":"2026-01-01T10:00:01.0000000+00:00","session_id":"example","skill_id":"telerik-winforms-component-guidance","discovery":"lazy","source":"telerik-winforms-upgrade-plugin"}
+{"event":"session_end","timestamp":"2026-01-01T10:05:00.0000000+00:00","session_id":"example","source":"telerik-winforms-upgrade-plugin"}
 ```
 
 Set `TELERIK_TELEMETRY_OFF=1` in the host environment to disable both local

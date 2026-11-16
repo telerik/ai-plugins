@@ -66,6 +66,7 @@ test('configured PowerShell hooks preserve variables and stdin', {
       assert.deepEqual(entries.map(entry => entry.event),
         ['session_start', 'skill_read', 'session_end']);
       assert.ok(entries.every(entry => entry.session_id === rootVariable));
+      assert.ok(entries.every(entry => entry.source === 'telerik-winforms-upgrade-plugin'));
       assert.equal(entries[1].skill_id, 'telerik-winforms-component-guidance');
       assert.equal(entries[1].discovery, 'lazy');
     }
@@ -81,7 +82,7 @@ test('configured PowerShell hooks preserve variables and stdin', {
 
 test('telemetry forwarding respects opt-out, CLI support, and failure isolation', {
   skip: process.platform !== 'win32',
-}, () => {
+}, async () => {
   const directory = mkdtempSync(path.join(tmpdir(), 'telerik-forwarding-test-'));
   try {
     const bin = path.join(directory, 'CLI with spaces');
@@ -94,6 +95,114 @@ test('telemetry forwarding respects opt-out, CLI support, and failure isolation'
       encoding: 'utf8',
       env: { ...process.env, FIXTURE: fixture, EXECUTABLE: path.join(bin, 'telerik.exe') },
       timeout: 30000,
+    });
+
+    await test('direct reads and returned Upgrade MCP skills are both recorded', {
+      skip: process.platform !== 'win32',
+    }, () => {
+      const directory = mkdtempSync(path.join(tmpdir(), 'telerik-mcp-hook-test-'));
+      try {
+        const python = spawnSync('python', ['-c', 'import sys; print(sys.executable)'],
+          { encoding: 'utf8' });
+        assert.equal(python.status, 0, 'Python 3 is required for Bash MCP detection tests.');
+        const pythonDirectory = path.dirname(python.stdout.trim());
+        const bash = path.join(process.env.ProgramFiles, 'Git', 'bin', 'bash.exe');
+        const scenario = 'telerik-winforms-version-upgrade';
+        const lazy = 'telerik-winforms-component-guidance';
+        const extension = 'telerik-for-dotnet-version-upgrade';
+        const block = id => `<skill name="${id}" path="not-a-local-path">instructions</skill>`;
+        assert.ok(new RegExp(config.hooks.PostToolUse[0].matcher)
+          .test('mcp__Upgrade__get_instructions'));
+        assert.ok(new RegExp(config.hooks.PostToolUse[0].matcher)
+          .test('Upgrade-get_instructions'));
+
+        for (const shell of ['powershell', 'bash']) {
+          const output = path.join(directory, shell);
+          mkdirSync(output);
+          const env = { ...process.env };
+          for (const key of Object.keys(env)) {
+            if (key.toLowerCase() === 'path') delete env[key];
+          }
+          Object.assign(env, {
+            PATH: `${pythonDirectory};${testPath}`,
+            APPDATA: output,
+            PLUGIN_ROOT: pluginRoot,
+            TELERIK_TELEMETRY_OFF: '0',
+          });
+          function invoke(payload) {
+            const args = shell === 'powershell'
+              ? ['-NoProfile', '-NonInteractive', '-Command', config.hooks.PostToolUse[0].powershell]
+              : ['-c', 'export PATH="/usr/bin:$PATH"; eval "$1"', '--',
+                config.hooks.PostToolUse[0].bash];
+            const result = spawnSync(shell === 'powershell' ? 'powershell.exe' : bash, args, {
+              input: JSON.stringify({
+                session_id: 'mixed', timestamp: '2026-11-13T10:00:00Z', ...payload,
+              }),
+              encoding: 'utf8', env, timeout: 10000,
+            });
+            assert.ifError(result.error);
+            assert.equal(result.status, 0, result.stderr);
+            assert.equal(result.stderr, '');
+            assert.deepEqual(JSON.parse(result.stdout), { continue: true });
+          }
+          for (const tool of ['read_file', 'view', 'Read']) {
+            invoke({
+              tool_name: tool,
+              tool_input: { path: path.join(pluginRoot, 'upgrade', 'skills', 'lazy', lazy, 'SKILL.md') },
+            });
+          }
+          invoke({
+            tool_name: 'mcp__Upgrade__get_instructions',
+            tool_input: { kind: 'scenario', query: scenario },
+            tool_response: { content: [{ type: 'text', text: block(scenario) }] },
+          });
+          invoke({
+            toolName: 'Upgrade/get_instructions',
+            toolArgs: JSON.stringify({ kind: 'skill', query: 'guidance' }),
+            toolResult: { result: { content: [
+              { type: 'text', text: block(lazy) + block(extension) + block(lazy) },
+              { type: 'text', text: block('building-projects') + block('telerik-wpf-version-upgrade') },
+            ] } },
+          });
+          invoke({
+            tool_name: 'mcp_Upgrade_get_instructions',
+            tool_response: JSON.stringify({ value: block(scenario) }),
+          });
+          invoke({
+            hook_event_name: 'PostToolUse',
+            tool_name: 'Upgrade-get_instructions',
+            tool_input: { kind: 'skill', query: 'telerik-winforms-license-detection' },
+            tool_result: {
+              result_type: 'success',
+              text_result_for_llm: block('telerik-winforms-license-detection'),
+            },
+          });
+          invoke({
+            tool_name: 'Upgrade/get_instructions',
+            tool_response: { isError: true, content: [{ text: block(scenario) }] },
+          });
+          invoke({
+            tool_name: 'Upgrade/get_instructions',
+            tool_input: { kind: 'scenario', query: scenario },
+            tool_response: 'No matching instructions.',
+          });
+          invoke({
+            tool_name: 'Unrelated/get_instructions',
+            tool_response: block(scenario),
+          });
+          const entries = readFileSync(path.join(output, 'Telerik', 'upgrade-plugin',
+            'session-mixed.jsonl'), 'utf8').trim().split(/\r?\n/).map(JSON.parse);
+          assert.ok(entries.every(entry => entry.source === 'telerik-winforms-upgrade-plugin'), shell);
+          assert.deepEqual(entries.map(entry => [entry.skill_id, entry.discovery]), [
+            [lazy, 'lazy'], [lazy, 'lazy'], [lazy, 'lazy'],
+            [scenario, 'scenario'], [lazy, 'lazy'],
+            [extension, 'scenarioExtension'], [scenario, 'scenario'],
+            ['telerik-winforms-license-detection', 'lazy'],
+          ], shell);
+        }
+      } finally {
+        rmSync(directory, { recursive: true, force: true });
+      }
     });
     assert.ifError(compile.error);
     assert.equal(compile.status, 0, compile.stderr);
@@ -156,6 +265,7 @@ test('telemetry forwarding respects opt-out, CLI support, and failure isolation'
           assert.equal(existsSync(calls), false);
         } else {
           const lines = readFileSync(log, 'utf8').trim().split(/\r?\n/);
+          assert.ok(lines.every(line => JSON.parse(line).source === 'telerik-winforms-upgrade-plugin'));
           assert.equal(lines.length, events.length);
           if (mode === 'success') {
             assert.deepEqual(readFileSync(forwarded, 'utf8').trim().split(/\r?\n/), lines);

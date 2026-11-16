@@ -44,7 +44,7 @@ for file in "${staged_files[@]}"; do
     server_names+=("$name")
   done < <(grep -oE '"[a-zA-Z0-9_-]+"' "$mcp_json" | head -20 | tr -d '"' | sort -u)
 
-  # Check if the file references tool-like patterns that don't relate to any known server
+  # Check if the file references tool-like patterns that don't relate to any known serverla 
   # Look for mcp__ prefixed tool calls referencing unknown servers
   while IFS= read -r match; do
     server_ref=$(echo "$match" | sed -E 's/mcp__([^_]+)__.*/\1/' | tr '_' '-')

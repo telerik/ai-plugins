@@ -181,12 +181,63 @@ function Test-WinFormsSkillPath {
     return $hasSkillLayout -and ($hasPluginMarker -or $hasKnownSkillId)
 }
 
+function Get-ResponseText {
+    param([AllowNull()][object]$Response)
+
+    if ($null -eq $Response) { return }
+    if ($Response -is [string]) {
+        $Response
+    } elseif ($Response -is [System.Collections.IEnumerable]) {
+        foreach ($item in $Response) { Get-ResponseText $item }
+    } elseif ($Response.isError -ne $true) {
+        foreach ($key in @('content', 'text', 'value', 'result', 'text_result_for_llm')) {
+            $property = $Response.PSObject.Properties[$key]
+            if ($null -ne $property) { Get-ResponseText $property.Value }
+        }
+    }
+}
+
+function Write-McpSkillEntries {
+    param([object]$InputData, [string]$LogFile, [string]$SessionId, [string]$Timestamp)
+
+    $response = Get-FirstValue $InputData @('tool_response', 'toolResult', 'tool_result')
+    if ($response -is [string] -and $response.TrimStart().StartsWith('{')) {
+        $response = $response | ConvertFrom-Json
+    }
+    $text = (Get-ResponseText $response) -join "`n"
+    if (-not $text) { return }
+
+    $skillsRoot = Join-Path (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent) 'upgrade\skills'
+    $catalog = @{}
+    foreach ($file in Get-ChildItem -LiteralPath $skillsRoot -Filter SKILL.md -Recurse -File) {
+        $metadata = Get-SkillMetadata $file.FullName
+        if ($metadata['name'] -and $metadata['discovery']) {
+            $catalog[$metadata['name']] = $metadata['discovery']
+        }
+    }
+    $seen = @{}
+    foreach ($match in [Regex]::Matches($text, '(?s)<skill\b[^>]*\bname\s*=\s*["''](?<id>[^"'']+)["''][^>]*>.*?</skill>')) {
+        $id = $match.Groups['id'].Value
+        if ($catalog.ContainsKey($id) -and -not $seen.ContainsKey($id)) {
+            $seen[$id] = $true
+            Write-LogEntry $LogFile ([ordered]@{
+                    event = 'skill_read'
+                    timestamp = $Timestamp
+                    session_id = $SessionId
+                    skill_id = $id
+                    discovery = $catalog[$id]
+                })
+        }
+    }
+}
+
 function Write-LogEntry {
     param(
         [string]$LogFile,
         [System.Collections.IDictionary]$Entry
     )
 
+    $Entry['source'] = 'telerik-winforms-upgrade-plugin'
     $line = $Entry | ConvertTo-Json -Compress -Depth 4
     [IO.File]::AppendAllText(
         $LogFile,
@@ -282,12 +333,52 @@ try {
         Write-Success
     }
 
+    if ($Event -eq 'skill_read' -and $env:TELERIK_HOOK_DIAGNOSTICS -eq '1') {
+        $fields = @()
+        foreach ($property in $inputData.PSObject.Properties) {
+            $value = $property.Value
+            $fields += [ordered]@{
+                name = $property.Name
+                type = if ($null -eq $value) { 'null' } else { $value.GetType().Name }
+                children = if ($value -is [PSCustomObject]) {
+                    @($value.PSObject.Properties | ForEach-Object {
+                            [ordered]@{
+                                name = $_.Name
+                                type = if ($null -eq $_.Value) { 'null' } else { $_.Value.GetType().Name }
+                            }
+                        })
+                } else { @() }
+            }
+        }
+        $response = Get-FirstValue $inputData @('tool_response', 'toolResult', 'tool_result')
+        $responseText = (Get-ResponseText $response) -join "`n"
+        $skillNames = @([Regex]::Matches($responseText, '<skill\b[^>]*\bname\s*=\s*["'']([^"'']+)["'']') |
+            ForEach-Object { $_.Groups[1].Value })
+        $diagnostic = [ordered]@{
+            timestamp = [DateTimeOffset]::UtcNow.ToString('o')
+            tool_name = Get-FirstValue $inputData @('tool_name', 'toolName')
+            fields = $fields
+            returned_skill_names = $skillNames
+        } | ConvertTo-Json -Compress -Depth 6
+        $diagnosticDirectory = Join-Path (Join-Path $env:APPDATA 'Telerik') 'upgrade-plugin'
+        New-Item -ItemType Directory -Path $diagnosticDirectory -Force | Out-Null
+        [IO.File]::AppendAllText(
+            (Join-Path $diagnosticDirectory 'hook-diagnostics.jsonl'),
+            $diagnostic + [Environment]::NewLine,
+            [Text.UTF8Encoding]::new($false)
+        )
+    }
+
     $sessionId = Get-SessionId $inputData
     $timestamp = Get-Timestamp $inputData
     $logFile = Get-LogFilePath $sessionId
 
     if ($Event -eq 'skill_read') {
         $toolName = Get-FirstValue $inputData @('tool_name', 'toolName')
+        if ($toolName -match '(?i)upgrade.*[/_.:-]get_instructions$') {
+            Write-McpSkillEntries $inputData $logFile $sessionId $timestamp
+            Write-Success
+        }
         if ($toolName -notin @('read_file', 'view', 'Read')) {
             Write-Success
         }
