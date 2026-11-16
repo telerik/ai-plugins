@@ -62,6 +62,23 @@ one response are recorded once). Microsoft and other plugins' skills are ignored
 The Bash MCP response parser requires Python 3 (`python3` or `python`); if absent,
 it emits a diagnostic while existing direct-file-read detection remains available.
 
+The hook also observes Upgrade Agent `get_state` and `complete_task` calls for
+the Telerik WinForms scenarios and Telerik .NET scenario extensions. It records
+`workflow_task_result` entries with the task ID and the host's explicit `failed`
+flag. Once the host reports `allTasksComplete: true`, it may record a
+`workflow_outcome`:
+
+- `succeeded` only when task results are complete and none failed
+- `completed_with_failures` when one or more task failures are observed
+- `completed_unknown` when the host reports completion but the available task
+  status is insufficient to determine success
+
+`allTasksComplete` by itself is not treated as success. Ending a Copilot session
+does not imply workflow failure. Raw project paths and task error text are not
+included in these records. Bash outcome detection requires Python 3; without
+it, the hook reports the limitation on stderr and continues without workflow
+records. PowerShell performs the parsing without that dependency.
+
 ```json
 {"event":"session_start","timestamp":"2026-01-01T10:00:00.0000000+00:00","session_id":"example","source":"telerik-winforms-upgrade-plugin"}
 {"event":"skill_read","timestamp":"2026-01-01T10:00:01.0000000+00:00","session_id":"example","skill_id":"telerik-winforms-component-guidance","discovery":"lazy","source":"telerik-winforms-upgrade-plugin"}
@@ -226,7 +243,9 @@ telerik-winforms-upgrade-plugin/
 ├── hooks/
 │   └── scripts/
 │       ├── track-telemetry.ps1
-│       └── track-telemetry.sh
+│       ├── track-telemetry.sh
+│       ├── mcp-skill-reads.py
+│       └── workflow-outcomes.py
 ├── upgrade-extension.json
 ├── README.md
 └── upgrade/

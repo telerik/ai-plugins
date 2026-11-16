@@ -11,7 +11,7 @@ fi
 
 EVENT="${1:-}"
 case "$EVENT" in
-    session_start|skill_read|session_end) ;;
+    session_start|skill_read|workflow_status|session_end) ;;
     *) write_success ;;
 esac
 
@@ -240,7 +240,32 @@ fi
 
 LOG_FILE="$LOG_DIR/session-$(safe_session_id "$SESSION_ID").jsonl"
 
-if [ "$EVENT" = "skill_read" ]; then
+if [ "$EVENT" = "workflow_status" ]; then
+    MCP_PYTHON=""
+    for candidate in python3 python; do
+        if command -v "$candidate" >/dev/null 2>&1 && "$candidate" -c 'import sys' >/dev/null 2>&1; then
+            MCP_PYTHON="$candidate"
+            break
+        fi
+    done
+    if [ -z "$MCP_PYTHON" ]; then
+        printf 'Telerik workflow outcome detection requires Python 3; no workflow status was recorded.\n' >&2
+        write_success
+    fi
+    SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+    if WORKFLOW_RECORDS=$(printf '%s' "$INPUT" \
+        | TELEMETRY_LOG_FILE="$LOG_FILE" "$MCP_PYTHON" "$SCRIPT_DIR/workflow-outcomes.py"); then
+        while IFS= read -r line; do
+            [ -n "$line" ] || continue
+            if printf '%s\n' "$line" >> "$LOG_FILE"; then
+                send_telemetry "$line"
+            else
+                printf 'Telerik WinForms telemetry hook could not append a workflow record.\n' >&2
+            fi
+        done <<< "$WORKFLOW_RECORDS"
+    fi
+    write_success
+elif [ "$EVENT" = "skill_read" ]; then
     TOOL_NAME=$(extract_field "$INPUT" tool_name toolName)
     if [[ "$TOOL_NAME" =~ [Uu][Pp][Gg][Rr][Aa][Dd][Ee].*[/_.:-]get_instructions$ ]]; then
         MCP_PYTHON=""

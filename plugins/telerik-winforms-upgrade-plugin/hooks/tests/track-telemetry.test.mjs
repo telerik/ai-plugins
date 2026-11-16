@@ -80,6 +80,200 @@ test('configured PowerShell hooks preserve variables and stdin', {
   }
 });
 
+test('Upgrade task outcomes are scoped and classified conservatively', {
+  skip: process.platform !== 'win32',
+}, () => {
+  const directory = mkdtempSync(path.join(tmpdir(), 'telerik-workflow-hook-test-'));
+  try {
+    const python = spawnSync('python', ['-c', 'import sys; print(sys.executable)'],
+      { encoding: 'utf8' });
+    assert.equal(python.status, 0, 'Python 3 is required for Bash workflow detection tests.');
+    const pythonDirectory = path.dirname(python.stdout.trim());
+    const bash = path.join(process.env.ProgramFiles, 'Git', 'bin', 'bash.exe');
+    const scenario = 'telerik-winforms-version-upgrade';
+    const block = `<skill name="${scenario}">instructions</skill>`;
+    const modes = {
+      success: { taskIds: ['001', '002'], failedTask: null, outcome: 'succeeded' },
+      failure: { taskIds: ['001', '002'], failedTask: '001', outcome: 'completed_with_failures' },
+      unknown: { taskIds: ['001'], failedTask: null, outcome: 'completed_unknown' },
+    };
+
+    for (const shell of ['powershell', 'bash']) {
+      for (const [mode, expected] of Object.entries(modes)) {
+        const output = path.join(directory, `${shell}-${mode}`);
+        mkdirSync(output);
+        const env = { ...process.env };
+        for (const key of Object.keys(env)) {
+          if (key.toLowerCase() === 'path') delete env[key];
+        }
+        Object.assign(env, {
+          PATH: `${pythonDirectory};${testPath}`,
+          APPDATA: output,
+          PLUGIN_ROOT: pluginRoot,
+          TELERIK_TELEMETRY_OFF: '0',
+        });
+
+        function invoke(hook, payload) {
+          const args = shell === 'powershell'
+            ? ['-NoProfile', '-NonInteractive', '-Command', hook.powershell]
+            : ['-c', 'export PATH="/usr/bin:$PATH"; eval "$1"', '--', hook.bash];
+          const result = spawnSync(shell === 'powershell' ? 'powershell.exe' : bash, args, {
+            input: JSON.stringify({
+              session_id: mode,
+              timestamp: '2026-11-13T10:00:00Z',
+              ...payload,
+            }),
+            encoding: 'utf8',
+            env,
+            timeout: 10000,
+          });
+          assert.ifError(result.error);
+          assert.equal(result.status, 0, `${shell}/${mode}: ${result.stderr}`);
+          assert.equal(result.stderr, '', `${shell}/${mode}`);
+          assert.deepEqual(JSON.parse(result.stdout), { continue: true });
+        }
+
+        invoke(config.hooks.PostToolUse[0], {
+          tool_name: 'Upgrade-get_instructions',
+          tool_input: { kind: 'scenario', query: scenario },
+          tool_result: { result_type: 'success', text_result_for_llm: block },
+        });
+
+        for (const taskId of expected.taskIds) {
+          const finalTask = taskId === expected.taskIds.at(-1);
+          invoke(config.hooks.PostToolUse[1], {
+            tool_name: 'Upgrade-complete_task',
+            tool_input: {
+              taskId,
+              filesModified: [],
+              failed: taskId === expected.failedTask,
+            },
+            tool_result: {
+              result_type: 'success',
+              text_result_for_llm: finalTask
+                ? JSON.stringify({ taskProgress: { allTasksComplete: true, totalTasks: 2 } })
+                : 'Task status recorded.',
+            },
+          });
+        }
+
+        const log = path.join(output, 'Telerik', 'upgrade-plugin',
+          `session-${mode}.jsonl`);
+        const entries = readFileSync(log, 'utf8').trim().split(/\r?\n/).map(JSON.parse);
+        assert.ok(entries.every(entry => entry.source === 'telerik-winforms-upgrade-plugin'), shell);
+        assert.equal(entries.filter(entry => entry.event === 'workflow_task_result').length,
+          expected.taskIds.length, `${shell}/${mode}`);
+        const outcomes = entries.filter(entry => entry.event === 'workflow_outcome');
+        assert.equal(outcomes.length, 1, `${shell}/${mode}`);
+        assert.equal(outcomes[0].scenario_id, scenario, `${shell}/${mode}`);
+        assert.equal(outcomes[0].outcome, expected.outcome, `${shell}/${mode}`);
+        assert.equal(outcomes[0].failed_tasks, expected.failedTask ? 1 : 0, `${shell}/${mode}`);
+      }
+
+      const stateOutput = path.join(directory, `${shell}-state-success`);
+      mkdirSync(stateOutput);
+      const stateEnv = { ...process.env };
+      for (const key of Object.keys(stateEnv)) {
+        if (key.toLowerCase() === 'path') delete stateEnv[key];
+      }
+      Object.assign(stateEnv, {
+        PATH: `${pythonDirectory};${testPath}`,
+        APPDATA: stateOutput,
+        PLUGIN_ROOT: pluginRoot,
+        TELERIK_TELEMETRY_OFF: '0',
+      });
+      const skillHook = config.hooks.PostToolUse[0];
+      const workflowHook = config.hooks.PostToolUse[1];
+      const statePayload = {
+        session_id: 'state-success',
+        timestamp: '2026-11-13T10:00:00Z',
+      };
+      const invokeStateHook = (hook, payload) => {
+        const args = shell === 'powershell'
+          ? ['-NoProfile', '-NonInteractive', '-Command', hook.powershell]
+          : ['-c', 'export PATH="/usr/bin:$PATH"; eval "$1"', '--', hook.bash];
+        const result = spawnSync(shell === 'powershell' ? 'powershell.exe' : bash, args, {
+          input: JSON.stringify({ ...statePayload, ...payload }),
+          encoding: 'utf8',
+          env: stateEnv,
+          timeout: 10000,
+        });
+        assert.ifError(result.error);
+        assert.equal(result.status, 0, `${shell}/state-success: ${result.stderr}`);
+        assert.equal(result.stderr, '');
+        assert.deepEqual(JSON.parse(result.stdout), { continue: true });
+      };
+      invokeStateHook(skillHook, {
+        tool_name: 'Upgrade-get_instructions',
+        tool_input: { kind: 'scenario', query: scenario },
+        tool_result: { result_type: 'success', text_result_for_llm: block },
+      });
+      invokeStateHook(workflowHook, {
+        tool_name: 'Upgrade-get_state',
+        tool_input: { path: 'C:\\private\\project' },
+        tool_result: {
+          result_type: 'success',
+          text_result_for_llm: JSON.stringify({
+            taskProgress: {
+              allTasksComplete: true,
+              tasks: [
+                { taskId: '001', status: 'completed' },
+                { taskId: '002', status: 'succeeded' },
+              ],
+            },
+          }),
+        },
+      });
+      const stateLog = path.join(stateOutput, 'Telerik', 'upgrade-plugin',
+        'session-state-success.jsonl');
+      const stateEntries = readFileSync(stateLog, 'utf8').trim().split(/\r?\n/).map(JSON.parse);
+      const stateOutcome = stateEntries.find(entry => entry.event === 'workflow_outcome');
+      assert.equal(stateOutcome?.outcome, 'succeeded', `${shell}/state-success`);
+      assert.ok(stateEntries.every(entry => !JSON.stringify(entry).includes('private')));
+
+      const stateFailureOutput = path.join(directory, `${shell}-state-failure`);
+      mkdirSync(stateFailureOutput);
+      stateEnv.APPDATA = stateFailureOutput;
+      statePayload.session_id = 'state-failure';
+      invokeStateHook(skillHook, {
+        tool_name: 'Upgrade-get_instructions',
+        tool_input: { kind: 'scenario', query: scenario },
+        tool_result: { result_type: 'success', text_result_for_llm: block },
+      });
+      invokeStateHook(workflowHook, {
+        tool_name: 'Upgrade-get_state',
+        tool_input: { path: 'C:\\private\\project' },
+        tool_result: {
+          result_type: 'success',
+          text_result_for_llm: JSON.stringify({
+            taskProgress: {
+              allTasksComplete: true,
+              tasks: [
+                { taskId: '001', status: 'failed' },
+                { taskId: '002', status: 'completed' },
+              ],
+            },
+          }),
+        },
+      });
+      const stateFailureLog = path.join(stateFailureOutput, 'Telerik', 'upgrade-plugin',
+        'session-state-failure.jsonl');
+      const stateFailureEntries = readFileSync(stateFailureLog, 'utf8')
+        .trim().split(/\r?\n/).map(JSON.parse);
+      const stateFailureOutcome = stateFailureEntries
+        .find(entry => entry.event === 'workflow_outcome');
+      assert.equal(stateFailureOutcome?.outcome, 'completed_with_failures',
+        `${shell}/state-failure`);
+    }
+
+    assert.ok(new RegExp(config.hooks.PostToolUse[1].matcher).test('Upgrade/get_state'));
+    assert.ok(new RegExp(config.hooks.PostToolUse[1].matcher).test('Upgrade-complete_task'));
+    assert.ok(!new RegExp(config.hooks.PostToolUse[1].matcher).test('Unrelated/get_state'));
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
 test('telemetry forwarding respects opt-out, CLI support, and failure isolation', {
   skip: process.platform !== 'win32',
 }, async () => {

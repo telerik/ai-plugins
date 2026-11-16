@@ -16,13 +16,12 @@
         "bash": "ROOT=\"${PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT:-}}\"; if [ -n \"$ROOT\" ] && [ -f \"$ROOT/hooks/scripts/track-telemetry.sh\" ]; then bash \"$ROOT/hooks/scripts/track-telemetry.sh\" skill_read; else printf '{\"continue\":true}\\n'; fi",
         "powershell": "powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command '$root = if ($env:PLUGIN_ROOT) { $env:PLUGIN_ROOT } else { $env:CLAUDE_PLUGIN_ROOT }; $script = if ($root) { [IO.Path]::Combine($root,''hooks'',''scripts'',''track-telemetry.ps1'') } else { $null }; if ($script -and [IO.File]::Exists($script)) { & $script -Event ''skill_read'' } else { Write-Output (''{''+[char]34+''continue''+[char]34+'':true}'') }'",
         "timeoutSec": 5
-      }
-    ],
-    "SessionEnd": [
+      },
       {
         "type": "command",
-        "bash": "ROOT=\"${PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT:-}}\"; if [ -n \"$ROOT\" ] && [ -f \"$ROOT/hooks/scripts/track-telemetry.sh\" ]; then bash \"$ROOT/hooks/scripts/track-telemetry.sh\" session_end; else printf '{\"continue\":true}\\n'; fi",
-        "powershell": "powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command '$root = if ($env:PLUGIN_ROOT) { $env:PLUGIN_ROOT } else { $env:CLAUDE_PLUGIN_ROOT }; $script = if ($root) { [IO.Path]::Combine($root,''hooks'',''scripts'',''track-telemetry.ps1'') } else { $null }; if ($script -and [IO.File]::Exists($script)) { & $script -Event ''session_end'' } else { Write-Output (''{''+[char]34+''continue''+[char]34+'':true}'') }'",
+        "matcher": "[Uu][Pp][Gg][Rr][Aa][Dd][Ee].*[/_.:-](get_state|complete_task)$",
+        "bash": "ROOT=\"${PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT:-}}\"; if [ -n \"$ROOT\" ] && [ -f \"$ROOT/hooks/scripts/track-telemetry.sh\" ]; then bash \"$ROOT/hooks/scripts/track-telemetry.sh\" workflow_status; else printf '{\"continue\":true}\\n'; fi",
+        "powershell": "powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command '$root = if ($env:PLUGIN_ROOT) { $env:PLUGIN_ROOT } else { $env:CLAUDE_PLUGIN_ROOT }; $script = if ($root) { [IO.Path]::Combine($root,''hooks'',''scripts'',''track-telemetry.ps1'') } else { $null }; if ($script -and [IO.File]::Exists($script)) { & $script -Event ''workflow_status'' } else { Write-Output (''{''+[char]34+''continue''+[char]34+'':true}'') }'",
         "timeoutSec": 5
       }
     ]

@@ -197,6 +197,285 @@ function Get-ResponseText {
     }
 }
 
+function Get-WorkflowNodes {
+    param([AllowNull()][object]$Value)
+
+    if ($null -eq $Value) { return }
+    if ($Value -is [PSCustomObject]) {
+        $Value
+        foreach ($property in $Value.PSObject.Properties) {
+            Get-WorkflowNodes $property.Value
+        }
+    } elseif ($Value -is [System.Collections.IEnumerable] -and $Value -isnot [string]) {
+        foreach ($item in $Value) {
+            Get-WorkflowNodes $item
+        }
+    }
+}
+
+function Get-WinFormsScenarioId {
+    param([string]$LogFile, [string]$ResponseText)
+
+    $scenarioIds = @(
+        'telerik-winforms-version-upgrade',
+        'telerik-winforms-control-conversion',
+        'telerik-winforms-assembly-to-nuget',
+        'telerik-winforms-licensing',
+        'telerik-for-dotnet-version-upgrade',
+        'telerik-for-dotnet-framework-upgrade'
+    )
+    $responseScenarios = @($scenarioIds | Where-Object { $ResponseText.Contains($_) })
+    if ($responseScenarios.Count -eq 1) {
+        return $responseScenarios[0]
+    }
+
+    if ([IO.File]::Exists($LogFile)) {
+        $entries = [IO.File]::ReadAllLines($LogFile)
+        for ($index = $entries.Length - 1; $index -ge 0; $index--) {
+            try {
+                $entry = $entries[$index] | ConvertFrom-Json
+                if ($entry.event -eq 'skill_read' -and
+                    $entry.skill_id -in $scenarioIds) {
+                    return [string]$entry.skill_id
+                }
+            } catch {
+            }
+        }
+    }
+
+    return $null
+}
+
+function Write-WorkflowEntries {
+    param(
+        [object]$InputData,
+        [string]$LogFile,
+        [string]$SessionId,
+        [string]$Timestamp
+    )
+
+    $toolName = [string](Get-FirstValue $InputData @('tool_name', 'toolName'))
+    if ($toolName -notmatch '(?i)upgrade.*[/_.:-](get_state|complete_task)$') {
+        return
+    }
+
+    $toolInput = Get-FirstValue $InputData @('tool_input', 'toolArgs')
+    if ($toolInput -is [string]) {
+        try {
+            $toolInput = $toolInput | ConvertFrom-Json
+        } catch {
+            $toolInput = $null
+        }
+    }
+
+    $response = Get-FirstValue $InputData @('tool_response', 'toolResult', 'tool_result')
+    if ($response -is [string] -and $response.TrimStart().StartsWith('{')) {
+        try {
+            $response = $response | ConvertFrom-Json
+        } catch {
+        }
+    }
+    $responseText = (Get-ResponseText $response) -join "`n"
+    $scenarioId = Get-WinFormsScenarioId $LogFile $responseText
+    if (-not $scenarioId) {
+        return
+    }
+
+    $isCompleteTask = $toolName -match '(?i)upgrade.*[/_.:-]complete_task$'
+    $taskId = Get-FirstValue $toolInput @('taskId', 'task_id')
+    if ($isCompleteTask -and $null -ne $taskId) {
+        $failedProperty = $toolInput.PSObject.Properties['failed']
+        $taskFailed = $null -ne $failedProperty -and $failedProperty.Value -eq $true
+        Write-LogEntry $LogFile ([ordered]@{
+                event       = 'workflow_task_result'
+                timestamp   = $Timestamp
+                session_id  = $SessionId
+                scenario_id = $scenarioId
+                task_id     = [string]$taskId
+                failed      = $taskFailed
+            })
+    }
+
+    $responseNodes = @(Get-WorkflowNodes $response)
+    if ($responseText.TrimStart().StartsWith('{') -or
+        $responseText.TrimStart().StartsWith('[')) {
+        try {
+            $responseTextData = $responseText | ConvertFrom-Json
+            $responseNodes += @(Get-WorkflowNodes $responseTextData)
+        } catch {
+        }
+    }
+    $allTasksComplete = $false
+    $totalTasks = $null
+    $reportedFailedTasks = $null
+    $taskSnapshots = @()
+    $fullTaskSnapshotCount = $null
+    $responseFailedCount = 0
+    foreach ($node in $responseNodes) {
+        $completeProperty = $node.PSObject.Properties['allTasksComplete']
+        if ($null -ne $completeProperty -and $completeProperty.Value -eq $true) {
+            $allTasksComplete = $true
+        }
+        if ($null -eq $totalTasks) {
+            foreach ($key in @('totalTasks', 'totalTaskCount', 'taskCount')) {
+                $property = $node.PSObject.Properties[$key]
+                if ($null -ne $property -and $property.Value -is [int]) {
+                    $totalTasks = [int]$property.Value
+                    break
+                }
+            }
+        }
+        $failedTasksProperty = $node.PSObject.Properties['failedTasks']
+        if ($null -eq $reportedFailedTasks -and $null -ne $failedTasksProperty -and
+            $failedTasksProperty.Value -is [int]) {
+            $reportedFailedTasks = [int]$failedTasksProperty.Value
+        }
+        if ($null -eq $reportedFailedTasks -and $null -ne $failedTasksProperty -and
+            $failedTasksProperty.Value -is [array]) {
+            $reportedFailedTasks = $failedTasksProperty.Value.Count
+        }
+        foreach ($collectionName in @('tasks', 'allTasks')) {
+            $collectionProperty = $node.PSObject.Properties[$collectionName]
+            if ($null -ne $collectionProperty -and $collectionProperty.Value -is [array] -and
+                $collectionProperty.Value.Count -gt 0) {
+                $isFullSnapshot = $true
+                foreach ($item in $collectionProperty.Value) {
+                    $itemTaskId = Get-FirstValue $item @('taskId', 'task_id', 'id')
+                    $itemStatus = Get-FirstValue $item @('status')
+                    $itemFailed = $item.PSObject.Properties['failed']
+                    if ($null -eq $itemTaskId -or
+                        ($null -eq $itemStatus -and $null -eq $itemFailed)) {
+                        $isFullSnapshot = $false
+                        break
+                    }
+                }
+                if ($isFullSnapshot) {
+                    $fullTaskSnapshotCount = $collectionProperty.Value.Count
+                }
+            }
+        }
+        $snapshotTaskId = Get-FirstValue $node @('taskId', 'task_id', 'id')
+        $status = Get-FirstValue $node @('status')
+        $failedProperty = $node.PSObject.Properties['failed']
+        if (($null -ne $failedProperty -and $failedProperty.Value -eq $true) -or
+            $status -in @('failed', 'blocked', 'abandoned')) {
+            $responseFailedCount = 1
+        }
+        if ($null -ne $snapshotTaskId -and
+            ($null -ne $status -or $null -ne $failedProperty)) {
+            $taskSnapshots += [PSCustomObject]@{
+                task_id = [string]$snapshotTaskId
+                status  = [string]$status
+                failed  = $null -ne $failedProperty -and $failedProperty.Value -eq $true
+            }
+        }
+    }
+    if (-not $allTasksComplete -and
+        $responseText -match '(?i)["'']?allTasksComplete["'']?\s*:\s*["'']?true\b') {
+        $allTasksComplete = $true
+    }
+    if (-not $allTasksComplete) {
+        return
+    }
+
+    $taskResults = @{}
+    if ([IO.File]::Exists($LogFile)) {
+        $logLines = [IO.File]::ReadAllLines($LogFile)
+        $lastOutcomeIndex = -1
+        for ($index = 0; $index -lt $logLines.Length; $index++) {
+            try {
+                $entry = $logLines[$index] | ConvertFrom-Json
+                if ($entry.event -eq 'workflow_outcome' -and
+                    $entry.scenario_id -eq $scenarioId) {
+                    $lastOutcomeIndex = $index
+                }
+            } catch {
+            }
+        }
+        for ($index = $lastOutcomeIndex + 1; $index -lt $logLines.Length; $index++) {
+            try {
+                $entry = $logLines[$index] | ConvertFrom-Json
+                if ($entry.event -eq 'workflow_task_result' -and
+                    $entry.scenario_id -eq $scenarioId -and $entry.task_id) {
+                    $taskResults[[string]$entry.task_id] = [bool]$entry.failed
+                }
+            } catch {
+            }
+        }
+    }
+
+    $failedCount = [Math]::Max(
+        @($taskResults.Values | Where-Object { $_ }).Count,
+        $responseFailedCount
+    )
+    if ($null -ne $reportedFailedTasks) {
+        $failedCount = [Math]::Max($failedCount, $reportedFailedTasks)
+    }
+    if (@($taskSnapshots | Where-Object {
+                $_.failed -or $_.status -in @('failed', 'blocked', 'abandoned')
+            }).Count -gt 0) {
+        $failedCount = [Math]::Max($failedCount, 1)
+    }
+
+    if ($failedCount -gt 0) {
+        $outcome = 'completed_with_failures'
+    } elseif ($reportedFailedTasks -eq 0) {
+        $outcome = 'succeeded'
+    } elseif ($null -ne $fullTaskSnapshotCount) {
+        $outcome = 'succeeded'
+        $totalTasks = $fullTaskSnapshotCount
+    } elseif ($null -ne $totalTasks -and $taskResults.Count -ge $totalTasks) {
+        $outcome = 'succeeded'
+    } else {
+        $outcome = 'completed_unknown'
+    }
+
+    if ([IO.File]::Exists($LogFile)) {
+        $logLines = [IO.File]::ReadAllLines($LogFile)
+        $latestOutcome = $null
+        $latestOutcomeIndex = -1
+        for ($index = 0; $index -lt $logLines.Length; $index++) {
+            try {
+                $entry = $logLines[$index] | ConvertFrom-Json
+                if ($entry.event -eq 'workflow_outcome' -and
+                    $entry.scenario_id -eq $scenarioId) {
+                    $latestOutcome = $entry
+                    $latestOutcomeIndex = $index
+                }
+            } catch {
+            }
+        }
+        $newTaskObserved = $isCompleteTask -and $null -ne $taskId
+        for ($index = $latestOutcomeIndex + 1;
+            -not $newTaskObserved -and $index -lt $logLines.Length;
+            $index++) {
+            try {
+                $entry = $logLines[$index] | ConvertFrom-Json
+                $newTaskObserved = $entry.event -eq 'workflow_task_result' -and
+                    $entry.scenario_id -eq $scenarioId
+            } catch {
+            }
+        }
+        if ($null -ne $latestOutcome -and -not $newTaskObserved -and
+            ($latestOutcome.outcome -ne 'completed_unknown' -or
+                $latestOutcome.outcome -eq $outcome)) {
+            return
+        }
+    }
+
+    Write-LogEntry $LogFile ([ordered]@{
+            event          = 'workflow_outcome'
+            timestamp      = $Timestamp
+            session_id     = $SessionId
+            scenario_id    = $scenarioId
+            outcome        = $outcome
+            total_tasks    = $totalTasks
+            observed_tasks = if ($taskResults.Count -gt 0) { $taskResults.Count } else { $taskSnapshots.Count }
+            failed_tasks   = $failedCount
+            status_source  = if ($toolName -match '(?i)get_state$') { 'get_state' } else { 'complete_task' }
+        })
+}
+
 function Write-McpSkillEntries {
     param([object]$InputData, [string]$LogFile, [string]$SessionId, [string]$Timestamp)
 
@@ -311,7 +590,7 @@ if ($env:TELERIK_TELEMETRY_OFF -eq '1') {
     Write-Success
 }
 
-if ($Event -notin @('session_start', 'skill_read', 'session_end')) {
+if ($Event -notin @('session_start', 'skill_read', 'workflow_status', 'session_end')) {
     Write-Success
 }
 
@@ -373,7 +652,9 @@ try {
     $timestamp = Get-Timestamp $inputData
     $logFile = Get-LogFilePath $sessionId
 
-    if ($Event -eq 'skill_read') {
+    if ($Event -eq 'workflow_status') {
+        Write-WorkflowEntries $inputData $logFile $sessionId $timestamp
+    } elseif ($Event -eq 'skill_read') {
         $toolName = Get-FirstValue $inputData @('tool_name', 'toolName')
         if ($toolName -match '(?i)upgrade.*[/_.:-]get_instructions$') {
             Write-McpSkillEntries $inputData $logFile $sessionId $timestamp
