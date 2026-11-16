@@ -147,5 +147,5 @@ choosing a Telerik version. Key constraints:
 If the desired Telerik version does not support the project's .NET target,
 suggest the nearest compatible version.
 
-If a newer modern .NET version is not listed, assume the latest available
-Telerik UI for WinForms release supports it.
+If a newer modern .NET version is not explicitly listed, treat it as supported
+by the latest available Telerik UI for WinForms release.
