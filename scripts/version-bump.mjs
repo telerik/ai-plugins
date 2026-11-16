@@ -6,8 +6,8 @@
  *   CI:      node ./scripts/version-bump.mjs ci
  *     Used by the GitHub Actions version-bump workflow on push to main.
  *     Reads the triggering commit message to determine the bump type and the
- *     commit's changed files to scope which plugins are affected, then bumps
- *     those plugins and syncs marketplace.json. Git add/commit/push is left
+ *     full push range's changed files to scope which plugins are affected,
+ *     then bumps those plugins and syncs marketplace.json. Git add/commit/push is left
  *     to the workflow.
  *
  *   Manual:  node ./scripts/version-bump.mjs [<plugin>|all] [major|minor|patch]
@@ -262,8 +262,16 @@ async function getLastCommitMessage() {
   return git('log', '-1', '--pretty=%B', 'HEAD');
 }
 
-async function getLastCommitFiles() {
-  const output = await git('diff-tree', '--no-commit-id', '-r', '--name-only', 'HEAD');
+async function getChangedFiles() {
+  const baseSha = process.env.VERSION_BUMP_BASE_SHA;
+  const headSha = process.env.VERSION_BUMP_HEAD_SHA || 'HEAD';
+
+  if (baseSha && !/^0+$/.test(baseSha)) {
+    const output = await git('diff', '--name-only', baseSha, headSha);
+    return output ? output.split('\n').filter(Boolean) : [];
+  }
+
+  const output = await git('diff-tree', '--no-commit-id', '-r', '--name-only', headSha);
   return output ? output.split('\n').filter(Boolean) : [];
 }
 
@@ -325,9 +333,9 @@ async function runCi() {
     return;
   }
 
-  // 2. Scope to plugins touched by this commit
+  // 2. Scope to plugins touched by this push
   const allPluginNames = await findAllPluginNames();
-  const changedFiles = await getLastCommitFiles();
+  const changedFiles = await getChangedFiles();
   const affectedPlugins = getAffectedPlugins(changedFiles, allPluginNames);
 
   if (affectedPlugins.length === 0) {
