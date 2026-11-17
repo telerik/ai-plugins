@@ -100,9 +100,10 @@ Group findings by file or logical area. Prioritize:
 - **Do NOT ignore a deprecation warning that signals a future breaking
   change** — that is exactly what this skill exists to catch. For every
   other warning, follow `telerik-winforms-migration-verification`'s
-  **Warning Policy**: fix new regressions introduced by this task's own
-  fixes, but pre-existing or unrelated warnings don't need to be resolved
-  here — report them rather than spending edits on them.
+  **Warning Policy**: fix a new regression introduced by this task's own
+  fixes when the cause is local and clear, but never treat a warning as a
+  gate — report the rest as known issues rather than spending edits or
+  research on them.
 
 ## Tips
 

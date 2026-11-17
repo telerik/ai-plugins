@@ -50,6 +50,29 @@ the plugin offers control conversion; after a conversion completes, it offers
 a version upgrade. `telerik-winforms-assembly-to-nuget` is a standalone, narrower scenario for
 when only the reference style needs to change.
 
+### Build gate and warnings
+
+Telerik scenarios do not require a warning-free build. A task passes its build
+check with **0 errors and no blocking `TKL*` licensing diagnostics**. Only
+warnings that a scenario's own edits introduce, and that have a clear local
+fix, are fixed; pre-existing warnings are out of scope. Every warning is
+reported as a known issue in the task record and the final summary, never
+hidden and never suppressed. Dependency-graph warnings that appear after a
+Telerik package is added or upgraded (for example `MSB3277` for a transitive
+`System.Net.Http` version conflict on .NET Framework 4.6.2) are reported rather
+than fixed, because removing them can mean retargeting the project or changing
+other packages, which is the user's decision. The canonical rules are the
+**Warning Policy** in `telerik-winforms-migration-verification`; each
+scenario's **Build Warnings Policy** section (the section name Microsoft's own
+scenarios use to override the host's warning rule) and the workflow-efficiency
+extension point to it.
+
+This is guidance, not a host setting: the Microsoft upgrade agent's own
+"warning-free" rules cannot be changed from this plugin. The policy therefore
+names those rules explicitly and is delivered to the orchestrator (scenario
+`SKILL.md`), to workers (the extension's execution scope), and to reviewers
+(the extension's review scope).
+
 ### .NET version upgrades
 
 Neither scenario changes the project's `<TargetFramework>`. When the user also
@@ -135,7 +158,7 @@ dotnet tool install --global Telerik.CLI
 | `telerik-winforms-assembly-mapping` | Map Telerik assembly references to their owning NuGet packages |
 | `telerik-winforms-reference-migration` | Edit a project file to replace assembly references with PackageReference |
 | `telerik-winforms-reference-retargeting` | Retarget direct assembly references to a new Telerik version without changing the delivery method |
-| `telerik-winforms-migration-verification` | Restore, build, and report after a reference migration |
+| `telerik-winforms-migration-verification` | Restore, build, and report after a reference migration; owns the build gate and Warning Policy for all Telerik scenarios |
 
 ### Scenario Extensions (injected into host scenarios)
 

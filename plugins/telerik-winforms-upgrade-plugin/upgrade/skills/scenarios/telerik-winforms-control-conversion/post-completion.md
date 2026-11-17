@@ -19,6 +19,9 @@ against it.
 - **Classes deferred or failed**: list with the reason for each
 - **Application license activation**: configured / not needed
 - **Theme applied**: {theme name} / not applied
+- **Known issues**: build warnings reported rather than fixed, grouped by code
+  and project (for example a dependency-graph warning such as `MSB3277`), or
+  "none". Do not describe the build as warning-free while any remain.
 - **Conversion count used**: {count} *(note if a trial cap was hit)*
 
 ## Step 2: Offer Remaining Forms
@@ -45,6 +48,11 @@ Remind the user to manually verify what the agent cannot:
 - Check data-bound grids and lists against the original behavior
 - Confirm the theme renders consistently across all forms
 - Review any `itemsToReview` entries that had no Telerik alternative
+- If a known issue reports conflicting assembly versions (for example
+  `MSB3277`), run the application and watch for a `FileLoadException` or
+  `FileNotFoundException` for that assembly. If one appears, the redirect or
+  target-framework decision is the user's; the recorded details are in the
+  task's `progress-details.md`.
 
 Once satisfied, the `.bak` files the converter left beside each modified source
 file can be deleted.

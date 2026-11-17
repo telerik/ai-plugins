@@ -169,11 +169,16 @@ for the theming API question when one arises.
 WPF XAML compile errors (`MC*`, `XDG*`) count as errors, the same as
 compiler errors.
 
-**Warning handling**: follow `telerik-wpf-migration-verification`'s
+**Warning handling**: the build gate is 0 errors and no blocking `TKL*`
+diagnostics. Follow `telerik-wpf-migration-verification`'s
 **Warning Policy**, not the common `building-projects` skill's "fix every
-warning" default — fix errors, `TKL*` codes, and new regressions introduced
-by this upgrade's own fixes; pre-existing or unrelated warnings don't need
-to be resolved as part of this scenario.
+warning" default — fix errors and `TKL*` codes, fix new regressions introduced
+by this upgrade's own fixes when the cause is local and clear, and report every
+other warning as a known issue. A warning never fails a task; a build with
+warnings only is complete with known issues. This includes a dependency-graph
+warning that appears once the new Telerik version is restored (for example
+`MSB3277`): report it rather than suppressing it or changing other packages or
+the target framework.
 
 ## Error Handling
 

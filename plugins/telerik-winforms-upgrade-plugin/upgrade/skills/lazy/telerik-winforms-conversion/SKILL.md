@@ -37,7 +37,7 @@ telerik-winforms-breaking-changes skill.
 |------|-----------|---------|
 | `telerik_get_migration_plan` | none | A **static** playbook — workflow, strategy, critical rules, anti-patterns, file order, skip list, error handling. Not project-specific. |
 | `telerik_analyze_project` | `csprojPath` | **`.csproj` facts only** — target framework, project style (SDK/Classic), output type, existing Telerik references, `hasAllControlsPackage`, `windowsFormsEnabled`, `hasPackagesConfig`, recommendations |
-| `telerik_add_package_reference` | `csprojPath`, `targetFramework`, `projectStyle` | Install instructions for `Telerik.UI.for.WinForms.AllControls` |
+| `telerik_add_package_reference` | `csprojPath`, `targetFramework`, `projectStyle` | Adds the missing AllControls reference; returns `csprojModified` and a restore command. Does not restore packages. |
 | `telerik_convert_file` | `filePath`, `dryRun` | Roslyn conversion of one file, plus `itemsToReview` |
 | `telerik_get_theme_setup` | none | Theme configuration, App.config approach preferred |
 
@@ -89,9 +89,19 @@ add it (`projectStyle`, `hasPackagesConfig`), and how to build.
 
 ### Step 3: Add References
 
-Call `telerik_add_package_reference` **only** if `hasAllControlsPackage` is
-false, then run `dotnet restore`. Never guess package names and never use a
-TFM-suffixed variant.
+`telerik_add_package_reference` **modifies the project file**. Complete the
+host's research/enrichment gate before calling it, not after.
+
+Call it **only** if `hasAllControlsPackage` is false and the reference is still
+missing in the current project. Inspect `csprojModified` and the resulting
+reference; do not run another install command when the helper already added it.
+If it inserted `Version="*"`, pin that existing reference to the confirmed
+version. Then run the returned restore command and verify the resolved version.
+Never guess package names and never use a TFM-suffixed variant.
+
+The helper may return legacy private-feed guidance. For Q3 2026+ versions,
+follow `telerik-winforms-dependency-management`: try the configured NuGet.org
+source first; do not configure credentials unless restore actually needs them.
 
 ### Step 4: Convert, One Class at a Time
 
@@ -109,6 +119,11 @@ The unit of work is a class pair. For each form or user control:
 
 A `.bak` backup is written beside every modified file.
 
+For uncertain API signatures, use
+`telerik-winforms-component-guidance` directly; do not repeatedly search for
+skills using variations of the same compiler diagnostic. Keep each
+`itemsToReview` decision explicit and sequential, as the playbook requires.
+
 ### Step 5: Full Build
 
 After all classes are converted, run a full build to catch cross-form errors.
@@ -122,6 +137,10 @@ Call `telerik_get_theme_setup` as the final step. Prefer the App.config approach
 ## Important Rules
 
 - **Never hand-edit WinForms code to convert it** — always `telerik_convert_file`.
+  This governs the initial conversion, not the subsequent build/fix loop:
+  narrow repairs using confirmed Telerik APIs in the converted pair are
+  allowed and must be recorded. Never replace the converter with manual
+  control mappings.
 - **Never author manual control mappings** — the converter has the full database.
 - **Never rename fields or variables.** Only the type changes:
   `private ToolStripMenuItem fileToolStripMenuItem` becomes

@@ -39,8 +39,18 @@ Include:
 
 ## When NOT to Use
 
-- **Do NOT use for migration/conversion tasks** — use the dedicated conversion
-  tools (`telerik_get_migration_plan`, `telerik_convert_file`) instead.
+- **Do NOT use for product/runtime compatibility or upgrade setup questions**
+  (supported .NET/.NET Framework versions, Telerik distributions, version
+  selection, or NuGet package/feed selection). Load
+  `telerik-winforms-dependency-management` and its
+  [local version compatibility matrix](../telerik-winforms-dependency-management/ref/version-compatibility.md)
+  instead. Use the relevant local licensing skill for activation questions.
+  Do not call the remote component assistant to confirm or source facts
+  already covered by these skills. If the local guidance does not establish
+  an answer, report the gap rather than guessing or routing it to this tool.
+- **Do NOT use to perform whole-file conversion** — use
+  `telerik_convert_file` instead. Use this assistant for the converter's
+  `itemsToReview` and uncertain Telerik APIs exposed by build errors.
 - **Do NOT use for breaking changes detection** — use `telerik_upgrade_assistant`
   to analyze projects for breaking changes.
 - **Do NOT use as a substitute for building** — always build and validate after
@@ -52,3 +62,17 @@ Include:
   over general training data, which may be outdated.
 - For complex scenarios, break the question into smaller, focused queries
   (one component/feature per call).
+- Include the installed Telerik version, failing statement/diagnostic, and
+  required behavior. Ask for the exact member, event delegate, or replacement
+  statement, not a general component tutorial.
+- Use one focused call per unresolved API question, with at most one
+  clarification if it does not answer the question. Reuse an answer for the
+  same API/version/usage; keep conversion review entries individually recorded
+  and respect the playbook's sequential per-item calls.
+- If still unconfirmed, record the exact unresolved question and tool response.
+  Do not guess, rephrase skill searches indefinitely, load/decompile Telerik
+  DLLs, or start a dependency-wide investigation to answer one member question.
+  Installed XML API documentation may confirm signatures, not runtime behavior.
+- An unanswered question is not "no Telerik equivalent." Defer the affected
+  conversion unit under the scenario's rules or report it blocked; do not mark
+  unresolved required behavior as successfully migrated.
