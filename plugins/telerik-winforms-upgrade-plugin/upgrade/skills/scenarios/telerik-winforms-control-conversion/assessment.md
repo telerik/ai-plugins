@@ -26,6 +26,14 @@ user-control classes in Step 3 — no tool provides this, and planning needs it.
 
 ## Step 1: Get the Migration Plan
 
+Reuse the solution path returned during pre-initialization and record the
+absolute solution/project paths, workspace boundary, and build command in
+`assessment.md`. A project subdirectory is not necessarily the solution root:
+if discovery found no solution, check the explicitly supplied solution/root
+directory (including an already-known parent) once. Record the search boundary
+when reporting no solution; do not turn a project-local search into a claim
+that no solution exists anywhere.
+
 Call `telerik_get_migration_plan` **first**, with no arguments.
 
 Record its output in the assessment, specifically:
@@ -123,7 +131,15 @@ of the `.csproj`. Honor any prerequisite the migration plan stated in Step 1.
 ## Step 5: Version Compatibility Check
 
 When Telerik must be installed, verify the chosen version supports the
-`targetFramework` reported by `telerik_analyze_project`:
+`targetFramework` reported by `telerik_analyze_project`. Load
+`telerik-winforms-dependency-management` and use its local
+`ref/version-compatibility.md` as the compatibility source, including the
+source URL recorded there when a citation is needed. Do not call
+`telerik_winforms_assistant` for this check or to reconfirm the matrix.
+If the matrix does not cover a combination, report that gap rather than
+guessing or sending the question to the remote component assistant.
+
+Quick reference:
 
 | .NET Target | Minimum Telerik Version |
 |-------------|------------------------|

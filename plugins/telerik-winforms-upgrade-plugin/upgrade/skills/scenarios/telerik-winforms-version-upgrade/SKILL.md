@@ -26,7 +26,7 @@ Upgrade an existing Telerik UI for WinForms dependency to a newer version,
 resolving breaking changes and modernizing how Telerik is referenced.
 
 **Goal**: Move a WinForms application from its current Telerik UI for WinForms
-version to a newer, compatible one with a clean build.
+version to a newer, compatible one that builds without errors.
 
 **Target-version rule**: "latest" is a request, not a version value. Never
 use the detected current Telerik version as the answer to a latest-version
@@ -119,6 +119,38 @@ Run these stages in order:
 2. **Planning** — Create the upgrade plan from the assessment findings. Creates `plan.md`.
 3. **Execution** — Execute tasks with MCP tool delegation and build validation. Creates `tasks/*/task.md`.
 4. **Post-Completion** — Summarize results and suggest follow-ups, including control conversion.
+
+## Build Warnings Policy
+
+**Override for this scenario:** The host's "fix all build warnings" and
+"warning-free" rules do not apply. Only fix warnings introduced by this
+scenario's own edits that have a clear local fix (for example a stale `HintPath`,
+or a breaking-change fix that compiles but warns), and any warning
+`telerik_upgrade_assistant` or `telerik_winforms_assistant` flags as an imminent
+breaking change at the target version. Do not fix pre-existing warnings in the
+user's projects — those are out of scope.
+
+- Warnings that come from a Telerik package's own dependency graph once it is
+  upgraded (for example `MSB3277` for `System.Net.Http`) cannot be fixed by this
+  scenario's edits. Record them under **Known issues**; do not suppress them,
+  add binding redirects, retarget the project, or change other packages.
+- The build gate is **0 errors and no blocking `TKL*` diagnostics** (a warning
+  the project promotes to an error counts as an error). A warning never fails a
+  task, makes a worker return `blocked`, pauses an Automatic run, or stops
+  dependent tasks. A warnings-only task is **complete with known issues**: call
+  `complete_task` without `failed` and continue. If a worker returns `blocked`
+  or reports failure and a warning is the only open item, complete the task the
+  same way.
+- Include the build gate in every prompt you send to a worker (executor,
+  error-fixer, validator, reviewer), for example: "Build gate: 0 errors and no
+  blocking `TKL*`; warnings are known issues, never `blocked`."
+- List the known issues in the final summary; never describe such a build as
+  warning-free.
+- When writing `scenario-instructions.md`, add this line under **Preferences**:
+  `- **Build Warnings Policy**: Fix only warnings this scenario introduces; errors and blocking TKL* diagnostics block, other warnings are reported as known issues (Telerik plugin policy)`
+
+`telerik-winforms-migration-verification`'s **Warning Policy** has the full
+classification.
 
 ## Pre-Initialization
 

@@ -26,6 +26,12 @@ counterpart every other licensing skill in this set hands off to.
 
 ## Step 1: Restore and Build
 
+First check recorded target-version build evidence. Reuse it only when project
+scope, configuration, toolchain, packages, and license inputs are unchanged and
+the output records the TKL scan. Cite the command/result as reused, not a new
+run. A license preflight or a transitive package entry alone is insufficient.
+Otherwise restore/build below and retain the output for later verification.
+
 - **SDK-style projects**: `dotnet build`.
 - **Classic-style .NET Framework projects built outside Visual Studio**: use
   Visual Studio's MSBuild, located via `vswhere.exe`
@@ -40,10 +46,9 @@ Check the build log for any `TKL0xx`/`TKL1xx` code or message. If any appear,
 do not attempt to fix them here — hand off to
 `telerik-wpf-license-diagnostics` with the exact code/message and let it
 route to the correct fix skill. `TKL*` codes are always blocking, unlike
-other build warnings — see `telerik-wpf-migration-verification`'s
-**Warning Policy** for which non-`TKL*` warnings this task does and does not
-need to resolve; do not apply the common `building-projects` skill's
-"fix every warning" default here.
+other build warnings, which are never a gate — see
+`telerik-wpf-migration-verification`'s **Warning Policy**; do not apply
+the common `building-projects` skill's "fix every warning" default here.
 
 ## Step 2a: Binding Redirect Check (.NET Framework, Non-SDK-Style Only)
 

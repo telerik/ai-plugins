@@ -14,11 +14,13 @@ Summarize results and suggest follow-ups.
 - **Assembly references removed**: {count} across {project count} projects
 - **Unmapped assemblies**: list with how each was resolved, or "none"
 - **NoXaml theming checks**: passed / issues (list)
-- **Restore/build result**: clean / succeeded with deferred missing-license
-  warnings / outstanding issues
+- **Restore/build result**: clean / succeeded with known issues (deferred
+  missing-license warnings, other reported warnings) / outstanding issues
 - **Application activation**: not required (before Q1 2025) / verified /
   deferred (confirmed missing license) / blocked
 - **Deferred licensing warnings**: affected projects and codes, or "none"
+- **Other known issues**: non-licensing build warnings reported rather than
+  fixed, grouped by code and project, or "none"
 
 ## Step 2: Verification Reminders
 

@@ -54,3 +54,16 @@ Include:
   over general training data, which may be outdated.
 - For complex scenarios, break the question into smaller, focused queries
   (one component/feature per call).
+- Include the installed Telerik version, Xaml/NoXaml flavor, failing
+  statement/diagnostic, and required behavior. Ask for the exact XAML member,
+  namespace, event signature, or replacement statement rather than a tutorial.
+- Use one focused call per unresolved API question, with at most one
+  clarification if it does not answer the question. Reuse the result for the
+  same API/version/flavor/usage instead of repeating discovery or lookups.
+- If still unconfirmed, record the exact unresolved question and tool response.
+  Do not guess, rephrase skill searches indefinitely, load/decompile Telerik
+  DLLs, or start a dependency-wide investigation to answer one member question.
+  Installed XML API documentation may confirm signatures, not runtime behavior.
+- An unanswered question does not establish that an API is absent. Report an
+  unresolved required fix as blocked rather than claiming that migration is
+  complete or silently removing behavior.

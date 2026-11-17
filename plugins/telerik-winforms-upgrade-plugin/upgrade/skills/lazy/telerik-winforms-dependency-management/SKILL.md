@@ -135,7 +135,15 @@ here.
 ## Version Compatibility
 
 Consult the [version compatibility matrix](ref/version-compatibility.md) when
-choosing a Telerik version. Key constraints:
+choosing a Telerik version or answering whether a Telerik release supports a
+specific .NET/.NET Framework target. This local reference is the source for
+product/runtime compatibility and distribution questions; cite its source URL
+when requested. Do not call `telerik_winforms_assistant` to confirm these facts
+or obtain a citation — that tool is for component APIs and behavior. If the
+matrix does not cover the requested combination, report the gap rather than
+inventing support or sending the question to the component assistant.
+
+Key constraints:
 
 | .NET Target | Minimum Telerik Version |
 |-------------|------------------------|

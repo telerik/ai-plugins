@@ -56,7 +56,7 @@ This scenario uses the **Telerik.WinForms.MCP** NuGet package which provides:
 |------|-----------|----------------------|
 | `telerik_get_migration_plan` | none | Returns a **static** playbook: workflow, strategy, critical rules, anti-patterns, file order, skip list, error handling. Call first. |
 | `telerik_analyze_project` | `csprojPath` | Reads **the `.csproj`** (+ `packages.config`): target framework, project style, output type, existing Telerik references, `hasAllControlsPackage`, `windowsFormsEnabled`, `hasPackagesConfig`, recommendations |
-| `telerik_add_package_reference` | `csprojPath`, `targetFramework`, `projectStyle` | Returns install instructions for `Telerik.UI.for.WinForms.AllControls`. Only when the package is missing. |
+| `telerik_add_package_reference` | `csprojPath`, `targetFramework`, `projectStyle` | Adds the missing `Telerik.UI.for.WinForms.AllControls` reference to the project; returns `csprojModified` and a restore command. Does not restore packages. |
 | `telerik_convert_file` | `filePath`, `dryRun` | Roslyn-based conversion of one `.cs`/`.vb` file. **This is where control mapping happens.** Returns `itemsToReview`. |
 | `telerik_get_theme_setup` | none | Returns theme configuration (App.config preferred). Final step only. |
 | `telerik_winforms_assistant` | — | Component API questions, and resolving `itemsToReview` entries one at a time |
@@ -85,6 +85,36 @@ Run these stages in order:
 2. **Planning** — Turn the playbook and conversion units into tasks, one per class pair. Creates `plan.md`.
 3. **Execution** — Convert each `.Designer.cs` + `.cs` pair with `telerik_convert_file`, building and fixing after each. Creates `tasks/*/task.md`.
 4. **Post-Completion** — Report conversion results and suggest follow-ups.
+
+## Build Warnings Policy
+
+**Override for this scenario:** The host's "fix all build warnings" and
+"warning-free" rules do not apply. Only fix warnings introduced by this
+scenario's own edits that have a clear local fix (for example a converted file
+that compiles but warns because the wrong member was picked). Do not fix
+pre-existing warnings in the user's projects — those are out of scope.
+
+- Warnings that come from a Telerik package's own dependency graph once it is
+  added (for example `MSB3277` for `System.Net.Http`) cannot be fixed by this
+  scenario's edits. Record them under **Known issues**; do not suppress them,
+  add binding redirects, retarget the project, or change other packages.
+- The build gate is **0 errors and no blocking `TKL*` diagnostics** (a warning
+  the project promotes to an error counts as an error). A warning never fails a
+  task, makes a worker return `blocked`, pauses an Automatic run, or stops
+  dependent tasks. The setup build is a compile check, not a warning check. A
+  warnings-only task is **complete with known issues**: call `complete_task`
+  without `failed` and continue. If a worker returns `blocked` or reports
+  failure and a warning is the only open item, complete the task the same way.
+- Include the build gate in every prompt you send to a worker (executor,
+  error-fixer, validator, reviewer), for example: "Build gate: 0 errors and no
+  blocking `TKL*`; warnings are known issues, never `blocked`."
+- List the known issues in the final summary; never describe such a build as
+  warning-free.
+- When writing `scenario-instructions.md`, add this line under **Preferences**:
+  `- **Build Warnings Policy**: Fix only warnings this scenario introduces; errors and blocking TKL* diagnostics block, other warnings are reported as known issues (Telerik plugin policy)`
+
+`telerik-winforms-migration-verification`'s **Warning Policy** has the full
+classification.
 
 ## Pre-Initialization
 
@@ -128,6 +158,14 @@ license-file path; it never suggests script-key activation.
 - Detect Telerik presence (scan for `Telerik.WinControls`, `Telerik.UI.for.WinForms`, or `Telerik.` assembly references)
 - If Telerik is **not** present, determine the Telerik version to install — suggest the latest version compatible with the project's .NET target
 - If Telerik **is** present, reuse the referenced version; do not change it in this scenario
+
+For version selection and .NET/.NET Framework support checks, load
+`telerik-winforms-dependency-management` and read its local
+`ref/version-compatibility.md`. Use that reference (including its source URL)
+for compatibility answers; do not query `telerik_winforms_assistant` for
+product/runtime support, distributions, packages, feeds, or licensing. Route
+those questions to the relevant local skills, including in subagent handoffs.
+The component assistant is only for component APIs, usage, and behavior.
 
 **Step 3**: Assemble `confirmFields` for the combined confirmation:
 - **Telerik Version to Install**: suggested or user-specified *(only when Telerik is absent)*

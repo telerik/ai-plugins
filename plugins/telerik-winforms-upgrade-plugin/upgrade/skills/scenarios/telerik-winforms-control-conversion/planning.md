@@ -28,13 +28,15 @@ stop.
 
 ## Task Composition Rules
 
-Tasks are ordered by dependency — earlier tasks must complete before later ones.
-Skip any setup task whose trigger was not flagged during assessment.
+The rows below are ordered **checkpoints**, not one host task per row.
+Preserve the playbook's order and every check, but group one project's related
+setup checkpoints into one task and its finalization checkpoints into one task.
+Skip setup actions whose trigger was not flagged during assessment.
 
 | Order | Task | Condition | Skill |
 |-------|------|-----------|-------|
-| 1 | Add `Telerik.UI.for.WinForms.AllControls` via `telerik_add_package_reference`, then `dotnet restore` | `hasAllControlsPackage` is false | telerik-winforms-dependency-management |
-| 2 | Verify application license activation | Telerik version is Q1 2025+ | telerik-winforms-license-key-setup |
+| 1 | Add `Telerik.UI.for.WinForms.AllControls` via the project-mutating `telerik_add_package_reference`, then restore | `hasAllControlsPackage` is false | telerik-winforms-dependency-management |
+| 2 | Verify application license activation from the setup build | Telerik version is Q1 2025+ | telerik-winforms-license-verification |
 | 3 | Build baseline — confirm the project compiles before converting | Always | — |
 | 4 | Convert class — **one task per conversion unit** (`.Designer.cs` + `.cs` pair) | Per in-scope unit | telerik-winforms-conversion |
 | … | *(repeat task 4 for each conversion unit)* | | |
@@ -42,9 +44,18 @@ Skip any setup task whose trigger was not flagged during assessment.
 | N-1 | Apply Telerik theme (`telerik_get_theme_setup`) | Always | telerik-winforms-conversion |
 | N | Final verification build | Always | — |
 
-Task 2 verifies that restoring `Telerik.UI.for.WinForms.AllControls` resolves
-its transitive `Telerik.Licensing` dependency. Do not add an explicit
-`Telerik.Licensing` package reference.
+Checkpoint 2 verifies that restoring `Telerik.UI.for.WinForms.AllControls`
+resolves its transitive `Telerik.Licensing` dependency and the build has no
+blocking licensing diagnostics. Do not add an explicit `Telerik.Licensing`
+package reference. Use the same build to establish checkpoint 3's baseline;
+package presence alone is not activation evidence.
+
+Checkpoint 3 is a compile check: it passes with 0 errors and no blocking
+`TKL*` diagnostics, even when the build has warnings. Write its "Done when"
+that way. Record warnings (for example an `MSB3277` conflict from the
+package's dependency graph) as known issues; they are not a reason to fail the
+setup task or hold back conversion. See `telerik-winforms-migration-verification`'s
+**Warning Policy**.
 
 Where the migration playbook's workflow adds steps not listed above, insert them
 in the position it specifies.
@@ -53,6 +64,11 @@ in the position it specifies.
 
 The playbook mandates a "Divide and Conquer" strategy. Encode it in the plan:
 
+- **One setup task per project**: any missing package reference, restore,
+  activation verification, and the baseline build. List all checkpoints as
+  explicit done conditions with the relevant skills; do not create a separate
+  license task or baseline-build task for checks the setup build covers.
+  If nothing needs changing, cite fresh, matching build/license evidence.
 - **One task per class pair.** Each task converts `{Name}.Designer.cs` first,
   then `{Name}.cs`, then builds and fixes errors in that pair only.
 - **Never batch.** Do not create a task that converts several classes, and never
@@ -67,6 +83,18 @@ The playbook mandates a "Divide and Conquer" strategy. Encode it in the plan:
   validate the pipeline before the complex ones.
 - **`itemsToReview` follow-up is part of each conversion task**, not a separate
   task — the converter only reports it per file.
+- **One finalization task per project**: full build before theming, theme setup,
+  then final build and required tests. These are ordered acceptance checkpoints,
+  not three new workers. Reuse an existing full build only when its scope,
+  configuration, toolchain, and build-relevant inputs match; a theme/config
+  change requires post-change validation.
+
+A one-project, one-form plan therefore normally has three tasks: prepare the
+project, convert its class pair, and finalize. Add tasks only for actual
+independent work or a prerequisite the playbook explicitly requires as a
+separate task. These groupings must not remove or reorder playbook checkpoints.
+Do not add a Git-initialization task when the customer declined Git; honor
+their approved recovery/backup approach.
 
 ## Scope
 
@@ -106,7 +134,7 @@ Write `plan.md` in the workflow folder:
 1. **{task title}**
    - Description: {what this task does}
    - Files: {Form1.Designer.cs, Form1.cs} *(conversion tasks only)*
-   - Done when: {acceptance criteria — converted, builds clean, itemsToReview resolved}
+   - Done when: {acceptance criteria — converted, builds with 0 errors and no blocking `TKL*` diagnostics (other warnings reported as known issues), itemsToReview resolved}
    - Related skill: {skill name or "none"}
 
 2. **{task title}**

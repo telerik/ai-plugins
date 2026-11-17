@@ -11,8 +11,10 @@ assessment. They are binding.
 1. **Load related skills** before starting each task — check the
    `<task_related_skills>` block from `start_task` and load the relevant
    skill SKILL.md files.
-2. **ALWAYS use `telerik_convert_file` for any `.cs` / `.vb` WinForms change.**
-   Never hand-edit WinForms code to perform a conversion.
+2. **ALWAYS use `telerik_convert_file` for the initial `.cs` / `.vb` control
+   conversion.** Do not replace it with handwritten mappings. After it runs,
+   narrowly scoped compiler/API fixes in that pair are allowed as described
+   below; do not re-run the converter over those fixes.
 3. **Never attempt manual control mappings.** The converter holds the complete
    mapping database. Do not guess Telerik type names.
 4. **Never rename fields or variables.** Only the type changes —
@@ -41,15 +43,26 @@ them per form. Read their output from `assessment.md`.
 ### Package and Reference Tasks
 
 - Call `telerik_add_package_reference` **only** when the assessment recorded
-  `hasAllControlsPackage: false`. It returns installation instructions based on
-  target framework and project style — apply them.
+  `hasAllControlsPackage: false` and the reference is still missing.
+  **It modifies the project file**, so finish research and enrich `task.md`
+  before calling it. Inspect `csprojModified` and the edited project instead of
+  running a second install command. Pin an inserted wildcard to the confirmed
+  version before restoring.
 - Never guess package names, and never add a TFM suffix
   (`.Net462`, `.Net48`, `.Net80`, `.Net90`). Always
   `Telerik.UI.for.WinForms.AllControls`.
 - Run `dotnet restore` after the package is added.
+- For Q3 2026+ packages, try the configured NuGet.org source first. A legacy
+  private-feed recommendation from the helper is not a reason to configure
+  credentials when restore already succeeds.
 - Remove old assembly `<Reference>` entries with `<HintPath>` pointing to
   Telerik DLLs.
 - Build and verify all Telerik references resolve before converting anything.
+  This setup build is a compile check: 0 errors and no blocking `TKL*`
+  diagnostics passes it, even with warnings. Record warnings only — for
+  example an `MSB3277` conflict from the package's dependency graph — as known
+  issues and continue to conversion; do not research, suppress, add binding
+  redirects, retarget, or return `blocked` for them.
 
 ### Application License Activation Tasks
 
@@ -81,6 +94,12 @@ Each task converts one class pair. Follow the playbook's `perClassWorkflow`:
 6. **Repeat build-and-fix** until the converted pair is error-free.
 7. Only then move to the next class pair.
 
+For an unknown Telerik API, load
+`telerik-winforms-component-guidance` once and follow its bounded lookup
+procedure. Do not query skill discovery repeatedly for each spelling of a
+compiler error. An inconclusive lookup is not evidence that no equivalent
+exists; record it as unresolved rather than inventing a mapping.
+
 The tool writes a `.bak` backup beside every file it modifies, so a bad
 conversion is recoverable.
 
@@ -102,6 +121,20 @@ dryRun=false".
 - Do not change the theme or background if the user asked to preserve the
   default appearance.
 
+## Decomposition Rules
+
+- One project's package setup, restore, activation check, and baseline build
+  are one dependency-setup operation. Keep their order and acceptance checks;
+  do not split them solely because restore/build are separate commands.
+- A class pair remains indivisible: Designer, code-behind, review items, build,
+  and fixes belong together.
+- Finalization for one project includes the pre-theme full build, theme setup,
+  and post-theme verification, in that order. Keep the validation checkpoints
+  inside that task rather than creating validation-only handoffs.
+- Split genuinely independent projects or class pairs. If a separate setup or
+  validation task already exists on resume, check its recorded evidence before
+  doing any new work; do not rewrite started task IDs to optimize the plan.
+
 ## Building
 
 - **SDK-style projects**: `dotnet build`.
@@ -121,19 +154,29 @@ dryRun=false".
   ```
   Use VS MSBuild for **all** subsequent builds in that project.
 
-**Warning handling**: follow `telerik-winforms-migration-verification`'s
+**Warning handling**: the build gate is 0 errors and no blocking `TKL*`
+diagnostics. Follow `telerik-winforms-migration-verification`'s
 **Warning Policy**, not the common `building-projects` skill's "fix every
-warning" default — fix errors, `TKL*` codes, and new regressions introduced
-by the conversion itself; pre-existing or unrelated warnings don't need to
-be resolved as part of this scenario.
+warning" default — fix errors and `TKL*` codes, fix new regressions introduced
+by the conversion itself when the cause is local and clear, and report every
+other warning as a known issue. A warning never fails a task; a build with
+warnings only is complete with known issues.
 
 ## Error Handling
 
+- **Warnings only, no errors** (for example `MSB3277` after adding the
+  Telerik package, or pre-existing warnings): not an error. Record them under
+  **Known issues** in `progress-details.md` and continue. Do not return
+  `blocked`, dispatch the error-fixer, or research a fix.
 - **Build errors after a conversion**: read the error message and apply standard
   C# fixes. Do **NOT** immediately call `telerik_winforms_assistant` for build
   errors — you can do it when unsure of the API and intended usage.
-- **A type or property mapping looks wrong**: report it rather than hand-patching
-  the file. Manual edits to converter output cause drift.
+- **A converter mapping fails to compile**: confirm the replacement API with
+  `telerik_winforms_assistant` (or installed XML signatures), apply the narrow
+  repair in this pair, and record the converter issue. This is the build/fix
+  loop, not permission to invent control mappings or re-convert the file.
+- **A mapping cannot be confirmed**: report the unresolved issue; do not
+  substitute a guessed type/property just to make the build pass.
 - **Designer fails to open a converted form**: check for missing Telerik
   references and confirm the NuGet package restored.
 - **Conversion limit reached**: trial accounts are capped at 20 conversions. The

@@ -4,7 +4,8 @@
 
 - **Mechanism per project**: before → after
 - **Migration performed**: Yes/No (and for which projects)
-- **Verification result**: clean / issues remaining (list)
+- **Verification result**: clean (no `TKL*` diagnostics) / issues remaining
+  (list); other build warnings are listed as known issues, not as a failure
 
 ## Step 2: Runtime Reminder
 

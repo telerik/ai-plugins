@@ -66,6 +66,39 @@ lazy skills that are independently callable outside this scenario too.
 3. **Execution** — Load [execution.md](execution.md).
 4. **Post-Completion** — Load [post-completion.md](post-completion.md).
 
+## Build Warnings Policy
+
+**Override for this scenario:** The host's "fix all build warnings" and
+"warning-free" rules do not apply. Only fix warnings introduced by this
+scenario's own edits that have a clear local fix (for example a stale `HintPath`
+left after a reference migration). Do not fix pre-existing warnings in the
+user's projects — those are out of scope.
+
+- Warnings that come from a Telerik package's own dependency graph once the
+  packages are added (for example `MSB3277` for `System.Net.Http`) cannot be
+  fixed by this scenario's edits. Record them under **Known issues**; do not
+  suppress them, add binding redirects, retarget the project, or change other
+  packages.
+- The build gate is **0 errors (including XAML compile errors) and no blocking
+  `TKL*` diagnostics** (a warning the project promotes to an error counts as an
+  error), except `TKL*` warnings caused by a confirmed missing license, which
+  this scenario's exception in the Warning Policy covers. A warning never fails
+  a task, makes a worker return `blocked`, pauses an Automatic run, or stops
+  dependent tasks. A warnings-only task is **complete with known issues**: call
+  `complete_task` without `failed` and continue. If a worker returns `blocked`
+  or reports failure and a warning is the only open item, complete the task the
+  same way.
+- Include the build gate in every prompt you send to a worker (executor,
+  error-fixer, validator, reviewer), for example: "Build gate: 0 errors and no
+  blocking `TKL*`; warnings are known issues, never `blocked`."
+- List the known issues in the final summary; never describe such a build as
+  warning-free.
+- When writing `scenario-instructions.md`, add this line under **Preferences**:
+  `- **Build Warnings Policy**: Fix only warnings this scenario introduces; errors and blocking TKL* diagnostics block, other warnings are reported as known issues (Telerik plugin policy)`
+
+`telerik-wpf-migration-verification`'s **Warning Policy** has the full
+classification.
+
 ## Pre-Initialization
 
 This workflow uses project-file edits and the .NET/NuGet CLI, not the

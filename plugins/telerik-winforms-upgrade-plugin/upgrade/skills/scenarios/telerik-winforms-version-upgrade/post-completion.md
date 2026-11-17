@@ -14,6 +14,9 @@ Present a concise summary of what was accomplished:
   one-time offer)
 - **Breaking changes resolved**: {count} of {total findings}
 - **Application license activation**: configured / verified unchanged / not needed
+- **Known issues**: build warnings reported rather than fixed, grouped by code
+  and project (for example a dependency-graph warning such as `MSB3277`), or
+  "none". Do not describe the build as warning-free while any remain.
 - **Outstanding issues**: list, or "none"
 
 ## Step 2: Offer Control Conversion

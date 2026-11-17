@@ -76,9 +76,10 @@ After every project's task is done, run
 to confirm a successful restore and build, an unchanged flavor in every
 project, and clean NoXaml theming checks, following that skill's **Warning
 Policy** rather than the common `building-projects` skill's "fix every
-warning" default — pre-existing or unrelated warnings don't need to be
-resolved as part of this migration.
+warning" default — warnings that are not blocking are reported as known
+issues, not resolved as part of this migration.
 
 Carry the per-project deferred licensing findings into this verification
-and the final summary. Do not describe a build with deferred warnings as
-warning-free, or application activation as verified while it is deferred.
+and the final summary, together with any other known issues. Do not describe a
+build with deferred warnings as warning-free, or application activation as
+verified while it is deferred.
