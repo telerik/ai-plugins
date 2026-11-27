@@ -19,6 +19,7 @@ COMMIT_MSG="${2:?Usage: $0 <branch> <commit-msg>}"
 # Stage version files
 # ---------------------------------------------------------------------------
 find plugins -name "plugin.json" -path "*/.claude-plugin/*" -exec git add {} +
+find plugins -mindepth 2 -maxdepth 2 -type f -name "plugin.json" -exec git add -- {} +
 find plugins -mindepth 2 -maxdepth 2 -type f -name "upgrade-extension.json" -exec git add -- {} +
 git add .claude-plugin/marketplace.json
 

@@ -1,6 +1,6 @@
 # KendoReact Plugin
 
-AI coding assistant and [MCP server](https://modelcontextprotocol.io) for building React applications with [KendoReact](https://www.telerik.com/kendo-react-ui). Provides component documentation, API reference, code generation, accessibility guidance, theming, and layout utilities — powered by the KendoReact MCP server.
+Plugin and [MCP server](https://modelcontextprotocol.io) that bring [KendoReact](https://www.telerik.com/kendo-react-ui) capabilities into AI coding assistants, including component documentation, API references, code generation, accessibility guidance, theming, and layout utilities. The plugin is powered by the KendoReact MCP server.
 
 ## Prerequisites
 

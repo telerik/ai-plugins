@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "kendo-angular-plugin",
+  "version": "1.0.6",
+  "description": "Plugin and MCP server that bring Kendo UI for Angular capabilities into AI coding assistants, including component documentation, API references, code generation, accessibility guidance, theming, and layout utilities.",
+  "author": {
+    "name": "Progress",
+    "url": "https://www.telerik.com/"
+  },
+  "homepage": "https://www.telerik.com/kendo-angular-ui/components/ai-tools/agentic-ui-generator",
+  "repository": "https://github.com/telerik/ai-plugins",
+  "license": "MIT",
+  "keywords": [
+    "kendo",
+    "angular",
+    "kendo-ui-for-angular",
+    "kendo-angular",
+    "mcp",
+    "progress-design-system"
+  ]
+}

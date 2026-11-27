@@ -129,6 +129,16 @@ async function bumpPluginVersion(pluginName, bumpType) {
   pluginJson.version = newVersion;
   await writeJson(jsonPath, pluginJson);
 
+  // Root-level plugin.json (required by external marketplace intake) mirrors the version.
+  const rootJsonPath = path.join(PLUGINS_DIR, pluginName, 'plugin.json');
+  try {
+    const rootJson = await readJson(rootJsonPath);
+    rootJson.version = newVersion;
+    await writeJson(rootJsonPath, rootJson);
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+
   if (extensionJson !== undefined) {
     extensionJson.version = newVersion;
     await writeJson(extensionPath, extensionJson);

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "kendo-react-plugin",
+  "version": "1.0.6",
+  "description": "Plugin and MCP server that bring KendoReact capabilities into AI coding assistants, including component documentation, API references, code generation, accessibility guidance, theming, and layout utilities.",
+  "author": {
+    "name": "Progress",
+    "url": "https://www.telerik.com/"
+  },
+  "homepage": "https://www.telerik.com/kendo-react-ui/components/ai-tools/agentic-ui-generator",
+  "repository": "https://github.com/telerik/ai-plugins",
+  "license": "MIT",
+  "keywords": [
+    "kendo",
+    "react",
+    "kendoreact",
+    "kendo-ui-for-react",
+    "mcp",
+    "progress-design-system"
+  ]
+}

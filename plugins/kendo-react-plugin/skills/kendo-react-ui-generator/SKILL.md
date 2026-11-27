@@ -15,7 +15,7 @@ $ARGUMENTS
 
 ## Step 1: Assess the Request
 
-**Prompt Enrichment Gate (do this first):** Before phase selection, decide whether the user's request needs enrichment. If it does, read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and follow that skill's workflow and supporting references exactly. After the Prompt Enrichment Gate is complete, continue with the rest of this orchestrator workflow.
+**Prompt Enrichment Gate (do this first):** Before phase selection, decide whether the user's request needs enrichment. If it does, read `../prompt-enrichment/SKILL.md` and follow that skill's workflow and supporting references exactly. After the Prompt Enrichment Gate is complete, continue with the rest of this orchestrator workflow.
 
 Before executing any phase, assess the user's request and decide which conditional phases apply. Use the table below as your guide, then load only the relevant supporting files.
 
@@ -48,7 +48,7 @@ Also read [ux-guidelines.md](ux-guidelines.md) for UX/UI design defaults that ap
 
 **Step 1 — Load WCAG 2.2 Level AA guidelines:**
 
-Read [../kendo-react-accessibility/wcag-guidelines.md](../kendo-react-accessibility/wcag-guidelines.md). These apply to ALL components throughout the entire implementation.
+Read `../kendo-react-accessibility/wcag-guidelines.md`. These apply to ALL components throughout the entire implementation.
 
 **Step 2 — Retrieve component-specific accessibility information:**
 

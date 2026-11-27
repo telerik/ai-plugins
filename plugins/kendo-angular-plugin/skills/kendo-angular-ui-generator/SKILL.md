@@ -15,7 +15,7 @@ $ARGUMENTS
 
 ## Step 1: Assess the Request
 
-**Prompt Enrichment Gate (do this first):** Before phase selection, decide whether the user's request needs enrichment. If it does, read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and follow that skill's workflow and supporting references exactly. After the Prompt Enrichment Gate is complete, continue with the rest of this orchestrator workflow.
+**Prompt Enrichment Gate (do this first):** Before phase selection, decide whether the user's request needs enrichment. If it does, read `../prompt-enrichment/SKILL.md` and follow that skill's workflow and supporting references exactly. After the Prompt Enrichment Gate is complete, continue with the rest of this orchestrator workflow.
 
 Before executing any phase, do three things:
 
@@ -51,7 +51,7 @@ Before executing any phase, do three things:
 
 **Step 1 — Load WCAG 2.2 Level AA guidelines:**
 
-Read [../kendo-angular-accessibility/wcag-guidelines.md](../kendo-angular-accessibility/wcag-guidelines.md). These apply to ALL components throughout the entire implementation.
+Read `../kendo-angular-accessibility/wcag-guidelines.md`. These apply to ALL components throughout the entire implementation.
 
 **Step 2 — Retrieve component-specific accessibility information:**
 

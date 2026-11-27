@@ -1,6 +1,6 @@
 # Telerik UI for Blazor Plugin
 
-AI coding assistant and [MCP server](https://modelcontextprotocol.io) for building Blazor applications with [Telerik UI for Blazor](https://www.telerik.com/blazor-ui). Provides component documentation, API reference, code generation, accessibility guidance, theming, property validation, and layout utilities — powered by the Telerik UI for Blazor MCP server.
+Plugin and [MCP server](https://modelcontextprotocol.io) that bring [Telerik UI for Blazor](https://www.telerik.com/blazor-ui) capabilities into AI coding assistants, including component documentation, API references, code generation, accessibility guidance, theming, property validation, and layout utilities. The plugin is powered by the Telerik UI for Blazor MCP server.
 
 ## Prerequisites
 

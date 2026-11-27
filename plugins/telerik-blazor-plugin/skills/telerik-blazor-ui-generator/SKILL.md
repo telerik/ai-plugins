@@ -18,7 +18,7 @@ $ARGUMENTS
 **Prompt Enrichment Gate (BLOCKING — do this first, before anything else):**
 
 1. Decide whether the user's request needs enrichment (vague, no layout/data/component specifics, or multi-view app scope).
-2. If enrichment is needed: read [../prompt-enrichment/SKILL.md](../prompt-enrichment/SKILL.md) and follow that skill's workflow and supporting references exactly.
+2. If enrichment is needed: read `../prompt-enrichment/SKILL.md` and follow that skill's workflow and supporting references exactly.
 3. **STOP. Do not read any project files, phase files, or call any tools until the enrichment skill has sent the brief to the user and the user has replied with confirmation.**
 4. Only after the user confirms the brief may you continue with the phase assessment and implementation below.
 
@@ -53,7 +53,7 @@ Also read [ux-guidelines.md](ux-guidelines.md) for UX/UI design defaults that ap
 
 **Step 1 — Load WCAG 2.2 Level AA guidelines:**
 
-Read [../telerik-blazor-accessibility/wcag-guidelines.md](../telerik-blazor-accessibility/wcag-guidelines.md). These apply to ALL components throughout the entire implementation.
+Read `../telerik-blazor-accessibility/wcag-guidelines.md`. These apply to ALL components throughout the entire implementation.
 
 **Step 2 — Retrieve component-specific accessibility information:**
 
