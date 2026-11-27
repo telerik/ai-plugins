@@ -1,6 +1,6 @@
 # Kendo UI for Angular Plugin
 
-AI coding assistant and [MCP server](https://modelcontextprotocol.io) for building Angular applications with [Kendo UI for Angular](https://www.telerik.com/kendo-angular-ui). Provides component documentation, API reference, code generation, accessibility guidance, theming, and layout utilities — powered by the Kendo UI for Angular MCP server.
+Plugin and [MCP server](https://modelcontextprotocol.io) that bring [Kendo UI for Angular](https://www.telerik.com/kendo-angular-ui) capabilities into AI coding assistants, including component documentation, API references, code generation, accessibility guidance, theming, and layout utilities. The plugin is powered by the Kendo UI for Angular MCP server.
 
 ## Prerequisites
 
